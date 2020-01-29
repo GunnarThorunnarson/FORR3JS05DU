@@ -3,12 +3,12 @@
 
 ```javascript
 
-	var me = {
-				name:"Gunnar",
-				kennitala: 123456,
-				heimilisfang: "Tækniskólinn",
-				phones:[5551234,8881234]
-			};
+let me = {
+name:"Gunnar",
+kennitala: 123456,
+heimilisfang: "Tækniskólinn",
+phones:[5551234,8881234]
+};
 
 ```
 
