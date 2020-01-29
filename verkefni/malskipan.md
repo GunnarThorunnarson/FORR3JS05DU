@@ -96,7 +96,7 @@
   
 
 #### Spurningar (ekki svör)
-1. Hver er munurinn á == og === í JavaScript? 
-1. Hvað er Template literals? komdu með dæmi! 
-1. Hvað er call stack og hvað er heap? 
-1. Hvað er hoisting í JavaScript, komdu með dæmi? 
+* Hver er munurinn á == og === í JavaScript? 
+* Hvað er Template literals? komdu með dæmi! 
+* Hvað er call stack og hvað er heap? 
+* Hvað er hoisting í JavaScript, komdu með dæmi? 
