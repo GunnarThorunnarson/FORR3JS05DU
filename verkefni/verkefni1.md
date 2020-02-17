@@ -9,7 +9,7 @@ Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://deve
 1. Notaðu class í staðinn fyrir Prototype
 1. Bættu við öðrum formum sem hafa mismunandi eiginleika (lögun, útlit)
 1. Bættu við mismunandi hegðun hluta (aðferðir)
-1. Bættu við regluverki, lögmálum og formúlum að eigin vali. 
+1. Bættu við regluverki (lögmál, formúla) að eigin vali. 
    * t.d. við árekstur; breytt stefna, hraði, lögun, fjölgun objecta.
    
 
