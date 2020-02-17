@@ -4,7 +4,7 @@
 
 ### Verkefnalýsing
 Búðu til hermun með Canvas API og JavaScript. 
-Notaðu eftirfarandi tutorial frá MDN [Object building practice](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice) og notaðu sem grunn en með breytingum á kóða og viðbótum:
+Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice) og notaðu sem grunn en með breytingum á kóða og viðbótum:
 
 1. Notaðu class í staðinn fyrir Prototype
 1. Bættu við öðrum formum sem hafa mismunandi eiginleika (lögun, útlit)
