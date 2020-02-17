@@ -11,6 +11,7 @@ Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://deve
 1. Bættu við mismunandi hegðun hluta (aðferðir)
 1. Bættu við regluverki (lögmál, formúla) að eigin vali. 
    * t.d. við árekstur; breytt stefna, hraði, lögun, fjölgun objecta.
+   * Sjá nánar [Hermun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Hermun)
    
 
 ### Námsmat
