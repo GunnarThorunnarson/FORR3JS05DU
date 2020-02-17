@@ -8,16 +8,13 @@ Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://deve
 
 1. Notaðu class í staðinn fyrir Prototype
 1. Bættu við öðrum formum sem hafa mismunandi eiginleika (lögun, útlit)
-1. Bættu við mismunandi hegðun hluta (aðferðir)
-1. Bættu við regluverki (lögmál, formúla) að eigin vali. 
-   * t.d. við árekstur; breytt stefna, hraði, lögun, fjölgun objecta. Sjá td. [hermun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Hermun)
+1. Bættu við mismunandi hegðun hluta (aðferðir t.d. stefna, hraði, lögun, fjölgun)
+1. Bættu við eigið regluverki (lögmál, formúla) sjá [hermun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Hermun)
    
 
 ### Námsmat
 1. Canvas notkun.(5%)
-1. JavaScript notkun. (5%)
-   * class, erfðir og object notkun
-   * Gagnatög, föll og fylki
+1. JavaScript notkun.(5%)
 1. Útfærsla á reglukerfi.(5%)
 
 
