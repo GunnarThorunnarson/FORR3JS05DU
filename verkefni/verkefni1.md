@@ -18,7 +18,7 @@ Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://deve
 1. JavaScript notkun. (5%)
    * class, erfðir og object notkun
    * Gagnatög, föll og fylki
-1. Útfærsla á reglukerfi eða lögmáli.(5%)
+1. Útfærsla á reglukerfi.(5%)
 
 
 ### Skil
