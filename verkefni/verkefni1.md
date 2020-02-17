@@ -22,7 +22,7 @@ Skoðaðu eftirfarandi tutorial frá MDN [Object building practice](https://deve
 
 
 ### Skil
-1. skila þarf á Innu vefslóð á Github vefsíðu sem hýsir hermunina (sjá https://pages.github.com/) 
-1. allur kóði er með íslenskum athugasemdum.
+* Skila þarf í Innu vefslóð á Github vefsíðu sem hýsir hermunina (sjá https://pages.github.com/) 
+* Allur kóði er með íslenskum athugasemdum.
 
 
