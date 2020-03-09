@@ -6,7 +6,7 @@ Kóðinn er kallaður e. blocked þegar við skilyrðum kóðann þannig að ski
 Dæmi um blocking-style kóða:
 ```javascript
 	a()
-  b()
+  	b()
 
   let photo = download('http://foo-chan.com/images/sp.jpg')
   uploadPhotoTweet(photo, '@maxogden')
