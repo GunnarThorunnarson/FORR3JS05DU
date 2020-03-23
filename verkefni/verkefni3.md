@@ -7,6 +7,6 @@ Horfðu á og skoðaðu vel öll verkefnin í [30 Day Vanilla JS Coding Challeng
 
 
 ## Námsmat og skil
-Hvert verkefni (dagur) gildir 3%.
-Gefið er fullt fyrir verkefni sem er fullnægjandi útfærður eða breyttur, hálft ef hann er ábótavant. 
-Skilaðu á Innu vefslóð á Github Repository (readme.md eða vefsíðu í wiki) með tengla á kóðaskrár (Code) sem og vefslóð á [Github Pages](https://pages.github.com/) með lausnum (docs mappa).
+* Hvert verkefni (dagur) gildir 3%.
+* Gefið er fullt fyrir verkefni sem er fullnægjandi útfærður eða breyttur, hálft ef hann er ábótavant. 
+* Skilaðu á Innu vefslóð á Github Repository (readme.md eða vefsíðu í wiki) með tengla á kóðaskrár (Code) sem og vefslóð á [Github Pages](https://pages.github.com/) með lausnum (docs mappa).
