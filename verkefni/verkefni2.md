@@ -39,7 +39,7 @@ buttonEl.addEventListener('click', Person.sayName);
 1. Bættu við neðst með `createElement()` og `append()` málsgrein með nafninu þínu.
 
 
-### 2.4 QuizApp 7%
+### 2.3 QuizApp 7%
 
 1. (2%) Búðu til tvær spurningar (frjálst efnisval) með JavaScript. Útlit (css) er algjört aukaatriði. Spurning 1 á að hafa fjóra svarmöguleika, spurning 2 á að hafa tvo svarmöguleika (true/false). Haltu utan um spurningar, svarmöguleika og rétt svör. 
 
@@ -52,5 +52,5 @@ buttonEl.addEventListener('click', Person.sayName);
 
 ## Námsmat og skil	
 * Gefið er fullt fyrir lið sem er vel útfærður, með rétta lausn eða rétt svar, hálft ef hann er ábótavant. 
-* Notaðu Github Pages fyrir lið 2.4
+* Notaðu Github Pages fyrir lið 2.3
 * Skilaðu á Innu Github vefslóð sem inniheldur svör og lausnir.
