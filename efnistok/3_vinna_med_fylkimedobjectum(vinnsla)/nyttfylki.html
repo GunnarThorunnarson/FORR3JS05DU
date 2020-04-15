@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>fylki af objectum</title>
+</head>
+<body>
+  <h1>Að búa til nýtt fylki</h1>
+
+  <p>Skooðaðu JS kóðasýnidæmi í html skránni og console til að sjá úttak </p>
+<script type="text/javascript">
+
+// búum til fylki sem mun geyma objects.
+let concertEvents = [];
+	
+// Þarf https fyrir GitHub Pages 
+fetch('https://apis.is/concerts')  //  JSON skrá sem eru local (ekki á miðlarar) hleðst ekki, færð villumeldingu, sjá console 
+  .then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' + response.status);
+        return;
+      }
+
+      // Examine the text in the response
+      response.json().then(function(data) {
+    
+    
+	  for(let i = 0; i<data.results.length; i++){
+			concertEvents.push
+			({
+				name:data.results[i].eventDateName,
+				where:data.results[i].eventHallName,
+				imageSrc:data.results[i].imageSource
+			});
+	   }
+		// Skoðum concertEvents fylkið
+		console.log(concertEvents);
+
+		// Jónas R og Bandið
+		console.log(concertEvents[0].name);  
+      });
+    }
+  )
+  .catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
+
+ </script>
+ </body>
+</html>
+

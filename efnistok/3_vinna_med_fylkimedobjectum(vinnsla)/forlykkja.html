@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>fylki af objectum</title>
+</head>
+<body>
+  <h1>Að vinna með fylki af objectum</h1>
+
+  <p>Skooðaðu JS kóðasýnidæmi í html skránni og console til að sjá úttak </p>
+<script type="text/javascript">
+
+// Þarf https fyrir GitHub Pages 
+fetch('https://apis.is/concerts')  //  JSON skrá sem eru local (ekki á miðlarar) hleðst ekki, færð villumeldingu, sjá console 
+  .then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' + response.status);
+        return;
+      }
+
+      // Examine the text in the response
+      response.json().then(function(data) {
+       	// Birtum Öll eventDateName 
+  			for (var i = 0; i < data.results.length; i++) {			
+					// data er object, results er fylki, eventDateName er key
+					console.log(data.results[i].eventDateName);
+	      };	
+      });
+    }
+  )
+  .catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
+
+ </script>
+ </body>
+</html>
