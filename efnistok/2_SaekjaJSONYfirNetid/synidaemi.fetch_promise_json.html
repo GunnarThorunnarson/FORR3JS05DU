@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sýnidæmi: Fetch og promise</title>
+</head>
+<body>
+  <h1>Fetch, promise og JSON</h1>
+  <p> Notum fetch og promise (then)
+      Here we are fetching a JSON file across the network and printing it to the console. 
+      The simplest use of fetch() takes one argument the path to the resource you want to fetch and returns a promise containing the response (a Response object).
+  </p>   
+
+  <p>Skoðaðu JS kóðasýnidæmi í html skránni og console til að sjá úttak </p>
+<script type="text/javascript">
+
+// Þarf https fyrir GitHub Pages 
+fetch('https://apis.is/concerts')  
+//  JSON skrá sem eru local (ekki á miðlarar) hleðst ekki, færð villumeldingu, sjá console 
+  .then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' + response.status);
+        return;
+      }
+
+      // Examine the text in the response
+      response.json().then(function(data) {
+        console.log(data);  // data is an object
+        console.log(data.results[1].eventDateName); // úttak er strengur td: U2 Tribute Austurland að Glettingi			
+      });
+    }
+  )
+  .catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
+
+  	/*
+		// dæmi um fyrstu tvær niðurstöður í data
+		{
+			"results":[
+				{
+					"eventDateName":"Jónas R og Bandið",
+					"name":"Tónleikar",
+					"dateOfShow":"2017-03-17T22:00:00",
+					"userGroupName":"Bandið",
+					"eventHallName":"Café Rosenberg",
+					"imageSource":"https://d30qys758zh01z.cloudfront.net/images/medium/1.9976.jpg"
+				},
+				{
+					"eventDateName":"U2 Tribute Austurland að Glettingi",
+					"name":"Tónleikar",
+					"dateOfShow":"2017-03-18T20:30:00",
+					"userGroupName":"Bæjarbíó slf",
+					"eventHallName":"Bæjarbíó (Hafnarfirði)",
+					"imageSource":"https://d30qys758zh01z.cloudfront.net/images/medium/1.9941.jpg"
+				}
+			]
+		}
+	*/
+  
+ </script>
+ </body>
+</html>

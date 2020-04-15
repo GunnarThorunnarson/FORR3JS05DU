@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sýnidæmi: Async await</title>
+    <meta charset="utf-8">
+</head>
+<body>
+        <h1>Sýnidæmi: Async await</h1>
+				<p>Skoðaðu JS kóðasýnidæmi í html skránni og console til að sjá úttak </p>
+				
+<script type="text/javascript">
+
+async function f() {
+    const response = await fetch('https://apis.is/concerts');
+    const data = await response.json();
+    console.log(data); // data er object
+		console.log(data.results[1].eventDateName); // úttak er strengur td: U2 Tribute Austurland að Glettingi																		
+}
+f();
+// console.log(data.results[i].eventDateName);  // Uncaught ReferenceError: data is not defined.
+
+
+ </script>
+ </body>
+</html>
