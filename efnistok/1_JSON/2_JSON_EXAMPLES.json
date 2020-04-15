@@ -1,0 +1,185 @@
+/* Hér eru dæmi um JSON (einföld og flókin) 
+ * Algengt er að vefir hafi API (gátt) þar sem hægt er að nálgast JSON skrár (vefsíðugögn)
+   sjá td; apis.is, twitter, YouTube, Facebook, Google Maps osfrv.
+ */
+
+/* Dæmi 1: Litir */
+	{
+	    "red":"#f00",
+	    "green":"#0f0",
+	    "blue":"#00f",
+	    "cyan":"#0ff",
+	    "magenta":"#f0f",
+	    "yellow":"#ff0",
+	    "black":"#000"
+	}
+
+/* Dæmi 2: litaupplýsingar */
+	{
+	    "basicColors":{
+	            "red":"#f00",
+	            "green":"#0f0",
+	            "blue":"#00f",
+	            "yellow":"#ff0",
+	            "black":"#000"
+	     },
+	     "softColors":{
+	     	  "cyan":"#0ff",
+	          "magenta":"#f0f"
+	     } 
+	}
+
+
+/* Dæmi 3: JSON data lýsir fylki, hvert item er object með ákv. lit */
+{
+	"colorsArray":[
+		{
+			"color": "red",
+			"value": "#f00"
+		},
+		{
+			"color": "green",
+			"value": "#0f0"
+		},
+		{
+			"color": "blue",
+			"value": "#00f"
+		},
+		{
+			"color": "cyan",
+			"value": "#0ff"
+		}
+	]
+}
+	/* Úttak: gæti verið tafla; röð fyrir hver object í fylki, hvert eigindi verður dálkur. */ 
+
+
+/* Dæmi 4: Einstaklingsupplýsingar  */
+
+	{
+	    "firstName": "Jason",
+	    "lastName": "Jones",
+	    "address": {
+	        "city": "San Francisco, CA",
+	        "zip": 94121,
+	        "address": "444 Columbus Ave"
+	    },
+	    "email": [
+	        "jason@sf.com",
+	        "sjones@adobe.com"
+	       ]
+	}
+	/* Úttak: t.d. gögn sem fengin eru skráningarformi. */
+
+/* Dæmi 5: 
+ * JSON formats use nested structures to simply group data together. 
+ * An example of this would be the "image" and "thumbnail" properties in the following example:
+*/
+	{
+		"id": "0001",
+		"type": "donut",
+		"name": "Cake",
+		"image":
+			{
+				"url": "images/0001.jpg",
+				"width": 200,
+				"height": 200
+			},
+		"thumbnail":
+			{
+				"url": "images/thumbnails/0001.jpg",
+				"width": 32,
+				"height": 32
+			}
+	}
+
+/* Dæmi 6
+ * Google Maps JSON skrá sem hægt er að geyma configuration settings. 
+ * It might also be used to contain Google Maps record information which 
+ * can be easily shared across components using the simple JSON format.
+*/
+{"markers": [
+		{
+			"point":new GLatLng(40.266044,-74.718479), 
+			"homeTeam":"Lawrence Library",
+			"awayTeam":"LUGip",
+			"markerImage":"images/red.png",
+			"information": "Linux users group meets second Wednesday of each month.",
+			"fixture":"Wednesday 7pm",
+			"capacity":"",
+			"previousScore":""
+		},
+		{
+			"point":new GLatLng(40.211600,-74.695702),
+			"homeTeam":"Hamilton Library",
+			"awayTeam":"LUGip HW SIG",
+			"markerImage":"images/white.png",
+			"information": "Linux users can meet the first Tuesday of the month to work out harward and configuration issues.",
+			"fixture":"Tuesday 7pm",
+			"capacity":"",
+			"tv":""
+		}
+] }
+
+/* Dæmi 7: Dæmi um Products Database JSON skrá. */
+ {
+        "name":"Product",
+        "properties":
+        {
+                "id":
+                {
+                        "type":"number",
+                        "description":"Product identifier",
+                        "required":true
+                },
+                "name":
+                {
+                        "description":"Name of the product",
+                        "type":"string",
+                        "required":true
+                },
+                "price":
+                {
+                        "type":"number",
+                        "minimum":0,
+                        "required":true
+                },
+                "tags":
+                {
+                        "type":"array",
+                        "items":
+                        {
+                                "type":"string"
+                        }
+                }
+        }
+}
+/* Dæmi 8: tónleikar á Íslandi frá midi.is 
+		   http://apis.is/concerts
+		   http://docs.apis.is/#endpoint-concerts
+*/
+{
+  "results": [
+    {
+      "eventDateName": "Vínartónleikar 2015",
+      "name": "Græn - tónleikaröð",
+      "dateOfShow": "2015-01-08T19:30:00",
+      "userGroupName": "Harpa",
+      "eventHallName": "Eldborg                                           ",
+      "imageSource": "http://midi.is/images/medium/15.759.jpg"
+    },
+    {
+      "eventDateName": "Föstudagsfreistingar 09.01",
+      "name": "",
+      "dateOfShow": "2015-01-09T12:00:00",
+      "userGroupName": "Miðasala MAk",
+      "eventHallName": "Hamrar                                            ",
+      "imageSource": "http://midi.is/images/medium/1.8394.jpg"
+    }
+  ]
+}
+
+// Manifest
+// https://developers.google.com/web/fundamentals/web-app-manifest/?utm_source=devtools
+
+// Fleiri dæmi: https://www.sitepoint.com/10-example-json-files/
