@@ -19,11 +19,11 @@ Búðu til vefapp með JavaScript fyrir viðburði. Hér er sýnidæmi um vefapp
    1. Dagsetning 
    1. Mynd
 
-1. Notandi á að geta notað e. [Range slider](https://refreshless.com/nouislider/) til að filtera viðburð eftir tímabili ( dagar eða mánuðir ) (12%)
+1. Notandi á að geta notað e. [Range slider](https://refreshless.com/nouislider/) til að filtera viðburð (frjáls útfærsla) (12%)
 
     1. Stilltu slider þannig að hann sé notendavænn; handföng, step, position, snap, margin, orientation, animation osfrv.
-    2. Slider er með range og upphafsstöður (min og max) útfrá tímabili.
-    3. Notandi á að geta með gagnvirkum hætti stýrt slider sem birtir viðburði filterað eftir tímabili sjá m.a. [Events](https://refreshless.com/nouislider/events-callbacks/).
+    2. Slider er með range og upphafsstöður (min og max) eftir gögnum.
+    3. Notandi á að geta með gagnvirkum hætti stýrt slider sem birtir viðburði filterað eftir gögnum sjá m.a. [Events](https://refreshless.com/nouislider/events-callbacks/).
 
 1. Notandi á að geta fundið heiti viðburðar með leitarreit (3%)
 1. Notandi getur valið viðburði með dagatali. (4%)
