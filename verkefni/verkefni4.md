@@ -9,7 +9,7 @@ Búðu til vefapp með JavaScript fyrir viðburði. Hér er sýnidæmi um vefapp
 ### Verkefnið þarf að uppfylla eftirfarandi skilyrði:
 
 1. JSON gögn og gagnavinnsla (3%)
-   1. Notaðu eftirfarandi [JSON gögn](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/verkefni/data.json) sem grunn til að vinna með en breyttu og bættu við viðburðum (lágmark 12 viðburðir). Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur. Það er einnig í boði að nota eitthvert API.
+   1. Notaðu eftirfarandi [JSON gögn](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/verkefni/data.json) sem grunn til að vinna með en breyttu og bættu við viðburðum (lágmark 12 viðburðir) og gögnum að vild (t.d. verð). Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur. Það er einnig í boði að nota eitthvert API.
    1. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch), filteruð (ef þess er þörf) og yfirfærð í viðeigandi [gagnaskipan](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Gagnaskipan).
 
 1. Birting gagna með DOM vinnslu með Dom manipulation eða InnerHTML.(5%)
@@ -19,17 +19,17 @@ Búðu til vefapp með JavaScript fyrir viðburði. Hér er sýnidæmi um vefapp
    1. Dagsetning 
    1. Mynd
 
-1. Notandi á að geta notað e. [Range slider](https://refreshless.com/nouislider/) til að filtera viðburð (frjáls útfærsla) (12%)
+1. Notandi á að geta notað e. [Range slider](https://refreshless.com/nouislider/) til að birta viðburði. (12%)
 
     1. Stilltu slider þannig að hann sé notendavænn; handföng, step, position, snap, margin, orientation, animation osfrv.
-    2. Slider er með range og upphafsstöður (min og max) eftir gögnum.
-    3. Notandi á að geta með gagnvirkum hætti stýrt slider sem birtir viðburði filterað eftir gögnum sjá m.a. [Events](https://refreshless.com/nouislider/events-callbacks/).
+    2. Slider er með range og upphafsstöður (min og max) eftir viðeigandi gögnum.
+    3. Notandi á að geta með gagnvirkum hætti stýrt slider sem birtir viðburði filterað eftir gögnum (t.d. verð) sjá m.a. [Events](https://refreshless.com/nouislider/events-callbacks/).
 
-1. Notandi á að geta fundið heiti viðburðar með leitarreit (3%)
-1. Notandi getur valið viðburði með dagatali. (4%)
+1. Notandi á að geta fundið heiti viðburðar með leitarreit. (3%)
+1. Notandi getur valið viðburði eftir dagsetningu eða tímabili með dagatali.(4%)
 1. Íslensk dagsetning: (3%) <br>
    Brjóttu upp framsetningunni á tíma og dagsetningu með [Moment.js](http://momentjs.com/) safninu.
-
+   
 1. Framsetning og viðmót vefapps, virkar vel í síma (e. responsive). CSS framendasöfn og templates eru leyfð. (5%)
 
 
