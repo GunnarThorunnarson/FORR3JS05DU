@@ -28,7 +28,7 @@
 
 - Námsmat fer fram í kennslustund með skoðun á framvindu í freeCodeCamp ásamt munnlegri slembiathugun á skilningi á ofangreindum atriðum.
 - Æfingarnar eru 135 alls, hver æfing gildir um 0,22%. 
-- Gefin er einkunn í hlutfalli fyrir þær æfingar (alls 135) sem eru kláraðar.
+- Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar.
 - Sein skil eru ekki í boði.
 
 
