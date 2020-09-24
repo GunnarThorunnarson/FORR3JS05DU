@@ -1,6 +1,7 @@
 ## Verkefni 2 - 15%
 Einstaklingsverkefni <br>
 Tími: 2 vikur
+---
 
 ### Verkefnalýsing
 Lærðu á grunnatriðin í [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial) 
@@ -27,12 +28,10 @@ Notaðu [Object building practice (part 1 og 2) ](https://github.com/GunnarThoru
 1. (1%) Búðu til fall (e. loop) sem teiknar (e. render) senuna og hermun. 
 
 **Ath** ekki nota inntak frá notanda, `addEventListener()` í þessu verkefni.
-
-### Námsmat
-- Námsmat byggir á; notkun með Canvas, JS málfræði og kóðaútfærslum.
-- Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant.
-
-### Skil
+---
+### Námsmat og skil
+* Námsmat byggir á; notkun með Canvas, JS málfræði og kóðaútfærslum. 
+* Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant.
 * Skilaðu hlekk á github geymslu sem er e. private í Innu. 
 * Kóði þarf að vera með íslenskum athugasemdum þar sem það á við.
 
