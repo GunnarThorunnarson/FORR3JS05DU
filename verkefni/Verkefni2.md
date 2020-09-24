@@ -1,6 +1,7 @@
 ## Verkefni 2 - 15%
 Einstaklingsverkefni <br>
 Tími: 2 vikur
+
 ---
 
 ### Verkefnalýsing
@@ -28,7 +29,9 @@ Notaðu [Object building practice (part 1 og 2) ](https://github.com/GunnarThoru
 1. (1%) Búðu til fall (e. loop) sem teiknar (e. render) senuna og hermun. 
 
 **Ath** ekki nota inntak frá notanda, `addEventListener()` í þessu verkefni.
+
 ---
+
 ### Námsmat og skil
 * Námsmat byggir á; notkun með Canvas, JS málfræði og kóðaútfærslum. 
 * Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant.
