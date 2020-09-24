@@ -1,5 +1,5 @@
 ## Verkefni 2 - 15%
-Einstaklingsverkefni
+Einstaklingsverkefni <br>
 Tími: 2 vikur
 
 ### Verkefnalýsing
