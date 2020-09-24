@@ -16,11 +16,11 @@ Notaðu [Object building practice (part 1 og 2) ](https://github.com/GunnarThoru
 1. (4%) `Evil` hefur:
    1. aðra lögun (e. shape) 
    1. nýja hegðun eða hreyfingu. Frjáls útfærsla sjá t.d. [Khan Academy: Natural Simulations](https://www.khanacademy.org/computing/computer-programming/programming-natural-simulations) til að fá hugmyndir.
-1. (4%) Við árekstur hlutar við annan hlut þá:
-   1. annar hluturinn breytir um hraða og stefnu.
-   1. hinn hluturinn deyr.
-1. (1%) Notaðu fylki til að halda utan um alla hluti.
-1. (2%) Birtu teljara sem sýnir fjölda hluta sem eru á lífi. 
+1. (4%) Við árekstur hlutar (Evil) við annan hlut (Ball) þá:
+   1. `Evil` breytir um hraða og stefnu.
+   1. `Ball` hlutur deyr.
+1. (1%) Búðu til amk einn `Evil` hlut, og amk. 10 `Ball` hluti. Notaðu fylki til að halda utan um hluti.
+1. (2%) Birtu teljara sem sýnir fjölda `Ball` hluta sem eru á lífi. 
    ```
      // Smá aðstoð með DOM
      const para = document.querySelector('p');   // para geymir vísun á  <p> í html skrá.
