@@ -1,6 +1,24 @@
 ### Verkefni 3: DOM og Events (15%)
 
-#### 3.1 Spurningar (3%)
+#### 3.1 DOM (3%)
+
+**Í html:**
+```
+<p>málsgrein 1</p>
+<p>málsgrein 2</p>
+<div>div 1</div>
+  <p>málsgrein 3</p>
+<div>div 2</div>
+```
+
+**Í Javascript:**
+1. Notaðu `querySelector()` til að velja málsgrein nr 2. og litaðu textann grænan.
+1. Veldu allar málgreinar og breyttu textanum  með textContent aðferðinni.
+1. Bættu við neðst með `createElement()` og `append()` málsgrein með nafninu þínu.
+
+---
+
+#### 3.2 Spurningar (3%)
 
 1. Hver er munurinn á static og live NodeList?
 2. Hver er munurinn á true og false í AddEventListener?
@@ -19,25 +37,6 @@ let Person = { 
  };
 buttonEl.addEventListener('click', Person.sayName);
 ```
-
----
-
-#### 3.2 DOM (3%)
-
-**Í html:**
-```
-<p>málsgrein 1</p>
-<p>málsgrein 2</p>
-<div>div 1</div>
-  <p>málsgrein 3</p>
-<div>div 2</div>
-```
-
-**Í Javascript:**
-1. Notaðu `querySelector()` til að velja málsgrein nr 2. og litaðu textann grænan.
-1. Veldu allar málgreinar og breyttu textanum  með textContent aðferðinni.
-1. Bættu við neðst með `createElement()` og `append()` málsgrein með nafninu þínu.
-
 ---
 
 #### 3.3 DOM&Events (9%):
