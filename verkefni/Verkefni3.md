@@ -18,7 +18,7 @@
 
 ---
 
-#### 3.2 Spurningar (3%)
+#### 3.2 DOM og Events. (3%)
 
 1. Hver er munurinn á static og live NodeList?
 2. Hver er munurinn á true og false í AddEventListener?
@@ -39,21 +39,21 @@ buttonEl.addEventListener('click', Person.sayName);
 ```
 ---
 
-#### 3.3 DOM&Events (9%):
+#### 3.3 JS30 (9%):
 Skoðaðu eftirfarandi verkefni í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér eru [kóðaskrárnar](https://github.com/wesbos/JavaScript30):
 
-- Day 1:	   Drum kit  (keyCode, data attribute)
+- Day 1:	Drum kit  (keyCode, data attribute)
 - Day 10:	Form (multiple checkboxes, click)
 - Day 12:	Key sequence detection (keyboard)
 - Day 13:	Slide In on Scroll (scroll)
 - Day 15:	LocalStorage and Event Delegation (submit, click)
 - Day 16:	Mouse move (mousemove, event object)
 - Day 22:	Follow Along Links (DOM Manipulation, mouseenter)
-- Day 24: 	Sticky Nav (scroll)
+- Day 24: Sticky Nav (scroll)
 - Day 25:	Event capture, propagation, bubbling and once
 - Day 26:	Stripe Follow Along Dropdown 
 - Day 27:	Click and Drag to scroll
-- Day 30: 	Whack a mole game (textContent, setTimeout, click)
+- Day 30: Whack a mole game (textContent, setTimeout, click)
 
 <br>
 
