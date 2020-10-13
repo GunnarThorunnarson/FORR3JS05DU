@@ -39,7 +39,7 @@ buttonEl.addEventListener('click', Person.sayName);
 ```
 ---
 
-#### 3.3 JS30 (9%):
+#### 3.3 JS30 Verkefni (9%):
 Skoðaðu eftirfarandi verkefni í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér eru [kóðaskrárnar](https://github.com/wesbos/JavaScript30):
 
 - Day 1:	Drum kit  (keyCode, data attribute)
