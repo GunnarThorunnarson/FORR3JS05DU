@@ -66,6 +66,7 @@ Veldu þér að ofangreindu **3 verkefni** að eigin vali:
 
 ### Námsmat og skil	
 * Gefið er fullt fyrir lið sem er vel útfærður, með rétta lausn eða rétt svar, hálft ef hann er ábótavant. 
+  _- Það er ekki nóg að breyta bara gildum í JS og CSS._
 * Skilaðu á Innu vefslóð á e. private Github geymslu sem inniheldur svör, kóða og lausnir.
 
 
