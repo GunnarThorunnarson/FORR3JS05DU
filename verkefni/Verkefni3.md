@@ -59,7 +59,7 @@ Skoðaðu eftirfarandi verkefni í [30 Day Vanilla JS Coding Challenge](https://
 
 Veldu þér að ofangreindu **3 verkefni** að eigin vali:
 
-1. Breyttu JS kóðanum og CSS í völdum verkefnum og komdu með þína útfærslur á þeim (frjáls útfærsla).
+1. Breyttu JS kóðanum (hegðun) og CSS í völdum verkefnum og komdu með þína útfærslur á þeim (frjáls útfærsla).
 1. Taktu fram efst í kóðaskrám hverju þú breyttir.
 
 ---
