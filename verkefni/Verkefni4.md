@@ -8,7 +8,7 @@ Tími: 2 vikur.
 
 #### Verkefnalýsing: Dynamic Range Slider
 
-Búðu til síu (e. filter) sem með notkun e. range slider síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í lista. Sýnidæmi (skrifað í jQuery) [Dynamic range filter](http://javascriptbook.com/code/c12/dynamic-filter.html). Skoðaðu einnig [state-based UI](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/State-based-UI) nálgun.
+Búðu til síu (e. filter) sem með notkun e. range slider síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í lista. Sýnidæmi (skrifað í jQuery) [Dynamic range filter](http://javascriptbook.com/code/c12/dynamic-filter.html). Skoðaðu [state-based UI](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/State-based-UI) nálgun sem lausn.
 
 **Ath.** JavaScript söfn og jQuery er ekki leyft í þessu verkefni.
 
