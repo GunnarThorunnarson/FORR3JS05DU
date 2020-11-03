@@ -29,6 +29,6 @@ Búðu til síu (e. filter) sem með notkun e. range slider síar út vörur eft
 
 ---
 
-### Námsmat og skil
+####Námsmat og skil
 Skilaðu á Innu **private** Github geymslu sem inniheldur kóðaskrár. <br>
 Gefið er fullt fyrir lið sem er fullnægjandi útfærður, hálft ef hann er ábótavant. 
