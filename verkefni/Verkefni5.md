@@ -46,11 +46,11 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
 ---
 
 #### Útgáfa 1.3 - viðbætur (+20%)
-JSON skrá. 
-   1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur.
-   1. Gögnin (JSON) eru sótt með t.d. [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
-   1. Gögn eru síuð og yfirfærð í viðeigandi gagnaskipan (Data Object) í JavaScript.
-   1. Nýjar, uppfærðar og eyddar uppskriftir eru uppfærðar í JSON skrá.
+
+1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur.
+1. Gögnin (JSON) eru sótt með t.d. [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
+1. Gögn eru síuð og yfirfærð í viðeigandi gagnaskipan (Data Object) í JavaScript.
+1. Nýjar, uppfærðar og eyddar uppskriftir eru uppfærðar í JSON skrá.
 
 ---
 
