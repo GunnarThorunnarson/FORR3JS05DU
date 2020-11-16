@@ -1,4 +1,4 @@
-## Verkefni 5 (25%) _drög_
+## Verkefni 5: SPA (25%) 
 
 ### Verkefnalýsing
 
