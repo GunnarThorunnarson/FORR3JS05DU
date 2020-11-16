@@ -1,4 +1,4 @@
-## Verkefni 5 (25%)
+## Verkefni 5 (25%) _drög_
 
 ### Verkefnalýsing
 
@@ -41,7 +41,7 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
     1. bætt við nýrri uppskrift. 
     1. breytt (edit) uppskrift.
 
-1. Notað er LocalStorage til að geyma gögn í vafra, sjá nánar [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)(10%)
+1. Notað er LocalStorage til að geyma gögn í vafra, sjá [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) (10%)
 
 ---
 
