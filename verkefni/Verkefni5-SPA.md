@@ -3,7 +3,7 @@
 ### Verkefnalýsing
 
 Búðu [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/Glossary/SPA) sem inniheldur uppskriftir. 
-<br> JavaScript framework og söfn eru ekki leyfð.
+<br> JavaScript framework og söfn eru **ekki** leyfð.
 
 ---
 
