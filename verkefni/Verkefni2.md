@@ -38,4 +38,6 @@ Notaðu [Object building practice (part 1 og 2) ](https://github.com/GunnarThoru
 * Skilaðu hlekk á github geymslu sem er e. **private** í Innu (Muna að senda mér invite).
 * Kóði þarf að vera með íslenskum athugasemdum þar sem það á við.
 
-
+<!--
+http://buildnewgames.com/simulating-natural-systems/
+-->
