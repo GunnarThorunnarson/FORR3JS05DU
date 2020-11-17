@@ -1,4 +1,4 @@
-## Verkefni 5: SPA (25%) 
+## Verkefni 5: App (25%) 
 
 ### Verkefnalýsing
 
@@ -7,7 +7,7 @@ Búðu [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/
 
 ---
 
-#### Útgáfa 1.0 (30%)
+#### 5.1 (30%)
 
 1. Data Object sem inniheldur amk. 5 uppskriftir.(5%)
     - Höfundur
@@ -26,7 +26,7 @@ Búðu [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/
 
 ---
 
-#### Útgáfa 1.1 - viðbætur (+20%)
+#### 5.2 - viðbætur (+20%)
 Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi](http://javascriptbook.com/code/c12/filter-search.html).
 1. Leitað er eftir heiti uppskriftar.
 1. Leit hefst um leið og notandi slær inn bókstaf.
@@ -34,7 +34,7 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
 
 ---
 
-#### Útgáfa 1.2 - viðbætur (+30%)
+#### 5.3 - viðbætur (+30%)
 1. Notandi á að geta með viðmóti, [sýnidæmi](http://todomvc.com/examples/vanillajs/):
 
     1. eytt uppskrift.
@@ -43,7 +43,7 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
 
 ---
 
-#### Útgáfa 1.3 - viðbætur (+20%)
+#### 5.4 - viðbætur (+20%)
 1. JSON (10%)
     1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur.
     1. Gögnin (JSON) eru sótt með t.d. [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
@@ -55,6 +55,6 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
 
 ### Námsmat og skil
 * Búðu til **private** Github geymslu sem inniheldur kóðaskrár og gögn. Mundu að bjóða mér _GunnarThorunnarson_. 
-* Í readme. skal koma fram úgáfur sem þú náðir að klára, lokastaða og skýringar.
+* Í readme. skal koma fram viðbætur sem þú gerðir, lokastaða og skýringar.
 * Skrifaðu íslenskar athugasemdir hjá föllum og objectum í kóðaskrá.
 * Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef hún er ábótavant.
