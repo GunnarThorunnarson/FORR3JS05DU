@@ -8,7 +8,7 @@
 ### Verkefnalýsing
 Búðu til 2d tölvuleik sem er spilanlegur í snjallsíma i vafra. Leikurinn er gerður í Canvas API og notar símaskynjara (device sensors).<br>
 Viðfangsefni leiks er frjálst en kóðinn og leikurinn verður að vera þín eigin sköpun (ekki tutorial). Skoðaðu nánar [Leikjagerð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Leikjager%C3%B0). <br> 
-Söfn eru **ekki** leyfð.
+JavaScript framework og söfn eru ekki leyfð.
 
 Leikurinn þarf að uppfylla eftirfarandi atriði:
 
