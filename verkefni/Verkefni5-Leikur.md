@@ -27,9 +27,10 @@ Leikurinn þarf að uppfylla eftirfarandi atriði:
    - Highskor tafla sem sýnir top 5 spilara ásamt stigagjöf.
    - Notaðu [localStorarage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) til að halda utan um og geyma leikjaskor og nafn spilara.
    - takki til að spila aftur leik.
-
+<!--
 Til að prófa leikinn í síma meðan þú ert að þróa hann þá þarf að nota local vefþjón:
 [NodeJS - Setup a Simple HTTP Server / Local Web Server](https://jasonwatmore.com/post/2016/06/22/nodejs-setup-simple-http-server-local-web-server)
+-->
 
 ---
 
