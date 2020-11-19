@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verkefni 4 lausn</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<p>Dæmi um lausn á Verkefni 4 sem notar föll (má betrumbæta)</p>
+	
+	<!-- Slider -->
+	<div>
+  		<input type="range" id="slider" name="slider" min="0" max="20">
+  		<output id="sliderValue"></output>
+	</div>
+
+	<!-- Vörulisti -->
+	<ul id="products"></ul>
+
+<script type="text/javascript">
+	
+// DOM 
+let elSlider = document.getElementById("slider");
+let elSliderValue = document.getElementById("sliderValue");
+let elList = document.getElementById("products");
+
+// Data object
+let data = {
+	products: [
+	    {
+	        item: 'Vara 1',
+	        price: 1000
+	    },
+	    {
+	        item: 'Vara 2',
+	        price: 9000
+	    },
+	    {
+	        item: 'Vara 3',
+	        price: 5500
+	    },
+	    {
+	        item: 'Vara 4',
+	        price: 1500
+	    },
+	    {
+	        item: 'Vara 5',
+	        price: 3000
+	    }
+	]
+};
+
+// Fina max gildi.
+function findMax(){
+	let maxValue = 0;
+	for(let i = 0; i < data.products.length; i++){
+	    if(maxValue < data.products[i].price){
+	    	maxValue = data.products[i].price;
+	    }
+	}
+  return maxValue;
+  // let maxValue = Math.max(...data.products.map(obj => obj.price), 0);
+}
+
+// Síun 
+function sliderFilter(val){
+ 	let results = data.products.filter(item => { // results fylki inniheldur síuð gögn.
+    	return (item.price <= val);  	// notum gildi frá slider.
+	})
+  return results;   // ekki samt sorterað eftir verði.
+}
+
+function template(data){
+	return `
+		<ul>
+			${data.map(function (obj) {
+				return `<li>${obj.item}: ${obj.price} kr. </li>`;
+			}).join('')}
+		</ul>`;
+// Önnur aðferð væri að nota createElement, createTextNode, appendChild.
+}
+
+function update(){
+	elList.innerHTML = ""; 					// hreinsum gamalt.
+	let val = elSlider.value;  				// slidergildi.
+	elSliderValue.textContent = val; 		// Birtum uppfært slidergildi.
+	results = sliderFilter(val)				// Síum gögn.
+	elList.innerHTML = template(results);	// Búum til template og Birtum gögn.
+}
+
+// Upphafsstillingar
+function init(){
+	// Slider stillingar
+	let minValue = Math.min(...data.products.map(obj => obj.price)); // find min value.
+	let maxValue = findMax(); 								// find max value.
+	let middleValue = (maxValue + minValue) / 2;
+	
+	elSlider.setAttribute("min", minValue); 	// Setjum lægsta verð.
+	elSlider.setAttribute("max", maxValue); 	// Setjum hæsta verð.
+	elSlider.value = middleValue; 				// Stillum handfang fyrir miðju.
+	elSliderValue.textContent = elSlider.value;	// Birtum slider gildi.
+
+	// Birtum vörulista
+	results = sliderFilter(elSlider.value)		// Síum gögn.	
+	elList.innerHTML = template(results);		// Búum til template og Birtum gögn.
+}
+
+init();
+elSlider.addEventListener('input', update, false); // Hlustum á slider 
+
+</script>
+</body>
+</html>
