@@ -70,11 +70,9 @@ function sliderFilter(val){
 }
 
 function template(data){
-	return `
-		<ul>
-			${data.map(function (obj) {
-				return `<li>${obj.item}: ${obj.price} kr. </li>`;
-			}).join('')}
+	return `<ul>${data.map(function (obj) {
+		        return `<li>${obj.item}: ${obj.price} kr. </li>`;
+		      }).join('')}
 		</ul>`;
 // Önnur aðferð væri að nota createElement, createTextNode, appendChild.
 }
