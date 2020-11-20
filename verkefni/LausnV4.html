@@ -63,10 +63,10 @@ function findMax(){
 
 // Síun 
 function sliderFilter(val){
- 	let results = data.products.filter(item => { // results fylki inniheldur síuð gögn.
-    	return (item.price <= val);  	// notum gildi frá slider.
+ 	let results = data.products.filter(item => { 	// results fylki inniheldur síuð gögn.
+    	return (item.price <= val);  			// notum gildi frá slider.
 	})
-  return results;   // ekki samt sorterað eftir verði.
+  return results;   					// ekki samt sorterað eftir verði.
 }
 
 
@@ -74,15 +74,15 @@ function template(data){
     // Create ul  element
     let ulNode = document.createElement('ul');
     // Create li elements
-	let nodes = data.map(obj => {
+    let nodes = data.map(obj => {
     	let li = document.createElement('li');
     	li.textContent = `${obj.item}: ${obj.price} kr.`;
     	return li;
 	});
-	// Bætum li við ul
-	ulNode.append(...nodes)
-	// Birtum lista í html.
-	elList.appendChild(	ulNode);
+     // Bætum li við ul
+     ulNode.append(...nodes)
+     // Birtum lista í html.
+     elList.appendChild(ulNode);
 }
 
 /*
@@ -99,10 +99,9 @@ function template(data){
 function update(){
 	elList.innerHTML = ""; 					// hreinsum gamalt.
 	let val = elSlider.value;  				// slidergildi.
-	elSliderValue.textContent = val; 		// Birtum uppfært slidergildi.
+	elSliderValue.textContent = val; 			// Birtum uppfært slidergildi.
 	results = sliderFilter(val)				// Síum gögn.
-	template(results);						// Búum til template og birtum í html.
-
+	template(results);					// Búum til template og birtum í html.
 }
 
 // Upphafsstillingar
@@ -110,7 +109,7 @@ function init(){
 
 	// Slider stillingar
 	let minValue = Math.min(...data.products.map(obj => obj.price)); // find min value.
-	let maxValue = findMax(); 										 // find max value.
+	let maxValue = findMax(); 			// find max value.
 	let middleValue = (maxValue + minValue) / 2;
 	elSlider.setAttribute("min", minValue); 	// Setjum lægsta verð.
 	elSlider.setAttribute("max", maxValue); 	// Setjum hæsta verð.
@@ -119,7 +118,7 @@ function init(){
 
 	// Birtum vörulista
 	results = sliderFilter(elSlider.value)		// Síum gögn.	
-	template(results);							// Búum til template og birtum í html.
+	template(results);				// Búum til template og birtum í html.
 	
 }
 
