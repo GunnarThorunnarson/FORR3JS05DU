@@ -7,7 +7,7 @@ Búðu [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/
 
 ---
 
-#### 5.1 (30%)
+#### 5.1 (30%) _7.5% af heildareinkunn áfangans._
 
 1. Data Object sem inniheldur amk. 5 uppskriftir.(5%)
     - Höfundur
@@ -26,7 +26,8 @@ Búðu [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/
 
 ---
 
-#### 5.2 - viðbætur (+20%)
+#### 5.2 - viðbætur (+20%) _5% af heildareinkunn áfangans._
+
 Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi](http://javascriptbook.com/code/c12/filter-search.html).
 1. Leitað er eftir heiti uppskriftar.
 1. Leit hefst um leið og notandi slær inn bókstaf.
@@ -34,7 +35,7 @@ Notandi á að geta fundið uppskrift með notkun leitarreits, sjá [sýnidæmi]
 
 ---
 
-#### 5.3 - viðbætur (+30%)
+#### 5.3 - viðbætur (+30%) _7.5% af heildareinkunn áfangans_
 Notandi á að geta með viðmóti, [sýnidæmi](http://todomvc.com/examples/vanillajs/):
 1. eytt uppskrift.
 1. bætt við nýrri uppskrift. 
@@ -42,12 +43,12 @@ Notandi á að geta með viðmóti, [sýnidæmi](http://todomvc.com/examples/van
 
 ---
 
-#### 5.4 - viðbætur (+10%)
+#### 5.4 - viðbætur (+10%) _2.5% af heildareinkunn áfangans_
 Notað er LocalStorage til að geyma gögn í vafra, sjá [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) 
 
 ---
 
-#### 5.5 - viðbætur (+10%)
+#### 5.5 - viðbætur (+10%) _2.5% af heildareinkunn áfangans_
 1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur.
 1. Gögnin (JSON) eru sótt með t.d. [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
 1. Gögn eru síuð og yfirfærð í viðeigandi gagnaskipan (Data Object) í JavaScript.
