@@ -12,18 +12,18 @@ JavaScript framework og söfn eru **ekki** leyfð.
 
 Leikurinn þarf að uppfylla eftirfarandi atriði:
 
-1. Umhverfi og uppsetning (Game loop/engine) (10%, _2.5% af heildareinkunn áfangans_)
-1. Game objects (player, obstacles, items, NPCs) (10%, _2.5% af heildareinkunn áfangans_)
-1. Leikjastjórnun (e. game controls). (30%, _7.5% af heildareinkunn áfangans_)
+1. Umhverfi og uppsetning (Game loop/engine) (10%)
+1. Game objects (player, obstacles, items, NPCs) (10%)
+1. Leikjastjórnun (e. game controls). (30%)
    - Notaðu símaskynjara fyrir leikjastýringu ; [Mobile touch controls](https://developer.mozilla.org/en-US/docs/Web/API/Touch_events) (t.d. tapping, swipe), [Device Orientation & DeviceMotion API](https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation) osfrv.
-1. [Collision detection](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection) (20%, _5% af heildareinkunn áfangans_)
+1. [Collision detection](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection) (20%)
    - Notað er eitt af eftirfarandi við árekstur; Vibration API, Animation eða Mobile audio.
    - Interactions between game objects (stigasöfnun, líf).
-1. Start Screen  (15%, _3.75% af heildareinkunn áfangans_)
+1. Start Screen  (15%)
    - leiðbeiningar um spilun.
    - takki til að spila leik. 
    - form til að skrá nafn á spilara.
-1. Game Over Screen (15%, _3.75% af heildareinkunn áfangans_)
+1. Game Over Screen (15%)
    - Highskor tafla sem sýnir top 5 spilara ásamt stigagjöf.
    - Notaðu [localStorarage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) til að halda utan um og geyma leikjaskor og nafn spilara.
    - takki til að spila aftur leik.
