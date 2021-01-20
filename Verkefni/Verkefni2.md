@@ -32,7 +32,7 @@ let numbers = [1, 2, 3, 4, 5];
 
 // kóðinn þinn hér 
 
-console.log(doubled);  // [2,4,6]
+console.log(oddNumbers);  // [1,3,5]
 ```
 
 1. Búðu til nýtt fylki sem heitir `oddNumbers` sem inniheldur oddatölur úr `numbers`. Notaðu m.a. `for` lykkju og `push` aðferðina.
