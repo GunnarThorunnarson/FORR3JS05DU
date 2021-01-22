@@ -36,7 +36,7 @@ console.log(oddNumbers);  // [1,3,5]
 ```
 
 1. Búðu til nýtt fylki sem heitir `oddNumbers` sem inniheldur oddatölur úr `numbers`. Notaðu m.a. `for` lykkju og `push` aðferðina.
-1. Notað núna [`map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) og arrow aðferðina.
+1. Notað núna [`filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) og arrow aðferðina.
 
 #### 2.4 Object (10%)
 1. Búðu til object sem geymir upplýsingar um þig; nafn, fæðingarár og þrjú netföng. Notaðu gagnatag við hæfi.
