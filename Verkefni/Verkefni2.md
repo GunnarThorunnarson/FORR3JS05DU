@@ -41,7 +41,9 @@ console.log(oddNumbers);  // [1,3,5]
 #### 2.4 Object (10%)
 1. Búðu til object sem geymir upplýsingar um þig; nafn, fæðingarár og þrjú netföng. Notaðu gagnatag við hæfi.
 1. Bættu við aðferð sem skilar streng sem inniheldur nafn og aldur. Notaðu `Template literal`. 
-
+<!--
+1. Birtu allar upplýsingarnar í console, sjá [3 Methods to Loop Over Object Properties](https://itnext.io/x1f4f9-3-ways-to-loop-over-object-properties-with-vanilla-javascript-es6-included-efb4a68cfbb)
+-->
 #### 2.5 Prentaðu út með `console.log()` nafnið Nonni (4%)
 
 ```javascript
@@ -56,7 +58,7 @@ console.log(oddNumbers);  // [1,3,5]
 
 #### 2.6 Class (10%)
 1. Búðu til klasa (class) User sem hefur nafn og netfang. Klasinn á að hafa get og set aðferð fyrir nafn.
-1. Búðu til object sem notar klasann og birtu nafn og netfang með `console.log()`. Sjá (3 Methods to Loop Over Object Properties)[https://itnext.io/x1f4f9-3-ways-to-loop-over-object-properties-with-vanilla-javascript-es6-included-efb4a68cfbb]
+1. Búðu til object sem notar klasann og birtu nafn og netfang með `console.log()`. 
 
 #### 2.7 Class og erfðir (15%)
 Búðu til tvo klasa (class) `Animal` og `Rabbit`. 
