@@ -35,7 +35,7 @@ let numbers = [1, 2, 3, 4, 5];
 console.log(oddNumbers);  // [1,3,5]
 ```
 
-1. Búðu til nýtt fylki sem heitir `oddNumbers` sem inniheldur oddatölur úr `numbers`. Notaðu m.a. `for` lykkju og `push` aðferðina.
+1. Búðu til nýtt fylki sem heitir `oddNumbers` sem inniheldur oddatölur úr `numbers`. Notaðu m.a. `for` lykkju eða `forEach` fylkja aðferð ásamt `push` aðferðina.
 1. Notað núna [`filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) og arrow aðferðina.
 
 #### 2.4 Object (10%)
