@@ -82,7 +82,7 @@ let cart=[
 ]
 ```
 Þú ert með afsláttarkóða sem veitir þér 20% afslátt af öllum `tech` vörum.
-Búðu til forrit sem tekur við afsláttarkóðanum `prompt()`og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni en með uppfærðum verðum. forritið á einnig að skila summu allra hluta í dollurum. Birtu upplýsingarnar í `console.log()`
+Búðu til forrit sem tekur við afsláttarkóða með `prompt()` aðferð og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni en með uppfærðum verðum. forritið á einnig að skila summu allra hluta í dollurum. Birtu upplýsingarnar í `console.log()`
 **ath.** `prompt()` virkar í console í vafra en ekki í VS Code.
 
 ---
