@@ -3,18 +3,18 @@ Einstaklingsverkefni <br>
 
 ---
 ### 3.1 Canvas (6%)
-Teiknaðu listaverk, sjálfsmynd í [Kandinsky](https://www.wassilykandinsky.net/work-234.php) stíl með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas).
+Teiknaðu sjálfsmynd (augu, nef, munn, haus, hár) í [Kandinsky](https://www.wassilykandinsky.net/work-234.php) listrænum stíl með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas).
 
 Eftirfarandi atriði þurfa að koma fram:
 - búðu til nokkra grunnhluti (basic shapes); línur, rétthyrninga. þríhyringa og hringi.
 - notaðu `path` til að búta til beinar línur (curves) og rétthyrningar.
-- notaðu `arc()` til að búa til augu t.d; mána (fylltan) eða hluta af hring (ófylltur). 
+- notaðu `arc()` til að búa til augu t.d; mána (fylltan) eða hluta af hring (ófylltur) eða sambærilegt. 
 - notaðu `Bezier curves` til að búa til sveigðar línur og flóknari hluti.
 - búðu til flókna hluti sem eru holóttir og samsettir, sjá t.d. með `clear` og `clip()`.  
 - notaðu mismunandi liti, fill, stroke, rgba, gradient.
 - notaðu mismunandi line styles; Linewidth, Linecap, LineJoin. 
-- settu litla ljósmynd í ramma í bagrunn. 
-- snúðu og stilltu hlutum eftir þörfum með; `translate`, `rotating`, `scaling`, `transform`.
+- settu litla ljósmynd (t.d. af þér) í ramma í bagrunn. 
+- prófaðu að stilla hlutum eftir þörfum með; `translate`, `rotating`, `scaling`, `transform`.
 - merktu listaverkið með nafninu þínu, notaðu `font`, `stroke` `shadows` osfrv til að ná þessu fram.
 
 ---
