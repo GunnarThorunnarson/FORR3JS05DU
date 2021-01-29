@@ -40,7 +40,7 @@ console.log(oddNumbers);  // [1,3,5]
 
 #### 2.4 Object (10%)
 1. Búðu til object sem geymir upplýsingar um þig; nafn, fæðingarár og þrjú netföng. Notaðu gagnatag við hæfi.
-1. Bættu við aðferð sem skilar streng sem inniheldur nafn og aldur. Notaðu `Template literal`. 
+1. Object á að hafa aðferð sem skilar streng sem inniheldur nafn og aldur. Notaðu `Template literal`. 
 <!--
 1. Birtu allar upplýsingarnar í console, sjá [3 Methods to Loop Over Object Properties](https://itnext.io/x1f4f9-3-ways-to-loop-over-object-properties-with-vanilla-javascript-es6-included-efb4a68cfbb)
 -->
@@ -91,5 +91,4 @@ Búðu til forrit sem tekur við afsláttarkóða með `prompt()` aðferð og sk
 - **2.1** Námsmat fer fram í kennslustund með skoðun á framvindu í freeCodeCamp.
 - Búðu til e. `private repository` sem inniheldur kóðalausnir fyrir **liði; 2.2 - 2.9**. Gefið er hálft fyrir liði sem eru ábótavant.
 - Sein skil eru ekki í boði.
-
 
