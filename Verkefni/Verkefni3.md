@@ -3,7 +3,7 @@ Einstaklingsverkefni <br>
 
 ---
 ### 3.1 Canvas (6%)
-Teiknaðu sjálfsmynd (augu, nef, munn, haus, hár) í [Kandinsky](https://www.wassilykandinsky.net/work-234.php) listrænum stíl með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas).
+Teiknaðu sjálfsmynd (andlit, augu, nef, munn, haus, hár osfrv.) í [Kandinsky](https://www.wassilykandinsky.net/work-234.php) listrænum stíl með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas).
 
 Eftirfarandi atriði þurfa að koma fram:
 - búðu til nokkra grunnhluti (basic shapes); línur, rétthyrninga. þríhyringa og hringi.
