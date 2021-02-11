@@ -17,9 +17,7 @@ Eftirfarandi atriði þurfa að koma fram:
 - prófaðu að stilla hlutum eftir þörfum með; `translate`, `rotating`, `scaling`, `transform`.
 - merktu listaverkið með nafninu þínu, notaðu `font`, `stroke` `shadows` osfrv til að ná þessu fram.
 
-<!-- 
-Hugmynd um útfærslu: https://www.shutterstock.com/image-vector/basic-geometric-shapes-cute-cartoon-face-727678156
--->
+
 
 ---
 
