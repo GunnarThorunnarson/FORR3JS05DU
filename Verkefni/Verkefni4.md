@@ -52,7 +52,7 @@ Veldu þér **eitt verkefni** að eigin vali af ofangreindu:
 ---
 
 #### 3.3 Drum kit (34%) 
-Skoðaðu Day 1:	Drum kit í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér er [kóðaskráin](https://github.com/wesbos/JavaScript30/tree/master/01%20-%20JavaScript%20Drum%20Kit).
+Skoðaðu Day 1:	Drum kit í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér eru [kóðaskrárnar](https://github.com/wesbos/JavaScript30/tree/master/01%20-%20JavaScript%20Drum%20Kit).
 
 Breyttu og bættu við eftirfarandi virkni:
 
