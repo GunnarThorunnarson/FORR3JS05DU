@@ -15,9 +15,9 @@
 Það má ekki gera neinar breytingar beint í html. 
 Notaðu eingöngu JavaScript til að gera eftirfarandi:
 
-1. bættu við klassan `mikilvaegt` við smjör. (6%)
+1. bættu við klassan `mikilvaegt` í `<li>` element sem inniheldur textann `smjör`. (6%)
 1. láttu klasann `mikilvaegt` hafa rauðan lit. (6%)
-1. breyttu hunang í sýróp. (6%)
+1. breyttu textanum  `hunang` í `sýróp`. (6%)
 1. búðu til vöru að eigin vali og bættu henn fremst í listann. (8%)
 1. eyddu völdum hlut sem þú smellir á (click) í listanum. (10%)
 
