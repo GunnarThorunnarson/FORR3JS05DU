@@ -7,7 +7,8 @@ Viðmótshlutir. <br>
 
 #### Dynamic Range Slider.
 
-Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn og jQuery eru ekki leyfð í þessu verkefni.
+Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn og jQuery eru ekki leyfð í þessu verkefni.<br>
+
 ![sýnidæmi](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/rangeslider.png)
 
 ---
