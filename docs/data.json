@@ -1,0 +1,46 @@
+{
+    "heading": "Recipes",
+    "recipes": [
+        {
+            "author": "George",
+            "name": "Orange Pound Cake",
+            "materials": ["Flour", "Sugar","Eggs","Butter","Baking powder"],
+            "instructions": "Preheat the oven to 350°F (180°C) and grease a 10 x 4.5-inch (25×10 cm) loaf tin.In a large bowl, beat the eggs and sugar until pale and fluffy. Sift in the flour with the baking powder, stirring well. Melt the butter in a saucepan and pour it into the batter. Juice and zest the fresh orange and incorporate. Pour the batter into the loaf tin and bake for 40 minutes. Allow the cake to cool completely before serving.",
+            "date": "17/11/2020",
+            "img": "static/orangepoundcake.jpg"
+        },
+        {
+            "author": "Bob",
+            "name": "Dark Chocolate Fondant Cake",
+            "materials": ["Dark Chocolate", "Butter","Sugar","Eggs","Flour"],
+            "instructions": "Preheat the oven to 350°F (180°C) and grease a 9-inch (23 cm) springform pan with butter. In a medium saucepan over very low heat, melt butter and dark chocolate, stirring constantly to prevent chocolate from burning. Turn the heat off and stir in sugar. Add the eggs, one at a time and whisking vigorously after each one, to prevent the eggs from cooking. Then gently fold in the flour and stir until smooth. Pour the batter into the springform pan and bake for 15-17 minutes. The sides of the fondant cake should be almost done while center is slightly jiggling. Remove from the oven and let cool completely before serving.",
+            "date": "17/11/2020",
+            "img": "/static/darkchocolate.jpg"
+        },
+        {
+            "author": "Greg",
+            "name": "French Yoghurt Cake",
+            "materials": ["Yoghurt", "Sugar","Flour","Baking powder","Vegetable oil","Eggs","Vanilla extract"],
+            "instructions": "Preheat the oven to 350°F (180°C) and grease a 9-inch (23 cm) spring form. In a large mixing bowl, pour the plain yogurt. Add the eggs, sugar, vanilla extract and oil. Whisk until combined. Wash the yogurt container and dry it. Add all-purpose flour, baking powder, and mix well. Pour into the prepared pan and bake for 35 minutes or until a toothpick inserted in the center comes out clean. Allow to cool before serving. The cake will keep in an airtight container for up to 5 days.",
+            "date": "17/11/2020",
+            "img": "/static/frenchyoghurt.jpg"
+        },
+        {
+            "author": "Larry",
+            "name": "American Pancakes",
+            "materials": ["Flour","Sugar","Baking powder","Salt","Milk","Butter","Eggs","Maple syrup"],
+            "instructions": "Preheat the oven to 200°F (90°C), with a heatproof platter ready to keep cooked pancakes warm in the oven. In a small bowl, whisk together flour, sugar, baking powder, and salt. Set aside. In a medium bowl, whisk together milk, butter (or vegetable oil), and egg. Pour the dry ingredients to the milk mixture, and stir (do not overmix). Heat a large skillet or griddle over medium heat, and coat generously with vegetable oil. For each pancake, spoon 2 or 3 tablespoons of batter onto skillet. Cook until the surface of pancakes have some bubbles, about 1 minute. Flip carefully with a thin spatula, and cook until brown on the underside, 1 to 2 minutes more. Transfer to the heatproof platter, cover with foil and keep warm in the oven until serving. Serve warm, with desired topping such as maple syrup, fresh berries or banana slices.",
+            "date": "17/11/2020",
+            "img": "/static/pancakes.jpg"
+        },
+        {
+            "author": "Ivonne",
+            "name": "Basic French Crepes",
+            "materials": ["Flour","Salt","Eggs","Butter","Sugar","Milk","Oil"],
+            "instructions": "Pour flour and salt in a large bowl and make a well in the center. Add the eggs, the melted butter, and the optional sugar if desired. Whisk vigorously starting from the center, and slowly start to pour in a little milk, mixing as you pour, to keep the batter smooth. Pour in the rest of the milk until it looks smooth. Cover the bowl and let sit for 2 hours.Heat a 15 cm/6-inch crepes pan and grease with oil using a piece of paper towel. Pour in a ladle of dough by tilting the pan in all directions to distribute the dough well. Heat until the surface is cooked, then flip the pancakes and cook the other surface for about a minute, or until the crepe becomes lightly blonde. Proceed the same with the remaining batter. Stack the crepes onto a plate, and serve with your favorite topping (usually in France: butter and sugar, jam, or melted chocolate).",
+            "date": "17/11/2020",
+            "img": "/static/crepes.jpg"
+        }
+        
+    ]
+}
