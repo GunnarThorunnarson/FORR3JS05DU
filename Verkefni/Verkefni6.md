@@ -13,7 +13,7 @@ Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaSc
     - dagsetning
     - staðsetning
     - vefslóð á ljósmynd
-2. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
+2. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch#fetch-api).
 
 ---
 
