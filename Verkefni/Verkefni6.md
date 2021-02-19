@@ -8,7 +8,7 @@ Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaSc
 
 #### 5.1 - Gögn og fetch (20%)
 
-1. Búðu til JSON skrá `vidburdir.json` og hýstu hana í Gist á Github. Skráin geymir 5 viðburði (skáldaðu) sem innihalda eftirfarandi upplýsingar: 
+1. Búðu til [JSON](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch) skrá `vidburdir.json` og hýstu hana í Gist á Github. Skráin geymir 5 viðburði (skáldaðu) sem innihalda eftirfarandi upplýsingar: 
     - nafn á Viðburð
     - dagsetning
     - staðsetning
@@ -17,9 +17,7 @@ Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaSc
 
 ---
 
-#### 5.2 Viðmót (30%)
-
-1. [Template](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Template) 
+#### 5.2 Viðmót og [Template](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Template) (30%)
    1. Notaðu Dom manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
    1. Birtu alla viðburði í HTML með JavaScript. 
    1. Notaðu CSS fyrir framsetningu (layout) og útlit. 
