@@ -26,8 +26,10 @@ Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaSc
 
 #### 5.3 - Að eyða og búa til viðburð (30%) 
 Notandi á að geta með viðmóti: [sjá sýnidæmi](http://todomvc.com/examples/vanillajs/) 
-1. eytt (delete) viðburð. Það þarf ekki að eyða viðburð úr JSON skrá.
-1. bætt (create) við viðburð. Það þarf ekki að bæta viðburð í JSON skrá.
+1. eytt (delete) viðburð. 
+   - _Það þarf ekki að eyða viðburð úr JSON skrá._
+3. bætt (create) við viðburð. 
+   - _Það þarf ekki að bæta viðburð í JSON skrá._
 
 ---
 
