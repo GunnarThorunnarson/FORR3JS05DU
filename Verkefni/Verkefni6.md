@@ -1,8 +1,8 @@
 ## Verkefni 6: Vefapp (20%) 
 
-Búðu til [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir viðburði. Þú átt að geta séð alla viðburði í byrjun, leitað að viðburði (síun) með leitarreit, skráð og eytt viðburð. JavaScript söfn eru **ekki** leyfð.
+Búðu til [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir viðburði. Þú átt að geta séð alla viðburði í byrjun, leitað að viðburði (síun) með leitarreit, skráð og eytt viðburð. Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaScript Todo App From Start To Finish ](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/).
 
-Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaScript Todo App From Start To Finish ](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/)
+JavaScript söfn og jQuery eru **ekki** leyfð.
 
 ---
 
