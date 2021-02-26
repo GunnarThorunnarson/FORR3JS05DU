@@ -1,6 +1,6 @@
 ## Verkefni 6: Vefapp (20%) 
 
-Búðu til [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir viðburði. Þú átt að geta séð alla viðburði í byrjun, leitað að viðburði (síun) með leitarreit, skráð og eytt viðburð. Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaScript Todo App From Start To Finish ](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/).
+Búðu til [SPA (Single-page application)](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir viðburði (t.d. tónleika). Þú átt að geta séð alla viðburði í byrjun, leitað að viðburði (síun) með leitarreit, skráð og eytt viðburð. Hér er tutorial sem vert er að skoða (5 myndbönd) [Building A Vanilla JavaScript Todo App From Start To Finish ](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/).
 
 JavaScript söfn og jQuery eru **ekki** leyfð.
 
@@ -8,11 +8,11 @@ JavaScript söfn og jQuery eru **ekki** leyfð.
 
 #### 5.1 - Gögn og fetch (20%)
 
-1. Búðu til [JSON](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch) skrá `vidburdir.json` og hýstu hana í Gist á Github. Skráin geymir 5 viðburði (skáldaðu) sem innihalda eftirfarandi upplýsingar: 
-    - nafn á Viðburð
-    - dagsetning
-    - staðsetning
-    - vefslóð á ljósmynd
+1. Búðu til [JSON](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch) skrá `vidburdir.json` og hýstu hana í Gist á Github. Skráin geymir 5 viðburði (skáldaðu). Hver viðburður inniheldur eftirfarandi upplýsingar: 
+    - nafn á viðburð (td. Nú er komin Helgi)
+    - dagsetning (td. 3.mars 2021)
+    - staðsetning (td. Hlaðan)
+    - vefslóð á ljósmynd 
 2. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch#fetch-api).
 
 ---
