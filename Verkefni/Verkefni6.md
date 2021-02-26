@@ -9,9 +9,9 @@ JavaScript söfn og jQuery eru **ekki** leyfð.
 #### 5.1 - Gögn og fetch (20%)
 
 1. Búðu til [JSON](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch) skrá `vidburdir.json` og hýstu hana í Gist á Github. Skráin geymir 5 viðburði (skáldaðu). Hver viðburður inniheldur eftirfarandi upplýsingar: 
-    - nafn á viðburð (td. Nú er komin Helgi)
-    - dagsetning (td. 3.mars 2021)
-    - staðsetning (td. Hlaðan)
+    - nafn á viðburð 
+    - dagsetning 
+    - staðsetning 
     - vefslóð á ljósmynd 
 2. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch#fetch-api).
 
