@@ -3,7 +3,7 @@
 
 ---
 
-#### 1.1 (10%) 
+#### 1.1 (75%) 
 
 Stofnaðu reikning (notaðu nafn + ártal sem notendanafn) í [freeCodeCamp](https://www.freecodecamp.org/) og haltu utan um framvinduna þína. <br>
 Gerðu eftirfarandi 100 gagnvirkar æfingar í freeCodeCamp [Introduction to JavaScript](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/). <br>
@@ -19,7 +19,7 @@ Gerðu eftirfarandi 100 gagnvirkar æfingar í freeCodeCamp [Introduction to Jav
 
 ---
 
-#### 1.2 (5%)
+#### 1.2 (25%)
 
 Þú hefur sett nokkra hluti í körfu í vefverslun. Þú ert með afsláttarkóða "discount10" sem veitir þér 10% afslátt af öllum `tech` vörum.
 
@@ -32,9 +32,9 @@ let cart=[
 ]
 ```
 
-1. Búðu til forrit sem tekur við afsláttarkóðanum með `prompt()` aðferð og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni með uppfærðum verðum. 
-1. forritið á einnig að skila summu allra hluta. 
-1. Birtu upplýsingarnar t.d. í `console.log()`
+1. Búðu til forrit sem tekur við afsláttarkóðanum með `prompt()` aðferð og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni með uppfærðum verðum. (15%)
+1. forritið á einnig að skila summu allra hluta. (5%)
+1. Birtu upplýsingarnar í `console.log()` (5%)
 
 **ath.** `prompt()` virkar í console í vafra en ekki í VS Code.
 
@@ -43,6 +43,6 @@ let cart=[
 ### Námsmat og skil
 
 - **1.1** Námsmat fer fram í kennslustund með skoðun á framvindu í freeCodeCamp. Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar 
-- **2.2** Búðu til e. `private repository` sem inniheldur kóðalausn. Gefið er hálft fyrir ef lausn er ábótavant. 
+- **2.2** Búðu til e. `private repository` sem inniheldur kóðalausn. 
 - Sein skil eru ekki í boði.
 
