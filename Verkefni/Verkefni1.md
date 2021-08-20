@@ -4,7 +4,7 @@
 ---
 
 Stofnaðu reikning (notaðu nafn + ártal sem notendanafn) í [freeCodeCamp](https://www.freecodecamp.org/) og haltu utan um framvinduna þína. <br>
-Gerðu eftirfarandi 100 gagnvirkar æfingar í freeCodeCamp [Introduction to JavaScript](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/). <br>
+Gerðu eftirfarandi 100 gagnvirkar æfingar í Introduction to JavaScript:
 
 
 1. [Gagnategundir (35 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Gagnategundir)
