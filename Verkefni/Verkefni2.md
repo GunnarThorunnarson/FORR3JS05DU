@@ -4,7 +4,7 @@
 ---
 #### 2.1 (26%)
 Fylgdu Beau Carnes í Scrimba myndböndunum [Learn modern JavaScript](https://scrimba.com/course/ges6). <br>
-Gerðu eftirfarandi æfingar [Föll II og ES6 (13 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/F%C3%B6ll-II-og-ES6) í freeCodeCamp [ES6](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/es6/).
+Gerðu eftirfarandi æfingar [Föll II (13 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/F%C3%B6ll-II) í freeCodeCamp [ES6](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/es6/).
 
 #### 2.2 (4%)
 
