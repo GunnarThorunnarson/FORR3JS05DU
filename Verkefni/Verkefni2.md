@@ -70,12 +70,13 @@ let cart=[
 ]
 ```
 
-1. Búðu til forrit sem tekur við afsláttarkóðanum með `prompt()` aðferð og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni með uppfærðum verðum. (20%)
+1. Búðu til forrit sem tekur við afsláttarkóða og skilar fylki sem inniheldur allar vörur sem þú valdir í körfunni með uppfærðum verðum. (20%)
 1. forritið á einnig að skila summu allra hluta. (10%)
 1. Birtu upplýsingarnar í `console.log()` (5%)
 
+<!--
 **ath.** `prompt()` virkar í console í vafra en ekki í VS Code.
-
+-->
 ---
 
 ### Námsmat og skil
