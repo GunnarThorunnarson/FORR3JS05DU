@@ -81,6 +81,7 @@ let cart=[
 
 ### Námsmat og skil
 - **2.1** Námsmat fer fram í kennslustund með skoðun á framvindu í freeCodeCamp.
-- Búðu til e. `private repository` sem inniheldur kóðalausnir fyrir **liði; 2.2 - 2.7**. Gefið er hálft fyrir liði sem eru ábótavant.
+- Búðu til e. `private repository` sem inniheldur kóðalausnir fyrir **liði; 2.2 - 2.7** og mundu að gefa mér "invite" _GunnarThorunnarson_ á GitHub.
+- Gefið er hálft fyrir liði sem eru ábótavant.
 - Sein skil eru ekki í boði.
 
