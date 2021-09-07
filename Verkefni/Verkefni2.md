@@ -7,10 +7,10 @@ Fylgdu Beau Carnes í Scrimba myndböndunum [Learn modern JavaScript](https://sc
 Gerðu eftirfarandi æfingar [Föll II (13 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/F%C3%B6ll-II) í freeCodeCamp [ES6](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/es6/).
 
 #### 2.2 (4%)
-
+sleppa spurningu.
 Hver er munurinn á `let` og `var`? Komdu með kóðasýnidæmi sem sýnir muninn.
 
-#### 2.3 Að skilgreina fall (10%)
+#### 2.3 Að skilgreina fall (10%) - nota annað en add
 Eftirfarndi `add` fall er skilgreint á hefðbundin hátt (function declaration):
 
 ```javascript
@@ -26,11 +26,11 @@ console.log(sum);
 #### 2.4 Higher order functions (10%)
 
 ```javascript
-let numbers = [1, 2, 3, 4, 5];
+let numbers = [1, 5, 4, 3, 2, 7];
 
 // kóðinn þinn hér 
 
-console.log(oddNumbers);  // [1,3,5]
+console.log(oddNumbers);  
 ```
 
 1. Búðu til nýtt fylki sem heitir `oddNumbers` sem inniheldur oddatölur úr `numbers`. Notaðu m.a. `for` lykkju eða `forEach` fylkja aðferð ásamt `push` aðferðina.
