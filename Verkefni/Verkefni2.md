@@ -39,7 +39,7 @@ console.log(oddNumbers);
 
 #### 2.5 Object (10%)
 1. Búðu til object sem geymir upplýsingar um þig; nafn, fæðingarár og þrjú netföng. Notaðu gagnatag við hæfi.
-1. Object á að hafa aðferð sem skilar streng sem inniheldur nafn og aldur. Notaðu `Template literal`. 
+1. Object á að innihalda aðferð sem skilar streng sem inniheldur nafn og aldur. Notaðu `Template literal`. 
 <!--
 1. Birtu allar upplýsingarnar í console, sjá [3 Methods to Loop Over Object Properties](https://itnext.io/x1f4f9-3-ways-to-loop-over-object-properties-with-vanilla-javascript-es6-included-efb4a68cfbb)
 -->
