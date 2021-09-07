@@ -10,7 +10,7 @@ Gerðu eftirfarandi æfingar [Föll II (13 æfingar)](https://github.com/GunnarT
 sleppa spurningu.
 Hver er munurinn á `let` og `var`? Komdu með kóðasýnidæmi sem sýnir muninn.
 
-#### 2.3 Að skilgreina fall (10%) - nota annað en add
+#### 2.3 Að skilgreina fall (10%) 
 Eftirfarndi `add` fall er skilgreint á hefðbundin hátt (function declaration):
 
 ```javascript
@@ -26,7 +26,7 @@ console.log(sum);
 #### 2.4 Higher order functions (10%)
 
 ```javascript
-let numbers = [1, 5, 4, 3, 2, 7];
+let numbers = [1, 2, 3, 4, 5];
 
 // kóðinn þinn hér 
 
