@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyklaborð</title>
+    <style type="text/css">
+        canvas { border: 1px solid red; }  /*  rammi utan um canvas */
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas> 
+
+<script>
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+
+// object
+let ball = {
+  x: 100,
+  y: 100,
+  vx: 10,      // velocity x
+  vy: 10,      // velocity y
+  radius: 25,
+  color: 'blue',
+  draw: function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+};
+
+ball.draw();
+
+// Game loop 
+function update() {
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+  ball.draw();
+  // window.requestAnimationFrame(update);  // endurkvæmt (recursive) 
+}
+
+// Hlustum á lyklaborð
+document.addEventListener('keydown', (event) => {
+    // til vinstri 
+    if (event.code === "ArrowLeft") {
+        ball.x -= ball.vx;
+    } else if (event.code === "ArrowRight") { 
+        ball.x += ball.vx;
+    }
+    update();
+});
+
+</script>
+</body>
+</html>
+
