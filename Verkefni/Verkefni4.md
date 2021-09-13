@@ -29,7 +29,7 @@ Leikurinn þarf að uppfylla eftirfarandi atriði:
 1. (10%) Notað er class og erfðir fyrir leikjahluti (game objects).
 1. (5%) Leikjahlutir eru með mismunandi lögun og útlit (pc, npc). 
 1. (5%) Notað er fylki til að halda utan um leikjahlutina.
-1. (10%) Leikjastjórnun (e. game controls). Hægt er að stýra aðalspilara (pc) með lyklaborð, sjá `addEventListener()`.
+1. (10%) Leikjastjórnun (e. game controls). Hægt er að stýra aðalspilara (pc) eðlilega með lyklaborði í allar áttir (upp, niður, vinstri, hægri og á ská)
 1. (20%) Aukapersónur (npc) birtast hér og þar á skjá og fara í mismunandi áttir, fara úr skjámynd en koma aftur inná skjá annarstaðar.
 1. (20%) Árekstur (collision). 
       1. Þegar aðalpersóna snertir aukapersnóna þá stækkar aðalpersónan og aukapersónan hverfur af skjá.
