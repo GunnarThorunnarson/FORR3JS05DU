@@ -4,7 +4,7 @@ Einstaklingsverkefni <br>
 ---
 
 ### 4.1 Canvas (20%)
-Teiknaðu [sjálfsmynd](https://www.shutterstock.com/image-vector/basic-geometric-shapes-cute-cartoon-face-727678156) af þér með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas) 
+Teiknaðu [sjálfsmynd](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/BasicGeometricShapes.png) af þér með [Canvas API](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Canvas) 
 
 Eftirfarandi atriði þurfa að koma fram:
 1. búðu til grunnhlut (basic shapes); rétthyrning. þríhyrning eða hring fyrir búkinn.
