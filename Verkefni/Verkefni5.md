@@ -28,7 +28,7 @@ Notaðu eingöngu JavaScript til að gera eftirfarandi:
 
 
 #### 5.2 Drum kit (30%) 
-Skoðaðu **Day 1: JavaScript Drum kit** í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér er [kóðaskráin](https://github.com/wesbos/JavaScript30/tree/master/01%20-%20JavaScript%20Drum%20Kit).
+Skoðaðu **Day 1: JavaScript Drum kit** í [30 Day Vanilla JS Coding Challenge](https://javascript30.com/). Hér er [myndbandið](https://www.youtube.com/watch?v=VuN8qwZoego) og  [kóðaskráin](https://github.com/wesbos/JavaScript30/tree/master/01%20-%20JavaScript%20Drum%20Kit).
 
 Breyttu eða bættu við eftirfarandi virkni:
 
