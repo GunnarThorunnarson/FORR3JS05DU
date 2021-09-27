@@ -11,11 +11,9 @@ const people = [
 		{ name:'Nigel', rate: 120 }
 ];
        
-
 function priceRange(person) {        
-    	// skilar true ef skilyrði eru uppfyllt
-		return (person.rate >= 65) && (person.rate <= 90); 	
-	};
+	return (person.rate >= 65) && (person.rate <= 90);     // skilar true ef skilyrði eru uppfyllt
+};
 
 // filter fylkjaaðferðin, býr til nýtt fylki (results), með öllum stökum sem uppfylla skilyrði fallsins priceRange.
 // priceRange fallið er keyrt á hvert stak í fylkinu people.
