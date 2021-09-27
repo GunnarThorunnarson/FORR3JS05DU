@@ -29,8 +29,9 @@ console.log(results); 	// [{ name: 'Camille', rate: 80 },{ name: 'Gordon', rate 
 
 /* 
 	// önnur kóðaritun
-	let	results = people.filter(priceRange); 	
-		function priceRange(person) {        
-					return (person.rate >= 65) && (person.rate <= 90); 	
-		};
+	let results = people.filter(priceRange); 	
+	
+	function priceRange(person) {        
+		return (person.rate >= 65) && (person.rate <= 90); 	
+	};
 */
