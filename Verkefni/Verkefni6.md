@@ -18,7 +18,7 @@ Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://develope
 1. **Gagnaskipan** (5%)
    - Búðu til vörulista (array sem inniheldur objecta) sem inniheldur 5 vöruheiti ásamt verði. 
 1. **Range slider** (30%)
-   1. Búðu til notendavænan e. range slider sem getur unnið með inntaksgildi. Sjá [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range).
+   1. Búðu til notendavænan e. range slider sem getur unnið með inntaksgildi. Sjá [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) og td.  [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
    1. Slider sýnir verð við notkun á slider.
    1. Slider er með range upphafsstöðurnar lægsta og hæsta verð útfrá gögnum.
 1. **Síun** (30%)
