@@ -1,13 +1,13 @@
 ### Verkefni 6 (15%)
 
 Einstaklingsverkefni. <br>
-Viðmótshlutir. <br>
+
 
 ---
 
 #### Dynamic Range Slider.
 
-Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn eru ekki leyfð í þessu verkefni.
+Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn eru ekki leyfð í þessu verkefni. Hér er dæmi um hvernig hægt er leysa verkefni 6 í [skrefum](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/v6_skref.md)
 
 ![sýnidæmi](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/slider.png)
 
@@ -15,12 +15,12 @@ Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://develope
 
 #### Verkþættir:
 
-1. **Gagnaskipan** (5%)
-   - Búðu til vörulista (array sem inniheldur objecta) sem inniheldur 5 vöruheiti ásamt verði. 
 1. **Range slider** (30%)
-   1. Búðu til notendavænan e. range slider sem getur unnið með inntaksgildi. Sjá [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) og td.  [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
+   1. Búðu til notendavænan e. range slider sem getur unnið með inntaksgildi, sjá [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) og td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
    1. Slider sýnir verð við notkun á slider.
    1. Slider er með range upphafsstöðurnar lægsta og hæsta verð útfrá gögnum.
+1. **Gagnaskipan** (5%)
+   - Búðu til vörulista (array sem inniheldur objecta) sem inniheldur 5 vöruheiti ásamt verði. 
 1. **Síun** (30%)
    - Búðu til síu (e. filter) sem tengir vörulista við slider gildi, sjá [Síun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun)
    - Notandi á að geta með gagnvirkum hætti stýrt slider sem síar vörur eftir verði.  
