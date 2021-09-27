@@ -7,7 +7,7 @@ Einstaklingsverkefni. <br>
 
 #### Dynamic Range Slider.
 
-Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn eru ekki leyfð í þessu verkefni. Hér er dæmi um hvernig hægt er leysa verkefni 6 í [skrefum](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/v6_skref.md)
+Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) síar út vörur eftir verði. Birtu niðurstöður (vörur og verð) í html lista. JavaScript söfn eru ekki leyfð í þessu verkefni. Hér er dæmi um [nálgun í skrefum](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/v6_skref.md)
 
 ![sýnidæmi](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/slider.png)
 
