@@ -1,6 +1,6 @@
 ## Dæmi um hvernig hægt er að leysa verkefni 6 í skrefum:
 
-1. Setja upp [HTML Range Slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) með value, min, max og value
+1. Setja upp [HTML Range Slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) með value, min, max og step
 1. Fá slider til að virka með JavaScript, sjá [input vs change event](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/), skoða lesa og skrifa í `value`.
 1. Búa til data objects sem inniheldur gögn (skoðaðu gögn í console.log)
 1. Finna hæsta verð, nota [array aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun#array-a%C3%B0fer%C3%B0ir) við hæfi. 
