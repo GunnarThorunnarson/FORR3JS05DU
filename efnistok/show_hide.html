@@ -11,32 +11,25 @@
     <p>And me!</p>
 
 <script>
-/*    
-    display: none;              // hides the element, it has no longer space reserved for the page, but it's still in the DOM to interact with.
-    visability: hidden;         // hides the element, but it will still take up the same space as before.  
-*/ 
 
 function hideMe(e){
    // e.target.style.display = "none";        
-     e.target.style.visibility = "hidden";        // see what happens if you change to hidden!
+      e.target.style.visibility = "hidden";        // see what happens if you change to hidden!
 }
-
 document.body.addEventListener("click", hideMe, false);  
 
 /*
 CSS and display:
-    display: "value"; // none, block, inline, inline-block, table-row etc..
+
+    display: none;              // hides the element, it has no longer space reserved for the page, but it's still in the DOM to interact with.
+    visability: hidden;         // hides the element, but it will still take up the same space as before.  
+    display: "value";           // none, block, inline, inline-block, table-row etc..
+    getComputedStyle            // to check if an element is visible
+    classList                   // add, remove, and toggle classes
+    
     CSS display Property:                  https://www.w3schools.com/cssref/pr_class_display.asp
     CSS Layout - The display Property:     https://www.w3schools.com/css/css_display_visibility.asp
-*/
-
-
-/*
-More: How to show and hide elements with vanilla JavaScript
-https://gomakethings.com/how-to-show-and-hide-elements-with-vanilla-javascript/
-
-        getComputedStyle  // to check if an element is visible
-        classList         // add, remove, and toggle classes
+    Show/hide elements with JavaScript     https://gomakethings.com/how-to-show-and-hide-elements-with-vanilla-javascript/
 */
 
 </script>
