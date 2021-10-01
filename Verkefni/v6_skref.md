@@ -13,6 +13,6 @@
 
 - Skoðaðu hvernig hægt er að losna við harðkóðun og endurtekningar í kóða, notaðu föll og uppfærðu kóðalausn (refactor) ef þú getur.
 - Valkvæmt: tengja step og gögn (verð) saman, [Dynamic step size slider with fill effect | JavaScript
-](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) 
+](https://scotch.io/@gitedy/dynamic-step-size-slider-with-fill-effect-javascript) 
 
 
