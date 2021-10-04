@@ -5,6 +5,7 @@ Búðu til vefapp sem inniheldur myndaalbúm. Þú átt að geta séð allar lj�
 Bjargir:
 - [Building A Vanilla JavaScript Todo App From Start To Finish (5 myndbönd)](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/).
 - [JavaScript DOM Crash Course - Part 4 [Final Project]](https://www.youtube.com/watch?v=i37KVt_IcXw&list=PLillGF-RfqbYE6Ik_EuXA2iZFcE082B3s&index=5)
+- [How LocalStorage and Event Delegation work](https://www.youtube.com/watch?v=YL1F4dCUlLc&list=PLu8EoSxDXHP6CGK4YVJhL_VWetA865GOH&index=17)
 
 ---
 
