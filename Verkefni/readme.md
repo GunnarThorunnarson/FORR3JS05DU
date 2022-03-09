@@ -1,1 +1,1 @@
-## Verkefni í JavaScript
+### Verkefnin í JavaScript
