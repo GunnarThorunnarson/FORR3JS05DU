@@ -23,6 +23,6 @@ Gerðu eftirfarandi **111** gagnvirkar æfingar:
 
 ### Námsmat og skil
 
-- Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar í lið **1.1**. 
+- Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar í lið **1**. 
 - Sein skil eru ekki í boði.
 
