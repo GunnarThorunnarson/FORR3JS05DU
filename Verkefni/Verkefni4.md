@@ -8,7 +8,7 @@
 ### Verkefnalýsing
 Markmið verkefnis er að þjálfast í málfræði og skrifa JavaScript kóða sem skilar sér í meðalstóru verkefni. <br>
 
-Búðu til þína eign útgáfu af símaleik sem byggir á [Asteroids](https://en.wikipedia.org/wiki/Asteroids_(video_game)) fmeð JavaScript og Canvas API sem er spilanlegur í vafra. Kóðinn þarf að vera þinn eigin (ekki tutorial). JavaScript söfn eru **ekki** leyfð.
+Búðu til þína eign útgáfu af símaleik sem byggir á [Asteroids](https://en.wikipedia.org/wiki/Asteroids_(video_game)) með JavaScript og Canvas API sem er spilanlegur í vafra. Kóðinn þarf að vera þinn eigin (ekki tutorial). JavaScript söfn eru **ekki** leyfð.
 
 Leikurinn þarf að uppfylla eftirfarandi:
 
