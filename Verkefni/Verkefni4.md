@@ -26,7 +26,8 @@ Leikurinn þarf að uppfylla eftirfarandi:
 
 ### Námsmat og skil	
 
-* Verkefnið er metið útfrá vinnuframlagi, málfræðinotkun og ofangreindum atriðum. Gefið er fullt fyrir fullnægjandi útfærslu, hálft ef hún er ábótavant.
+* Verkefnið er metið útfrá vinnuframlagi í tíma, málfræðinotkun og ofangreindum atriðum. 
+* Gefið er fullt fyrir fullnægjandi útfærslu, hálft ef hún er ábótavant.
 * Skilaðu á Innu HTML skrá sem inniheldur CSS og JavaScript.
 * Skrifaðu íslenskar athugasemdir með kóða sem útskýrir nánar virkni.
 
