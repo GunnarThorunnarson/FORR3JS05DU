@@ -17,8 +17,8 @@ Leikurinn þarf að uppfylla eftirfarandi:
 1. (30%) Leikjastjórnun.
    - Hægt er að stýra og skjóta geimflaug með swipe og taps, sjá [Touch Events](https://developer.mozilla.org/en-US/docs/Web/API/Touch_events). 
 1. (30%) Árekstur.
-   - Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar loftsteinn rekst á geimflaug.
-   - Geimflaug safnar stigum með að skjóta á loftsteina sem minnka og breyta um lögun.
+   - Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar loftsteinn rekst á geimflaug, Game over.
+   - Geimflaug safnar stigum með að skjóta eða fljúga á á loftsteina sem þá minnka og breyta um lögun.
 1. (10%) Start og Game Over: Skorteljari og takki til að spila aftur leik.
 
 
