@@ -29,6 +29,6 @@ Leikurinn þarf að uppfylla eftirfarandi:
 * Verkefnið er metið útfrá vinnuframlagi í tíma, málfræðinotkun og ofangreindum atriðum. 
 * Gefið er fullt fyrir fullnægjandi útfærslu, hálft ef hún er ábótavant.
 * Skilaðu á Innu HTML skrá sem inniheldur CSS og JavaScript.
-* Skrifaðu íslenskar athugasemdir með kóða sem útskýrir nánar virkni.
+* Skrifaðu íslenskar athugasemdir með kóða eftir þörfum sem virkni.
 
  
