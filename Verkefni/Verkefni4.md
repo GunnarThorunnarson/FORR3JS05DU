@@ -15,7 +15,7 @@ Leikurinn þarf að uppfylla eftirfarandi:
 1. (10%) Umhverfi og uppsetning í [fullscreen](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
 1. (20%) Leikjahlutir (geimflaug, loftsteinar) eru með mismunandi lögun, útlit og hreyfingar. Notaðu Class.
 1. (30%) Leikjastjórnun.
-   - Hægt er að stýra og skjóta geimflaug með swipe og taps, sjá [Touch Events](https://developer.mozilla.org/en-US/docs/Web/API/Touch_events). 
+   - Hægt er að stýra (og skjóta) geimflaug með swipe og taps, sjá [Touch Events](https://developer.mozilla.org/en-US/docs/Web/API/Touch_events). 
 1. (30%) Árekstur.
    - Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar loftsteinn rekst á geimflaug, Game over.
    - Geimflaug safnar stigum með að skjóta eða fljúga á á loftsteina sem þá minnka og breyta um lögun.
