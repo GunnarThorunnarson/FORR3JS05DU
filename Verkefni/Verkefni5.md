@@ -25,16 +25,18 @@ Búðu til síu (e. filter) sem með notkun [HTML Range slider](https://develope
 
 1. Búðu til notendavænan e. range slider sem getur unnið með inntaksgildi, sjá td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
 1. Slider sýnir verð við notkun á slider. 
-1. Slider er með range upphafsstöðurnar lægsta og hæsta verð útfrá gögnum.
+1. Slider er með range upphafsstöðurnar lægsta og hæsta verð útfrá gögnum sem eru sýnileg.
 
 
 ---
 
 #### 3. Síun með Dynamic Range Slider (15%)
 
-1. Búðu til síu (e. filter) sem tengir myndagögn (ljósmynd, heiti, höfund) við slider gildi, sjá [Síun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun)
+1. Búðu til síu (e. filter) sem tengir myndagögn (objecta) við slider gildi, sjá [Síun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun)
 1. Notandi á að geta með gagnvirkum hætti stýrt slider sem síar út myndagögn eftir verði.  
-1. Myndir birtast síuð, röðuð eftir verði (lágt til hátt).
+1. myndagögn eru síuð, og röðuð eftir verði (lágt til hátt). 
+
+**Ath** Það er duga á þessu stigi að sýna síuð gögn í `console.log`.
 
 <!-- 
 Valkvæmt: tengja step og gögn (verð) saman, [Dynamic step size slider with fill effect | JavaScript
