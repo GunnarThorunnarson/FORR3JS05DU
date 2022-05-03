@@ -69,7 +69,7 @@ Notandi á að geta fundið ákveðna mynd með notkun leitarreits, sjá [sýnid
 
 #### 7. JSON (15%)
 
-1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur. Vistaðu JSON skrá á Github.
+1. Búðu til JSON skrá sem inniheldur gögnin. Notaðu [JsonLint](https://jsonlint.com/) til að kanna villur. 
 1. Gögnin (JSON) eru sótt með [fetch aðferð](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
 1. Gögn eru yfirfærð í viðeigandi gagnaskipan (fylki með objects) í JavaScript.
 
