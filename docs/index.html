@@ -1,13 +1,466 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Verkefni 3</title>
-	<meta charset="utf-8"/>
-	<link rel="stylesheet" type="text/css" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <h1 id="demo">Góðan dag!</h1>
+<body style="margin: 1px;
+padding: 0;
+align-content: center;
+overflow: hidden;">
+    <canvas id="canvas" width="760" height="570"></canvas>
+    <script>
+        //  Asteroids gert af Jón Loga.
 
-<script type="text/javascript" src="app.js"></script>	
+let canvas = document.querySelector('canvas');
+
+let ctx = canvas.getContext('2d');
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+let respawntimer = 360;
+//event listener til að sjá hvort sé að halda inni takka.
+let keys = [];
+
+litur = "green"
+
+//þetta er notað til að skjóta
+document.body.addEventListener("keydown", function(e){
+    keys[e.keyCode] = true;    
+});
+document.body.addEventListener("keyup", function(e){
+    keys[e.keyCode] = false;
+    if(e.keyCode == 32){
+        skot.push(new Skot(skip.angle));
+        console.log(skot)
+    }
+});
+// skjóta með clicki virkar bæði á touchscreen og mús
+document.body.addEventListener("click", e => {
+    
+    skot.push(new Skot(skip.angle));
+
+    console.log(skot)
+})
+// putta controls virkar ekki nema að skjóta beinnt áfram
+    
+document.addEventListener("touchstart", e => {
+    console.log("Start")
+})
+document.addEventListener("touchmove", e => {
+    console.log("Move")
+    console.log(skip.y)
+    if ( skip.y){        
+    }
+})
+document.addEventListener("touchend", e => {
+    console.log("End")
+})
+//fer á stað þegar allt sem er ekki inní functioni er búið að loada
+document.addEventListener('DOMContentLoaded', start);
+function start(){
+    Render()
+}
+// fer í full screen notar browser attriði til að gera það.
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      toggleFullScreen();
+    }
+  }, false);
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
+// constructor af skipi
+// fylgdi soldið eftir https://www.youtube.com/watch?v=HWuU5ly0taA
+  class Skip {
+    constructor(){
+        // 
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
+        
+        this.hradi = 0.5
+        this.snuningshradi = 0.05;
+        
+        this.hrodunX = 0
+        this.hrodunY = 0
+        
+        this.angle = 1.01435;
+        this.radius = 15;
+        
+        this.hreyfing = false;
+        this.lifandi = true;
+        this.lifandiTimer = 0;
+        
+
+        this.strokeColor = litur;
+    }
+    //snýr player í átt sem er kallað á
+    Snuning(s){
+        if (s == "vinstri"){
+            this.angle+= this.snuningshradi *  -0.03;
+            
+        }
+        if (s == "haegri"){
+            this.angle+= this.snuningshradi * 0.03;
+        
+        }
+        
+    }
+    deyja(){
+        this.lifandi=false
+        this.lifandiTimer = 150; //invincibility timer.
+        //ef þú deyrð resetar það positionið í spawn.
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
+        this. angle = 1.01435;
+        this.hrodunX = 0;
+        this.hrodunY = 0;
+    
+        
+
+    }
+    Update(){
+        
+        if (this.lifandi==false){
+            this.lifandiTimer-=1;
+            if(this.lifandiTimer<1){
+                this.lifandi=true;
+            }
+        }
+        
+        // þetta var gert eftir tutorial en ég notaði seinna þennan kóða líka fyrir asteroids og skot
+        let radians = this.angle / Math.PI * 180;
+        if(this.hreyfing){
+            this.hrodunX += Math.cos(radians) * this.hradi;
+            this.hrodunY += Math.sin(radians) * this.hradi;
+        }
+        //gerir þetta teleporter sem færir skipið ef það fer framhjá border.
+        if(this.x < this.radius){
+            this.x = canvas.width;            
+        }
+        if(this.x > canvas.width){
+            this.x = this.radius;
+        }
+        if(this.y < this.radius){
+            this.y = canvas.height;            
+        }
+        if(this.y > canvas.height){
+            this.y = this.radius;
+        }
+        //torque
+        this.hrodunX *= 0.97;
+        this.hrodunY *= 0.97;
+        
+        this.x -= this.hrodunX;
+        this.y -= this.hrodunY
+    }
+    Draw(){
+
+        ctx.strokeStyle = this.strokeColor;
+        //gerir þetta að þrýhyrningi
+        ctx.beginPath();
+        let v = (Math.PI * 2) /3 ;
+        let r = this.angle / Math.PI * 180;
+        for(let i = 0; i<3; i++){
+            ctx.lineTo(this.x - this.radius * Math.cos(v * i + r),
+            this.y - this.radius * Math.sin(v * i + r));
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+
+    }
+}
+
+ 
+//ég notaði smá úr https://www.youtube.com/watch?v=H9CSWMxJx84
+    
+class LoftSteinn {
+
+    constructor(x, y, staerd){
+        this.x = x;
+        this.y = y;
+
+        this.hradi = 2;
+
+        this.hrodunX = 4
+        this.hrodunY = 4
+
+        //þannig loftsteinar líta öðruvísi út;
+        this.munur =  Math.round(Math.random()* 3);
+        this.munur2 =  Math.round(Math.random()* 2);
+        
+
+        this.angle = Math.round(Math.random() * 359 );
+        this.radius = staerd;//stærðinn kemur utan frá.
+        
+        this.strokeColor = litur;
+    }
+    CollisionASteinn(xSkot,ySkot){
+        //skoðar hversu langt frá Steinn er meðan skot og skip.
+        let LangtFra = Math.sqrt(Math.pow(xSkot - this.x, 2) + Math.pow(ySkot - this.y,2))
+
+        //console.log(LangtFra)
+        return LangtFra
+    }
+    Splita(){
+        //ef það er kallað á þetta er hann skotinn og springur í tvennt
+        if (this.radius > 39){
+            steinar.push(new LoftSteinn(this.x,this.y,20));
+            steinar.push(new LoftSteinn(this.x,this.y,20));
+        }
+        else if (this.radius > 19){
+            steinar.push(new LoftSteinn(this.x,this.y,12))
+            steinar.push(new LoftSteinn(this.x,this.y,12))
+            
+        }
+        else if (this.radius <= 19){
+            //eyðist alveg.
+        }
+    }
+    Update(){
+        //nota sama kóða og á skipi til að upfæra position
+        var radians = this.angle / Math.PI * 180;
+        this.x += Math.cos(radians) * this.hradi;
+        this.y += Math.sin(radians) * this.hradi;
+        // virkar einsvo portall.
+        if(this.x < this.radius){
+            this.x = canvas.width;            
+        }
+        if(this.x > canvas.width){
+            this.x = this.radius;
+        }
+        if(this.y < this.radius){
+            this.y = canvas.height;            
+        }
+        if(this.y > canvas.height){
+            this.y = this.radius;
+        }
+    }
+    Draw(){
+        ctx.beginPath();
+        //breytti þrýhyrninga kóða frá áður til að gera steina með mismun.
+        let v = (Math.PI * 2) /(5 + this.munur) ;
+        let r = this.angle / Math.PI * 180;
+        for(let i = 0; i<5+this.munur2; i++){
+            ctx.lineTo(this.x - this.radius * Math.cos(v * i + r),
+            this.y - this.radius * Math.sin(v * i + r));
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+    }
+}
+//notaði það sem ég skrifaði í loftsteinn og skip til að gera þetta
+class Skot {
+    constructor(angle){
+        this.x = skip.x
+        this.y = skip.y
+
+        this.hradi = 6
+        
+        this.hrodunX = Skip.hrodunX
+        this.hrodunY = Skip.hrodunX
+        
+        this.angle = skip.angle; //skotinn skjótast í sömu átt og skip horfir
+        this.radius = 6; //stærðinn
+                
+        this.strokeColor = litur;        
+        this.skotlifespan = 150; //til að skot hverfa eftir soldinn tíma
+    }
+    Update(){
+        this.skotlifespan-=1
+        var radians = this.angle / Math.PI  * 180;
+
+        this.x -= Math.cos(radians) * this.hradi;
+        this.y -= Math.sin(radians) * this.hradi;
+        //portall loop arround kóðinn
+        if(this.x < this.radius){
+            this.x = canvas.width;            
+        }
+        if(this.x > canvas.width){
+            this.x = this.radius;
+        }
+        if(this.y < this.radius){
+            this.y = canvas.height;            
+        }
+        if(this.y > canvas.height){
+            this.y = this.radius;
+        }
+    }
+    Draw(){
+        ctx.strokeStyle = this.strokeColor;     
+        ctx.fillRect(this.x, this.y, this.radius,this.radius)   
+    }
+}
+//setur upp allt sem þarf
+let skip = new Skip();
+let score = 0;
+let lives = 3;
+let steinar = [];
+let skot = [];
+asteroids(4,160)
+
+//þetta þurfti ég að nota tvisvar þannig það er fall
+// þetta er líka gert svipað og https://www.youtube.com/watch?v=H9CSWMxJx84
+function asteroids(hversu,langt){
+
+
+let x, y;
+for (let i = 0; i < hversu; i++){
+    x = Math.round(Math.random() * canvas.width-1) +1;
+    y = Math.round(Math.random() * canvas.height-1) +1;
+    console.log(x,y)
+    rx = canvas.width/2;
+    ry = canvas.height/2;
+    l = langt; // lengd i burtu
+    /*
+    ctx.fillStyle = "red";
+    ctx.fillRect(rx-100,ry-100,200,200)
+*/
+    //minn kóði checkar hvort það er eitthvað ofnálægt player í byrjun
+    if (x > rx- l && x < rx+l && y > ry- l && y < ry+l){
+        console.log(x,"x")
+        console.log(y,"y")
+        if(x-l > rx -l){
+            x+=l;
+        }
+        else if (x< rx+l){x-=l}
+        if(y > ry -l){
+            y+=l;
+        }
+        else if (y< ry+l){y-=l};
+        console.log(x,"new x")
+        console.log(y,"new y")
+        /*
+        ctx.fillStyle = "green"
+        ctx.fillRect(x-2,y-2,4,4)
+        */
+    }
+    
+    steinar.push(new LoftSteinn(x,y,40));
+    console.log(steinar);
+}}
+
+console.log("new Skip")
+function Render(){
+    //canvas til það er hægt að spila.
+    //gerir full screen betra
+    canvas.width = window.innerWidth-2;//-2 fyrir border
+    canvas.height = window.innerHeight-2;
+
+    //gerir asteroid u.þ.b. hverja 12 secondur
+    
+    respawntimer-=1
+    if (respawntimer < 1){
+        respawntimer =360;
+        asteroids(1,280)
+    }
+
+    //notar keys til að snúa hægra og vinstri
+    skip.hreyfing = (keys[87]);
+    if(keys[68]){
+        skip.Snuning("haegri");
+        console.log("haegri")
+    }
+    if(keys[65]){
+        skip.Snuning("vinstri");
+        console.log("vinstri")
+
+    }
+
+    //upfærir bakgrun svo hann hverfur ekki.
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    //upfærir skip
+    skip.Update();
+    skip.Draw();
+    
+    //upfærir öll skot
+    for(let i = 0; i < skot.length; i++){
+        ctx.fillStyle = "white";
+        skot[i].Update();
+        skot[i].Draw();
+        
+    }
+
+    //upfærir alla loftsteina
+    for(let i = 0; i < steinar.length; i++){
+        steinar[i].Update();
+        steinar[i].Draw();
+        
+    }
+
+    //kíkjir á collision og eyðir skoti og loftsteini 
+    for(let i = 0; i < skot.length; i++){
+        for(let j = 0; j < steinar.length; j++){
+            distance=steinar[j].CollisionASteinn(skot[i].x,skot[i].y)
+            //console.log(skot[i].radius,steinar[j].radius)
+            if (skot[i].radius+steinar[j].radius> distance){
+                console.log(i,1)    
+                skot.splice(i,1);
+                steinar[j].Splita();
+                steinar.splice(j,1);
+                score+=10; // hækkar score þegar steinn springur upp
+                break
+            }
+        }}
+
+    //eyðir skotum sem lifa lengur 5 secondur
+    for(let i = 0; i < skot.length; i++){
+        if(skot[i].skotlifespan <0){
+            skot.splice(i,1);
+            
+        }
+    }
+    //ef það verður collision á skipi og loftstein
+    //þá springur loftsteinn og skip er nullsettur og missir eytt líf
+    for(let i = 0; i < steinar.length; i++){
+        distance=steinar[i].CollisionASteinn(skip.x,skip.y)
+        if (skip.lifandi == true){ //skoðar invincibility   
+            if (skip.radius+steinar[i].radius> distance){
+                lives-=1
+                skip.deyja();
+                console.log(lives)
+                steinar[i].Splita();
+                steinar.splice(i,1);
+                navigator.vibrate(200);//ætti að gera vibration í síma
+                //gerði ekki start og endurgera.
+                //en það byrjar samt ef það tapar.
+                if (lives < 1){
+                    //ef enginn líf eru eftir "núllsetur" allt
+                    skip = new Skip;
+                    skot=[]
+                    steinar=[]
+                    asteroids(4,160);
+                    lives = 3;
+                    score = 0;
+                }
+        }}
+    }
+    //texti sem upfærir með score og lífi.
+    ctx.fillStyle = "white";
+    ctx.font = "30px Arial";
+    let lifetext="Lives: " + lives;
+    let scoretext="Score: " + score;
+    ctx.fillText(lifetext, canvas.width-120, 50);
+    ctx.fillText(scoretext, 20, 50);
+
+    //loopar 
+    requestAnimationFrame(Render);
+}
+
+
+
+
+    </script>
 </body>
 </html>
