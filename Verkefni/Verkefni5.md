@@ -48,7 +48,7 @@ Valkvæmt: tengja step og gögn (verð) saman, [Dynamic step size slider with fi
 #### 4. Viðmót (20%)
 1. Notaðu Dom manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
 1. Birtu allar myndir; heiti, höfund og verð í HTML með JavaScript. Notaðu m.a. `div` html stök. Listar (`<ul>` og `<li>`) eru ekki leyfðir.
-1. Notaðu CSS fyrir útlit og framsetningu (layout) td. Flexbox eða CSS Grids.
+1. Notaðu CSS fyrir útlit og framsetningu (layout) td. Flexbox eða CSS Grids. Það má líka nota **CSS** söfn t.d. [Pure CSS](https://purecss.io/)
    
 ---
 
