@@ -1,3 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Verkefni 3.1</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style type="text/css">
+        /*  rammi utan um canvas */
+        canvas { border: 1px solid red; }
+    </style>
+</head>
+<body>
+    <!-- breyttu breidd og hæð -->
+    <canvas id="canvas" width="400" height="400"></canvas> 
+    
+    <script>
+      
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var raf;  // game loop
@@ -45,3 +62,7 @@ canvas.addEventListener('mouseout', function(e) {
 });
 
 // ball.draw();  // upphafskeyrslan (oftast kallað init() )
+
+    </script> 
+</body>
+</html>
