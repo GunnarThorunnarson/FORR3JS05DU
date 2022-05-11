@@ -63,7 +63,7 @@ Notandi á að geta fundið ákveðna mynd með notkun leitarreits, sjá [sýnid
 #### 6. Dagatal (15%)
 
 1. Notandi á að geta síað út ljósmyndir útfrá dagsetningu með GUI dagatali (date picker). Sjá nánar [input type="date"](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date) og [Date object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date).
-1. Notandi á að geta síað út ljósmyndir útfrá tímabili. 
+1. Notandi á að geta síað út ljósmyndir útfrá tímabili, [sýnidæmi](https://stackblitz.com/edit/typescript-mpgufu?file=index.ts).
 
 ---
 
