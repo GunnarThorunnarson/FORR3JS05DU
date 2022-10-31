@@ -16,7 +16,6 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
-
 // object
 let ball = {
   x: 100,
@@ -36,14 +35,14 @@ let ball = {
 
 // Game loop 
 function init() {
-  ctx.clearRect(0,0, canvas.width, canvas.height);
-  ball.draw();
-  ball.x += ball.vx;
-  ball.y += ball.vy;
-  window.requestAnimationFrame(draw);  // endurkvæmt (recursive) kall á  draw fall.
+  ctx.clearRect(0,0, canvas.width, canvas.height); // hreinsa skjá. 
+  ball.draw();          
+  ball.x += ball.vx;   // uppfæra staðsetningu á bolta
+  ball.y += ball.vy;   // uppfæra staðsetningu á bolta 
+  window.requestAnimationFrame(init);  // endurkvæmt (recursive) kall á init fall.
 }
-
-init();  // upphafskeyrslan 
+init();  // upphafskeyrsla
+    
 </script> 
 </body>
 </html>
