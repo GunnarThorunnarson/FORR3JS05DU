@@ -1,1 +1,0 @@
-### Verkefnin í JavaScript
