@@ -1,5 +1,5 @@
 ## Gagnvirkar æfingar 
-Undirbúningur fyrir próf 1 í málfræði. 
+Undirbúningur fyrir próf 1 (málfræði). 
 
 Stofnaðu reikning (notaðu nafn + ártal sem notendanafn) í [freeCodeCamp](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/) og haltu utan um framvinduna þína. <br>
 Gerðu eftirfarandi **111** gagnvirkar æfingar úr  _Introduction to JavaScript (100 æfingar)_ og _Introduction to the ES6 Challenges (11 æfingar)_:
