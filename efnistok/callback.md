@@ -19,7 +19,6 @@ JavaScript er synchronous (línu fyrir línu) og e. **non-block** sem þýðir a
 
 ```javascript
 // Dæmi um non- blocking-style kóða:
-
 a(b)
 c
 ```
@@ -36,8 +35,7 @@ Callback er fall sem er sent inn sem e. parameter (færibreyta) til annars falls
 Venjulega þá eru effectar keyrðir á sama tíma.  En hvað ef við viljum það ekki.
 
 ```javascript
-// Dæmi:
-
+// jQuery dæmi:
 $('#photo').fadeIn(10000);
 $('h2').fadeOut('slow');  
 ```
@@ -46,22 +44,18 @@ fadeIn() fer fyrst af stað og stendur yfir í 10 sekúndur. Vafrinn mun ekki hi
 
 **chain function** gæti verið lausn í einhverjum tilfellum en aðeins ef við erum að vinna með sama selector.
 
-	
 ```javascript
-// Dæmi:	
-
+// jQuery dæmi:	
 $('#photo').fadeIn(10000).fadeOut('slow');
 ```
 En það á ekki við í þessu tilfelli þar sem við erum með tvo sitthvora selectora (#photo og h2).
 Til að leysa þetta dæmi þá þurfum við að nota callback.
 
-
 Callback er kóði sem er keyrður eftir að effect hefur klárað það sem honum var ætlað að gera.  
 Callback er þá sendur sem annar eða þriðji parameter sem nafnlaust fall.
 
-
-Einfalt sýnidæmi: 
 ```javascript
+// jQuery dæmi:
 $('#element').fadeIn('slow', fucntion() {
 	// callback function
 });
