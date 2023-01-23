@@ -1,5 +1,4 @@
 ## Verkefni 1
-- Leikur 
 - 25% af heildareinkunn
 
 ### Verkefnalýsing
