@@ -44,6 +44,7 @@ Til að prófa leikinn í **síma**:
 
  
  <br>
+ 
 _Það er einnig í boði að vinna með [P5.js](https://p5js.org/) safnið og aðra skynjara t.d. [orientation](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) og gravity með samþykki kennara_
 
 ---
