@@ -4,7 +4,7 @@
 ### Verkefnalýsing
 Búðu til eigin útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) með Canvas sem er spilanlegur í chrome vafra í Android síma. Það er ekki í boði að skila inn lausn með tilemaps útfærslu og kóðinn þarf að vera þinn eigin (**ekki** tutorial). <br>
 
-Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](https://developer.chrome.com/docs/devtools/device-mode/#type), sjá CSS stillingar [myndband](https://youtu.be/D74Z_0I0CUk?t=286) til að prófa leikjavirkni í **tölvu**.<br>
+Notaðu [Device mode](https://developer.chrome.com/docs/devtools/device-mode/#type) í Developer tools í vafra, sjá einnig [CSS stillingar](https://youtu.be/D74Z_0I0CUk?t=286) til að prófa leikjavirkni í **tölvu**.<br>
 Til að prófa leikinn í **síma**:
 1. Hægt er að láta Github hýsa kóðann og nota Git (push/pull), public, pínu slow update   
 1. Live Server extension í VSCode: [How to use VS Code Live Server Local Host on Mobile phone](https://medium.com/@pavankapoor31/how-to-use-vs-code-live-server-local-host-on-mobile-phone-8b38a62117d2), sími og tölva þurfa bæði að vera á sama private network
@@ -22,11 +22,11 @@ Til að prófa leikinn í **síma**:
    - [ ] Pac-Man dots dreift um skjáinn. 
    - [ ] Hindranir, frjáls útfærsla, tilemaps er ekki í boði.
 1. Leikjastjórnun. (**25%**)
-   - [ ] Hægt er að stýra Pac-Man í allar áttir (N,S,V,A,NA,NV,SV,SA) með lyklaborði.
+   - [ ] Hægt er að stýra Pac-Man í allar áttir (N,S,V,A,NA,NV,SV,SA) með lyklaborði. 
    - [ ] Pac-Man á ekki að geta komist út fyrir jaðar á canvas. 
-   - [ ] Munnur færist í þá átt sem Pac-Man er stýrt.
+   - [ ] Munnur færist í þá átt sem Pac-Man er stýrt. 
    - [ ] Hægt er að stýra Pac-Man í allar áttir með touch. 
-   - [ ] Útfærðu swipe fyrir Pac-Man, lengra swipe skilar meiri hröðun.
+   - [ ] Útfærðu swipe fyrir Pac-Man, lengra swipe skilar meiri hröðun. 
 1. Árekstur við leikjahluti. (**25%**)
    - [ ] Þegar Pac-Man safnar Pac-Man dots þá hækkar stigateljari.
    - [ ] Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar Pac-Man safnar Pac-Man dots. _vibration virkar ekki í Iphone_
