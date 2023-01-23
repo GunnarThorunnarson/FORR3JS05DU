@@ -48,7 +48,7 @@ _Það er einnig í boði að vinna með [P5.js](https://p5js.org/) safnið, [de
 
 ### Námsmat og skil	
 
-* Gefið er fullt fyrir fullnægjandi útfærslu, hálft ef hún er ábótavant.
+* Fyrir hvern lið; fullt fyrir fullnægjandi útfærslu, 3/4 ef smávægilega ábótavant, 2/4 ef ábótavant, ekkert ef stórlega ábótavant.
 * Skilaðu á Innu HTML skrá sem inniheldur CSS og JavaScript.
 
  
