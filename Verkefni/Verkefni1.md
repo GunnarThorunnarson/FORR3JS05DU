@@ -2,7 +2,7 @@
 - 25% af heildareinkunn
 
 ### Verkefnalýsing
-Búðu til eigin útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) sem er spilanlegur í chrome vafra í **Android síma**. Notaðu Canvas eða [P5.js](https://p5js.org/). Það er ekki í boði að skila inn lausn með tilemaps útfærslu og kóðinn þarf að vera þinn eigin (**ekki** tutorial). <br>
+Búðu til eigin útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) með Canvas sem er spilanlegur í chrome vafra í **Android síma**. Það er ekki í boði að skila inn lausn með tilemaps útfærslu og kóðinn þarf að vera þinn eigin (**ekki** tutorial). <br>
 
 Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](https://developer.chrome.com/docs/devtools/device-mode/#type), sjá CSS stillingar [myndband](https://youtu.be/D74Z_0I0CUk?t=286) til að prófa leikjavirkni í **tölvu**.<br>
 Til að prófa leikinn í **síma**:
@@ -42,7 +42,7 @@ Til að prófa leikinn í **síma**:
    - [ ] leikjaspilun er stillt fyrir landslagsstillingu (landscape) í síma. Sjá t.d. [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Orientation_API),  [Window: resize event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event) og [sýnidæmi](https://youtu.be/vxljFhP2krI?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=1272)
 
  
-_Það er einnig í boði að nota orientation og [devicemotion](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicemotion_event), [sýnidæmi](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) í leikjastjórnun og vinna með gravity með samþykki kennara_
+_Það er einnig í boði að vinna með [P5.js](https://p5js.org/) safnið, [devicemotion](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicemotion_event), [sýnidæmi](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) í leikjastjórnun og vinna með gravity með samþykki kennara_
 
 ---
 
