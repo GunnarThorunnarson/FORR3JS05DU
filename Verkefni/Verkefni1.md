@@ -28,8 +28,8 @@ Til að prófa leikinn í **síma**:
    - [ ] Útfærðu swipe fyrir Pac-Man, lengra swipe skilar meiri hröðun. 
 1. Árekstur við leikjahluti. (**25%**)
    - [ ] Þegar Pac-Man safnar Pac-Man dots þá hækkar stigateljari.
-   - [ ] Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar Pac-Man safnar Pac-Man dots. _vibration virkar ekki í Iphone_
    - [ ] Þegar ghost rekst á Pac-Man þá missir Pac-Man líf.
+   - [ ] Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar Pac-Man missir líf. _vibration virkar ekki í Iphone_
    - [ ] Þegar Pac-Man nær Power Pellet þá breyta ghosts um lit í smá tíma, á þeim tíma getu PacMan drepið þá og fengið stig. Ghosts sem Pac-Man drepur birtast aftur á skjá.
 1. Start og Game Over (**20%**)
    - [ ] Leið (t.d. touch) til að byrja leik. 
