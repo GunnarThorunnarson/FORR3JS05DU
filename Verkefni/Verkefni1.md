@@ -23,7 +23,7 @@ Til að prófa leikinn í **síma**:
 1. Leikjastjórnun. (**25%**)
    - [ ] Hægt er að stýra Pac-Man í allar áttir (N,S,V,A,NA,NV,SV,SA) með lyklaborði. 
    - [ ] Pac-Man á ekki að geta komist út fyrir jaðar á canvas. 
-   - [ ] Munnur færist í þá átt sem Pac-Man er stýrt. 
+   - [ ] Munnur færist í þá átt (N,S,V,A) sem Pac-Man er stýrt. 
    - [ ] Hægt er að stýra Pac-Man í allar áttir með touch. 
    - [ ] Útfærðu swipe fyrir Pac-Man, lengra swipe skilar meiri hröðun. 
 1. Árekstur við leikjahluti. (**25%**)
