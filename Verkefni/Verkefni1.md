@@ -39,9 +39,8 @@ Til að prófa leikinn í **síma**:
 1. Skjárinn (**10%**)
    - [ ] Leikur fyllir skjáinn í símanum. [Creating and resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166). [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786). 
    - [ ] leikjaspilun er stillt fyrir landslagsstillingu (landscape) í síma. Sjá t.d. [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Orientation_API),  [Window: resize event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event) og [sýnidæmi](https://youtu.be/vxljFhP2krI?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=1272)
-
  
- <br>
+<br>
  
 _Það er einnig í boði að vinna með [P5.js](https://p5js.org/) safnið og aðra skynjara t.d. [orientation](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) og gravity með samþykki kennara_
 
@@ -49,7 +48,14 @@ _Það er einnig í boði að vinna með [P5.js](https://p5js.org/) safnið og a
 
 ### Námsmat og skil	
 
-* Fyrir hvern lið; fullt fyrir fullnægjandi útfærslu, 3/4 ef smávægilega ábótavant, hálft ef ábótavant, ekkert ef stórlega ábótavant.
-* Skilaðu á Innu HTML skrá sem inniheldur CSS og JavaScript.
+Fyrir hvern verkþátt sem er útfærður (leikjahlutir, leikjastjórnu, árekstur, start/game over, skjárinn):
+
+   - 4/4 allt útfært með fullnægjandi hætti. 
+   - 3/4 flest allt útfært, smávægilega ábótavant.
+   - 2/4 ábótavant, helmingur af veigameiri liðum útfærðir. 
+   - 1/4 lítil virkni.
+   - 0/4 vantar eða allt stórlega ábótavant.
+
+Skilaðu á Innu HTML skrá sem inniheldur CSS og JavaScript.
 
  
