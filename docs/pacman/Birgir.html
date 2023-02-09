@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+    <style>
+        *{
+            background: black;
+            overflow: hidden;
+        }
+        #canvas{
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="100%" height="100%"></canvas>
+    <script>
+        class Pacman {
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                this.radius = 25;
+                this.angle = Math.PI/180;
+                this.x = this.canvas.width/2;
+                this.y = this.canvas.height/2;
+                this.speed = 5;
+                this.direction = "right";
+                this.angleMultiplyStart = 10;
+                this.angleMultiplyEnd = 350;
+                this.eyeX = 0;
+                this.eyeY = 15;
+                this.mouth = 0;
+                this.mouthDir = "up";
+                this.lif = 3;
+                this.cantMoveAgain = false;
+                this.keys = {
+                    w: false,
+                    a: false,
+                    s: false,
+                    d: false
+                };
+                window.addEventListener("keydown", this.keyDownHandler.bind(this));
+                window.addEventListener("keyup", this.keyUpHandler.bind(this));
+                this.canvas.addEventListener("touchstart", this.handleTouchStart.bind(this));
+                this.canvas.addEventListener("touchmove", this.handleTouchMove.bind(this));
+                this.movePacman();
+            }
+
+            keyDownHandler(event) {
+                this.keys[event.key] = true;
+            }
+
+            keyUpHandler(event) {
+                this.keys[event.key] = false;
+            }
+
+            handleTouchStart(event) {
+                this.targetX = event.touches[0].clientX;
+                this.targetY = event.touches[0].clientY;
+                this.startMoving();
+            }
+
+            handleTouchMove(event) {
+                this.targetX = event.touches[0].clientX;
+                this.targetY = event.touches[0].clientY;
+            }
+
+            startMoving() {
+                if(this.cantMoveAgain === true)return;
+                else{}
+                if (this.moving) return;
+                this.moving = true;
+                if(this.targetX < this.x){
+                    this.direction = "left";
+                    this.angleMultiplyStart = 190;
+                    this.angleMultiplyEnd = 170;
+                    this.eyeX = 0;
+                    this.eyeY = 15;
+                }
+                else{
+                    this.direction = "right";
+                    this.angleMultiplyStart = 10;
+                    this.angleMultiplyEnd = 350;
+                    this.eyeX = 0;
+                    this.eyeY = 15;
+                }
+                this.moveTowardsTarget();
+            }
+
+            stopMoving() {
+                this.moving = false;
+            }
+
+            moveTowardsTarget() {
+                if (!this.moving) return;
+
+                const xDiff = this.targetX - this.x;
+                const yDiff = this.targetY - this.y;
+                const distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+
+                if (distance > this.speed) {
+                    this.x += (xDiff / distance) * this.speed;
+                    this.y += (yDiff / distance) * this.speed;
+                    this.drawPacman();
+                    requestAnimationFrame(() => this.moveTowardsTarget());
+                } else {
+                    this.x = this.targetX;
+                    this.y = this.targetY;
+                    this.stopMoving();
+                }
+            }
+
+            movePacman() {
+                this.ctx.clearRect(this.x-50, this.y-50, 100, 100);
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                if (this.keys["w"] == true) {
+                    //console.log("hello");
+                    this.direction = "up";
+                    this.angleMultiplyStart = 280;
+                    this.angleMultiplyEnd = 260;
+                    this.eyeX = -15;
+                    this.eyeY = 0;
+                    if (this.y-25 <= 0){}
+                    else{
+                        this.y -= this.speed;
+                    }
+                }
+                if (this.keys["a"] == true) {
+                    this.direction = "left";
+                    this.angleMultiplyStart = 190;
+                    this.angleMultiplyEnd = 170;
+                    this.eyeX = 0;
+                    this.eyeY = 15;
+                    if (this.x-25 <= 0){}
+                    else{
+                        this.x -= this.speed;
+                    }
+                }
+                if (this.keys["s"] == true) {
+                    this.direction = "down";
+                    this.angleMultiplyStart = 100;
+                    this.angleMultiplyEnd = 80;
+                    this.eyeX = -15;
+                    this.eyeY = 0;
+                    if (this.y+40 >= this.canvas.height){}
+                    else{
+                        this.y += this.speed;
+                    }
+                }
+                if (this.keys["d"] == true) {
+                    this.direction = "right";
+                    this.angleMultiplyStart = 10;
+                    this.angleMultiplyEnd = 350;
+                    this.eyeX = 0;
+                    this.eyeY = 15;
+                    if (this.x+32 >= this.canvas.width){}
+                    else{
+                        this.x += this.speed;
+                    }
+                }
+
+                if(this.mouth == 30){
+                    this.mouthDir = "down";
+                }
+                if(this.mouth == 0){
+                    this.mouthDir = "up";
+                }
+                if(this.mouthDir == "down"){
+                    this.mouth--;
+                }
+                if(this.mouthDir == "up"){
+                    this.mouth++;
+                }
+            }
+            drawPacman(){
+                this.ctx.beginPath();
+                this.ctx.fillStyle = "#FFD800";
+                this.ctx.arc(this.x, this.y, this.radius, this.angle*(this.angleMultiplyStart+this.mouth), this.angle*(this.angleMultiplyEnd-this.mouth));
+                this.ctx.lineTo(this.x, this.y);
+                this.ctx.closePath();
+                this.ctx.fill();
+
+                this.ctx.beginPath();
+                this.ctx.fillStyle = "black";
+                this.ctx.arc(this.x - this.eyeX, this.y-this.eyeY, 5, 0, (Math.PI/180)*360);
+                this.ctx.fill();
+            }
+        }
+        class Ghost {
+            constructor(ghostColor,spawnX,spawnY,speed,direction,isDevourable){
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.img = new Image();
+                this.img.src = "https://i.ibb.co/n89rjx0/ghosts3.png";
+                //this.img.src = "ghosts3.png";
+                this.moveGhost();
+                this.frameWidth = 223.5;
+                this.frameHeight = 279.5;
+                this.ghostColor = ghostColor;
+                this.defaultColor = "notblue";
+                this.row = 1;
+                this.column = 0;
+                this.x = spawnX;
+                this.y = spawnY;
+                this.speed = speed;
+                this.dx = 1;
+                this.dy = 1;
+                this.isDevourable = isDevourable;
+                this.direction = direction;
+                this.hasTakenDamage = false;
+                if(this.direction === "left"){
+                    this.dx *= -1;
+                    this.dy *= -1;
+                }
+            }
+            
+            moveGhost(){
+                if(this.defaultColor !== "blue"){
+                    switch(this.ghostColor){
+                        case "pink":
+                            this.row = 0;
+                            this.column = 0;
+                            break;
+                        case "blue":
+                            this.row = 1;
+                            this.column = 1;
+                            break;
+                        case "orange":
+                            this.row = 1;
+                            this.column = 0;
+                            break;
+                        case "red":
+                            this.row = 0;
+                            this.column = 1;
+                            break;
+                    }
+                }
+                else{
+                    this.row = 1;
+                    this.column = 1;
+                }
+
+                this.x += this.dx * this.speed;
+                this.y += this.dy * this.speed;
+
+ 
+                if (this.x + 170 >= this.canvas.width || this.x -70 <= 0) {
+                    this.dx *= -1;
+                }
+                if (this.y + 170 >= this.canvas.height || this.y -70 <= 0) {
+                    this.dy *= -1;
+                }
+                this.ctx.imageSmoothingEnabled = true;
+                this.ctx.imageSmoothingQuality = 'high';
+                this.ctx.drawImage(this.img, this.column*this.frameWidth, this.row*this.frameHeight, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth-125, this.frameHeight-175);
+            }
+            checkCollision(otherObject,ghostsArray,pellets) {
+                let ghostHitbox = {
+                    x: this.x + 20,
+                    y: this.y + 25,
+                    width: 60,
+                    height: 50
+                };
+                let otherHitbox = {
+                    x: otherObject.x - 20,
+                    y: otherObject.y - 25,
+                    width: 40,
+                    height: 50
+                };
+                //þessar línur birta hitboxin
+                // this.ctx.strokeStyle = "white";
+                // this.ctx.rect(ghostHitbox.x, ghostHitbox.y, ghostHitbox.width, ghostHitbox.height);
+                // this.ctx.rect(otherHitbox.x, otherHitbox.y, otherHitbox.width, otherHitbox.height);
+                // this.ctx.stroke();
+
+                if (ghostHitbox.x < otherHitbox.x + otherHitbox.width &&
+                    ghostHitbox.x + ghostHitbox.width > otherHitbox.x &&
+                    ghostHitbox.y < otherHitbox.y + otherHitbox.height &&
+                    ghostHitbox.height + ghostHitbox.y > otherHitbox.y) {
+                    console.log("Collision detected!");
+                    if (this.isDevourable === true){
+                        ghostsArray = ghostsArray.filter(item => item !== this);
+                        pellets.score += 20;
+                        return ghostsArray;
+                    }
+                    else{
+                        if(this.hasTakenDamage === false){
+                            otherObject.lif -= 1;
+                            navigator.vibrate(200);
+                            this.hasTakenDamage = true;
+                            setTimeout(() => {
+                                this.hasTakenDamage = false;
+                            },2000);
+                        }
+                    }
+                }
+                return ghostsArray;
+            }
+        }
+        class Pellet{
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                this.randomDirections = [];
+                this.score = 0;
+            }
+
+            drawPellet(x, y) {
+                this.ctx.fillStyle = "white";
+
+                this.ctx.beginPath();
+                this.ctx.arc(x, y, 5, 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+
+            drawPelletMaze(pelletCoordinates) {
+                for (let i = 0; i < pelletCoordinates.length; i++) {
+                    let x = pelletCoordinates[i][0];
+                    let y = pelletCoordinates[i][1];
+
+                    this.drawPellet(x, y);
+                }
+            }
+            detectCollision(otherObject) {
+                let otherHitbox = {
+                    x: otherObject.x - 30,
+                    y: otherObject.y - 30,
+                    width: 60,
+                    height: 60
+                };
+
+                for (let i = 0; i < pelletCoordinates.length; i++) {
+                    let pelletX = pelletCoordinates[i][0];
+                    let pelletY = pelletCoordinates[i][1];
+                    let pelletHitbox = {
+                        x: pelletX - 5,
+                        y: pelletY -5,
+                        width: 10,
+                        height: 10
+                    };
+
+                    // this.ctx.beginPath();
+                    // this.ctx.strokeStyle = "red";
+                    // this.ctx.rect(pelletHitbox.x, pelletHitbox.y, pelletHitbox.width, pelletHitbox.height);
+                    // this.ctx.rect(otherHitbox.x, otherHitbox.y, otherHitbox.width, otherHitbox.height);
+                    // this.ctx.stroke();
+
+                    if (pelletHitbox.x < otherHitbox.x + otherHitbox.width &&
+                    pelletHitbox.x + pelletHitbox.width > otherHitbox.x &&
+                    pelletHitbox.y < otherHitbox.y + otherHitbox.height &&
+                    pelletHitbox.height + pelletHitbox.y > otherHitbox.y) {
+                        //console.log("Collision detected!");
+                        pelletCoordinates.splice(i, 1);
+                        this.score += 1;
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        class Obstacle {
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                this.obstacleCoordinates = [];
+            }
+
+            drawObstacle(x, y, width, height) {
+                this.ctx.fillStyle = "blue";
+
+                this.ctx.fillRect(x, y, width, height);
+            }
+
+            drawObstacleMaze() {
+                let indicesToRemove = [];
+                for (let i = 0; i < this.obstacleCoordinates.length; i++) {
+                    let obstacleX = this.obstacleCoordinates[i][0];
+                    let obstacleY = this.obstacleCoordinates[i][1];
+                    let obstacleWidth = this.obstacleCoordinates[i][2];
+                    let obstacleHeight = this.obstacleCoordinates[i][3];
+
+                    for (let j = 0; j < pelletCoordinates.length; j++) {
+                    let pelletX = pelletCoordinates[j][0];
+                    let pelletY = pelletCoordinates[j][1];
+                    let pelletHitbox = {
+                        x: pelletX - 5,
+                        y: pelletY - 5,
+                        width: 10,
+                        height: 10
+                    };
+
+                    if (pelletHitbox.x < obstacleX + obstacleWidth &&
+                        pelletHitbox.x + pelletHitbox.width > obstacleX &&
+                        pelletHitbox.y < obstacleY + obstacleHeight &&
+                        pelletHitbox.y + pelletHitbox.height > obstacleY) {
+                        indicesToRemove.push(i);
+                        break;
+                    }
+                    }
+                    this.drawObstacle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
+                }
+
+                for (let i = indicesToRemove.length - 1; i >= 0; i--) {
+                    this.obstacleCoordinates.splice(indicesToRemove[i], 1);
+                }
+            }
+
+
+            generateObstacleCoordinates(pelletCoordinates,otherObject) {
+                let otherHitbox = {
+                    x: otherObject.x - 20,
+                    y: otherObject.y - 25,
+                    width: 40,
+                    height: 50
+                };
+                
+                for (let i = 0; i < pelletCoordinates.length; i++) {
+                    let pelletX = pelletCoordinates[i][0];
+                    let pelletY = pelletCoordinates[i][1];
+                    let pelletHitbox = {
+                        x: pelletX - 5,
+                        y: pelletY -5,
+                        width: 10,
+                        height: 10
+                    };
+                    this.ctx.beginPath();
+                    this.ctx.strokeStyle = "red";
+                    this.ctx.rect(pelletHitbox.x, pelletHitbox.y, pelletHitbox.width, pelletHitbox.height);
+                    this.ctx.stroke();
+
+
+                    let obstacleX = pelletX - 50;
+                    let obstacleY = pelletY - 50;
+                    let obstacleWidth = 20;
+                    let obstacleHeight = 20;
+
+                    if (Math.random() > 0.75) {
+                        if(otherHitbox.x < obstacleX + obstacleWidth &&
+                    otherHitbox.x + otherHitbox.width > obstacleX &&
+                    otherHitbox.y < obstacleY + obstacleHeight &&
+                    otherHitbox.y + otherHitbox.height > obstacleY){
+                    }
+                        else if(obstacleX >= this.canvas.width-100 || obstacleX <= 100 || obstacleY >= this.canvas.height-100 || obstacleY <= 100){
+                        }
+                        else{
+                            let x1 = this.canvas.width - 10 - 100;
+                            let y1 = 10 + 100;
+                            let x2 = 10 + 100;
+                            let y2 = this.canvas.height - 10 - 100;
+                            let x3 = this.canvas.width - 10 - 100;
+                            let y3 = this.canvas.height - 10 - 100;
+                            let x4 = 10 + 100;
+                            let y4 = 10 + 100;
+                            let powerPelletsHitbox1 = {
+                                x: x1-40,
+                                y: y1-10,
+                                width: 50,
+                                height: 50
+                            }
+                            let powerPelletsHitbox2 = {
+                                x: x2-10,
+                                y: y2-40,
+                                width: 50,
+                                height: 50
+                            }
+                            let powerPelletsHitbox3 = {
+                                x: x3-40,
+                                y: y3-40,
+                                width: 50,
+                                height: 50
+                            }
+                            let powerPelletsHitbox4 = {
+                                x: x4-10,
+                                y: y4-10,
+                                width: 50,
+                                height: 50
+                            }
+                            if(powerPelletsHitbox1.x < obstacleX + obstacleWidth &&
+                            powerPelletsHitbox1.x + powerPelletsHitbox1.width > obstacleX &&
+                            powerPelletsHitbox1.y < obstacleY + obstacleHeight &&
+                            powerPelletsHitbox1.y + powerPelletsHitbox1.height > obstacleY){
+                            }
+                            else if(powerPelletsHitbox2.x < obstacleX + obstacleWidth &&
+                            powerPelletsHitbox2.x + powerPelletsHitbox2.width > obstacleX &&
+                            powerPelletsHitbox2.y < obstacleY + obstacleHeight &&
+                            powerPelletsHitbox2.y + powerPelletsHitbox2.height > obstacleY){
+                            }
+                            else if(powerPelletsHitbox3.x < obstacleX + obstacleWidth &&
+                            powerPelletsHitbox3.x + powerPelletsHitbox3.width > obstacleX &&
+                            powerPelletsHitbox3.y < obstacleY + obstacleHeight &&
+                            powerPelletsHitbox3.y + powerPelletsHitbox3.height > obstacleY){
+                            }
+                            else if(powerPelletsHitbox4.x < obstacleX + obstacleWidth &&
+                            powerPelletsHitbox4.x + powerPelletsHitbox4.width > obstacleX &&
+                            powerPelletsHitbox4.y < obstacleY + obstacleHeight &&
+                            powerPelletsHitbox4.y + powerPelletsHitbox4.height > obstacleY){
+                            }
+                            else{
+                                this.obstacleCoordinates.push([obstacleX, obstacleY, obstacleWidth, obstacleHeight]); 
+                            }
+                        }}
+                }
+            }
+            detectCollision(otherObject) {
+            let otherHitbox = {
+                    x: otherObject.x - 20,
+                    y: otherObject.y - 23,
+                    width: 40,
+                    height: 50
+            };
+            // this.ctx.beginPath();
+            // this.ctx.strokeStyle = "red";
+            // this.ctx.rect(otherHitbox.x,otherHitbox.y,otherHitbox.width,otherHitbox.height);
+            // this.ctx.stroke();
+
+            for (let i = 0; i < this.obstacleCoordinates.length; i++) {
+                let obstacleX = this.obstacleCoordinates[i][0];
+                let obstacleY = this.obstacleCoordinates[i][1];
+                let obstacleWidth = this.obstacleCoordinates[i][2];
+                let obstacleHeight = this.obstacleCoordinates[i][3];
+
+
+                if (otherHitbox.x < obstacleX + obstacleWidth &&
+                    otherHitbox.x + otherHitbox.width > obstacleX &&
+                    otherHitbox.y < obstacleY + obstacleHeight &&
+                    otherHitbox.y + otherHitbox.height > obstacleY) {
+                    otherObject.stopMoving();
+                    if (otherObject.keys["w"] == true) {
+                        otherObject.y += otherObject.speed;
+                        //otherObject.keys["w"] = false;
+                    }
+                
+                    if (otherObject.keys["a"] == true) {
+                            otherObject.x += otherObject.speed;
+                            //otherObject.keys["a"] = false;
+                        }
+                    
+                    if (otherObject.keys["s"] == true) {
+                            otherObject.y -= otherObject.speed;
+                            //otherObject.keys["s"] = false;
+                        }
+                    if (otherObject.keys["d"] == true) {
+                            otherObject.x -= otherObject.speed;
+                            //otherObject.keys["d"] = false;
+                        }
+                    return true;
+                }
+            }
+            return false;
+            }
+        }
+
+        class ScoreCounter{
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+            }
+            drawText(score){
+                this.ctx.clearRect(50, 50, 25, this.canvas.height-25);
+                this.ctx.font = "30px Arial";
+                this.ctx.fillStyle = "white";
+                this.ctx.fillText("Score: "+score, 25,this.canvas.height-25);
+            }
+        }
+        class Info{
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+            }
+            drawInfo(){
+                this.ctx.clearRect(this.canvas.width/2,this.canvas.height-25, 50 ,50);
+                this.ctx.font = "30px Arial";
+                this.ctx.fillStyle = "white";
+                this.ctx.fillText("Can Eat Ghost = Active", this.canvas.width/2-130,this.canvas.height-25);
+            }
+        }
+
+        class PowerPellets {
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.context = canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                this.radius = 10;
+                this.topleft = true;
+                this.topright = true;
+                this.bottomleft = true;
+                this.bottomright = true;
+                this.isDrawing = true;
+                this.GhostEating = false;
+            }
+
+            draw() {
+                let width = this.canvas.width;
+                let height = this.canvas.height;
+                let x1 = width - this.radius - 100;
+                let y1 = this.radius + 100;
+                let x2 = this.radius + 100;
+                let y2 = height - this.radius - 100;
+                let x3 = width - this.radius - 100;
+                let y3 = height - this.radius - 100;
+                let x4 = this.radius + 100;
+                let y4 = this.radius + 100;
+                if(this.isDrawing === true){
+                    if(this.topright === true){
+                        this.context.beginPath();
+                        this.context.arc(x1, y1, this.radius, 0, 2 * Math.PI);
+                        this.context.fillStyle = "white";
+                        this.context.fill();
+                        this.context.closePath();
+                    }
+                    if(this.bottomleft === true){
+                        this.context.beginPath();
+                        this.context.arc(x2, y2, this.radius, 0, 2 * Math.PI);
+                        this.context.fillStyle = "white";
+                        this.context.fill();
+                        this.context.closePath();
+                    }
+                    if(this.bottomright === true){
+                        this.context.beginPath();
+                        this.context.arc(x3, y3, this.radius, 0, 2 * Math.PI);
+                        this.context.fillStyle = "white";
+                        this.context.fill();
+                        this.context.closePath();
+                    }
+                    if(this.topleft === true){
+                        this.context.beginPath();
+                        this.context.arc(x4, y4, this.radius, 0, 2 * Math.PI);
+                        this.context.fillStyle = "white";
+                        this.context.fill();
+                        this.context.closePath();
+                    }
+                }
+                else{
+                    this.context.clearRect(x1-10,y1-10,20,20);
+                    this.context.clearRect(x2-10,y2-10,20,20);
+                    this.context.clearRect(x3-10,y3-10,20,20);
+                    this.context.clearRect(x4-10,y4-10,20,20);
+                }
+            }
+
+            detectCollision(otherObject,ghosts){
+                let otherHitbox = {
+                    x: otherObject.x - 20,
+                    y: otherObject.y - 23,
+                    width: 40,
+                    height: 50
+                };
+                let x1 = this.canvas.width - 10 - 100;
+                let y1 = 10 + 100;
+                let x2 = 10 + 100;
+                let y2 = this.canvas.height - 10 - 100;
+                let x3 = this.canvas.width - 10 - 100;
+                let y3 = this.canvas.height - 10 - 100;
+                let x4 = 10 + 100;
+                let y4 = 10 + 100;
+                let powerPelletsHitbox1 = {
+                    x: x1-10,
+                    y: y1-10,
+                    width: 20,
+                    height: 20
+                }
+                let powerPelletsHitbox2 = {
+                    x: x2-10,
+                    y: y2-10,
+                    width: 20,
+                    height: 20
+                }
+                let powerPelletsHitbox3 = {
+                    x: x3-10,
+                    y: y3-10,
+                    width: 20,
+                    height: 20
+                }
+                let powerPelletsHitbox4 = {
+                    x: x4-10,
+                    y: y4-10,
+                    width: 20,
+                    height: 20
+                }
+
+                // //þessar línur birta hitboxin
+                // this.context.strokeStyle = "#FFD800";
+                // this.context.rect(powerPelletsHitbox1.x, powerPelletsHitbox1.y, powerPelletsHitbox1.width, powerPelletsHitbox1.height);
+                // this.context.rect(powerPelletsHitbox2.x, powerPelletsHitbox2.y, powerPelletsHitbox2.width, powerPelletsHitbox2.height);
+                // this.context.rect(powerPelletsHitbox3.x, powerPelletsHitbox3.y, powerPelletsHitbox3.width, powerPelletsHitbox3.height);
+                // this.context.rect(powerPelletsHitbox4.x, powerPelletsHitbox4.y, powerPelletsHitbox4.width, powerPelletsHitbox4.height);
+                // this.context.stroke();
+
+                if(powerPelletsHitbox1.x < otherHitbox.x + otherHitbox.width &&
+                powerPelletsHitbox1.x + powerPelletsHitbox1.width > otherHitbox.x &&
+                powerPelletsHitbox1.y < otherHitbox.y + otherHitbox.height &&
+                powerPelletsHitbox1.y + powerPelletsHitbox1.height > otherHitbox.y){
+                    if(this.topright === true){
+                        this.topright = false;
+                        this.GhostEating = true;
+                        for(let i =0; i<ghosts.length;i++){
+                            ghosts[i].isDevourable = true;
+                            // ghosts[i].ghostColor = "blue";
+                            // ghosts[i].defaultColor = "blue";
+                        }
+                        setTimeout(() => {
+                            for(let i =0; i<ghosts.length;i++){
+                                ghosts[i].isDevourable = false;
+                                this.GhostEating = false;
+                                // ghosts[i].ghostColor = ghostColorsArr[i];
+                                // ghosts[i].defaultColor = "notblue";
+                            }
+                    },8000);
+                    //ghostColorsArr = [];
+                    }
+                }
+                else if(powerPelletsHitbox2.x < otherHitbox.x + otherHitbox.width &&
+                powerPelletsHitbox2.x + powerPelletsHitbox2.width > otherHitbox.x &&
+                powerPelletsHitbox2.y < otherHitbox.y + otherHitbox.height &&
+                powerPelletsHitbox2.y + powerPelletsHitbox2.height > otherHitbox.y){
+                    if(this.bottomleft === true){
+                        this.bottomleft = false;
+                        for(let i =0; i<ghosts.length;i++){
+                            ghosts[i].isDevourable = true;
+                            this.GhostEating = true;
+                            // ghosts[i].ghostColor = "blue";
+                            // ghosts[i].defaultColor = "blue";
+                        }
+                        setTimeout(() => {
+                            for(let i =0; i<ghosts.length;i++){
+                                ghosts[i].isDevourable = false;
+                                this.GhostEating = false;
+                                // ghosts[i].ghostColor = ghostColorsArr[i];
+                                // ghosts[i].defaultColor = "notblue";
+                            }
+                    },8000);
+                    //ghostColorsArr = [];
+                    }
+                }
+                else if(powerPelletsHitbox3.x < otherHitbox.x + otherHitbox.width &&
+                powerPelletsHitbox3.x + powerPelletsHitbox3.width > otherHitbox.x &&
+                powerPelletsHitbox3.y < otherHitbox.y + otherHitbox.height &&
+                powerPelletsHitbox3.y + powerPelletsHitbox3.height > otherHitbox.y){
+                    if(this.bottomright === true){
+                        this.bottomright = false;
+                        for(let i =0; i<ghosts.length;i++){
+                            ghosts[i].isDevourable = true;
+                            this.GhostEating = true;
+                            // ghosts[i].ghostColor = "blue";
+                            // ghosts[i].defaultColor = "blue";
+                        }
+                        setTimeout(() => {
+                            for(let i =0; i<ghosts.length;i++){
+                                ghosts[i].isDevourable = false;
+                                this.GhostEating = false;
+                                // ghosts[i].ghostColor = ghostColorsArr[i];
+                                // ghosts[i].defaultColor = "notblue";
+                            }
+                    },8000);
+                    //ghostColorsArr = [];
+                    }
+                }
+                else if(powerPelletsHitbox4.x < otherHitbox.x + otherHitbox.width &&
+                powerPelletsHitbox4.x + powerPelletsHitbox4.width > otherHitbox.x &&
+                powerPelletsHitbox4.y < otherHitbox.y + otherHitbox.height &&
+                powerPelletsHitbox4.y + powerPelletsHitbox4.height > otherHitbox.y){
+                    if(this.topleft === true){
+                        this.topleft = false;
+                        for(let i =0; i<ghosts.length;i++){
+                            ghosts[i].isDevourable = true;
+                            this.GhostEating = true;
+                            // ghosts[i].ghostColor = "blue";
+                            // ghosts[i].defaultColor = "blue";
+                        }
+                        setTimeout(() => {
+                            for(let i =0; i<ghosts.length;i++){
+                                ghosts[i].isDevourable = false;
+                                this.GhostEating = false;
+                                // ghosts[i].ghostColor = ghostColorsArr[i];
+                                // ghosts[i].defaultColor = "notblue";
+                            }
+                    },8000);
+                    //ghostColorsArr = [];
+
+                    }
+                }
+                else{
+                    //this.obstacleCoordinates.push([obstacleX, obstacleY, obstacleWidth, obstacleHeight]);
+                }
+            }
+        }
+
+        class PrentaLif{
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+            }
+            drawLif(lif){
+                this.ctx.clearRect(this.canvas.width-25, this.canvas.height-25, 50, 50);
+                //this.ctx.t
+                this.ctx.font = "30px Arial";
+                this.ctx.fillStyle = "white";
+                this.ctx.fillText("Líf: "+lif, this.canvas.width-100,this.canvas.height-25);
+            }
+        }
+
+        class PrentaHighScore{
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+            }
+            drawHighScore(){
+                let theHighScore = getHighScore();
+                if(theHighScore){
+                    theHighScore = parseInt(theHighScore);
+                }
+                else{
+                    theHighScore = 0;
+                }
+                this.ctx.clearRect(this.canvas.width/2-100,25, 50, 50);
+                //this.ctx.t
+                this.ctx.font = "30px Arial";
+                this.ctx.fillStyle = "white";
+                this.ctx.fillText("High Score: "+theHighScore, this.canvas.width/2-100,50);
+            }
+        }
+
+        class TryAgainButton {
+            constructor() {
+                this.canvas = document.getElementById("canvas");
+                this.ctx = this.canvas.getContext("2d");
+                this.canvas.width = innerWidth;
+                this.canvas.height = innerHeight;
+                this.width = 200;
+                this.height = 50;
+                this.handleClick = this.handleClick.bind(this);
+            }
+
+            draw() {
+                this.x = (this.canvas.width - this.width) / 2;
+                this.y = (this.canvas.height - this.height) / 2;
+                this.ctx.fillStyle = "#00bfff";
+                this.ctx.fillRect(this.x, this.y, this.width, this.height);
+                this.ctx.fillStyle = "#fff";
+                this.ctx.font = "20px Arial";
+                this.ctx.textAlign = "center";
+                this.ctx.textBaseline = "middle";
+                this.ctx.fillText("Reyna aftur", this.x + this.width / 2, this.y + this.height / 2);
+                //cthis.ctx.clearRect(0,0);
+            }
+
+            handleClick(event) {
+                //this.canvas = event.currentTarget;
+                if (event.x > this.x && event.x < this.x + this.width &&
+                    event.y > this.y && event.y < this.y + this.height) {
+                window.location.reload();
+                }
+            }
+            }
+
+            class WinButton {
+                constructor() {
+                    this.canvas = document.getElementById("canvas");
+                    this.ctx = this.canvas.getContext("2d");
+                    this.canvas.width = innerWidth;
+                    this.canvas.height = innerHeight;
+                    this.width = 200;
+                    this.height = 50;
+                    this.handleClick = this.handleClick.bind(this);
+                }
+
+                draw(score) {
+                    this.x = (this.canvas.width - this.width) / 2;
+                    this.y = (this.canvas.height - this.height) / 2;
+                    this.ctx.fillStyle = "#00bfff";
+                    this.ctx.fillRect(this.x, this.y, this.width, this.height);
+                    this.ctx.fillStyle = "#fff";
+                    this.ctx.font = "20px Arial";
+                    this.ctx.textAlign = "center";
+                    this.ctx.textBaseline = "middle";
+                    this.ctx.fillText("Reyna aftur", this.x + this.width / 2, this.y + this.height / 2);
+                    this.ctx.fillText("Þú vannst! scorið þitt var:" +score, this.x + this.width / 2, this.y + this.height / 2 + -100);
+                    this.ctx.clearRect(this.x, this.y+200, this.width, this.height);
+                    //cthis.ctx.clearRect(0,0);
+                }
+
+                handleClick(event) {
+                    //this.canvas = event.currentTarget;
+                    if (event.x > this.x && event.x < this.x + this.width &&
+                        event.y > this.y && event.y < this.y + this.height) {
+                    window.location.reload();
+                    }
+                }
+            }
+
+        let pacman = new Pacman();
+        let ghosts = [ // new Ghost("red",240,480,8,"right"),
+                    //    new Ghost("blue",10,30,3,"left"),
+                    //    new Ghost("orange",365,777,5,"left"),
+                    //    new Ghost("pink",1300,77,10)
+                    ];
+        let powerPellets = new PowerPellets();
+        let pellets = new Pellet();
+        let obstacles = new Obstacle();
+        let theScore = new ScoreCounter();
+        let theInfo = new Info();
+        let lifin = new PrentaLif();
+        let tryAgainButton = new TryAgainButton();
+        let winButton = new WinButton();
+        let prentaHighScore = new PrentaHighScore();
+
+
+        function animate() {
+            if(pacman.lif > 0){
+                //console.log(pelletCoordinates.length);
+                if(pelletCoordinates.length == 0){
+                    winButton.draw(pellets.score);
+                    window.addEventListener("click", winButton.handleClick);
+                    pacman.stopMoving();
+                    pacman.cantMoveAgain = true;
+                    //console.log("leikur búinn");
+                    //setHighScore(String(pellets.score));
+
+                    let currentScore = pellets.score;
+                    let highScore = getHighScore();
+
+                    if (typeof currentScore === 'number' && typeof highScore === 'string') {
+                    highScore = parseInt(highScore, 10);
+                        if (!isNaN(highScore) && highScore < currentScore) {
+                            setHighScore(String(currentScore));
+                        }
+                    }
+                }
+                else{
+                    pacman.movePacman();
+                    powerPellets.draw();
+                    pellets.detectCollision(pacman);
+                    pellets.drawPelletMaze(pelletCoordinates);
+                    obstacles.drawObstacleMaze();
+                    obstacles.detectCollision(pacman);
+                    pacman.drawPacman();
+                    theScore.drawText(pellets.score);
+                    lifin.drawLif(pacman.lif);
+                    prentaHighScore.drawHighScore();
+                    //pelletEffect(powerPellets,ghosts);
+                    for(let i = 0;i<ghosts.length;i++){
+                        powerPellets.detectCollision(pacman,ghosts);
+                        ghosts[i].moveGhost();
+                        ghosts = ghosts[i].checkCollision(pacman,ghosts,pellets);
+
+                    }
+                    if(powerPellets.GhostEating === true){
+                        theInfo.drawInfo();
+                    }
+                }
+            }
+            else{
+                //console.log("leikur búinn");   
+                tryAgainButton.draw();
+                window.addEventListener("click", tryAgainButton.handleClick);
+                pacman.stopMoving();
+                pacman.cantMoveAgain = true;
+                let currentScore = pellets.score;
+                let highScore = getHighScore();
+
+                if (typeof currentScore === 'number' && typeof highScore === 'string') {
+                highScore = parseInt(highScore, 10);
+                    if (!isNaN(highScore) && highScore < currentScore) {
+                        setHighScore(String(currentScore));
+                    }
+                }
+                //setHighScore(String(pellets.score));
+            }
+            window.requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", (event) => {
+            pelletCoordinates = [];
+            mazeDraw();
+        });
+        window.addEventListener('load', function() {
+            window.requestAnimationFrame(animate);
+            spawnGhosts(powerPellets);
+            mazeDraw();
+            blikka();
+            obstacles.generateObstacleCoordinates(pelletCoordinates,pacman);
+        });
+        
+        let pelletCoordinates = [];
+
+        function mazeDraw(){
+            this.canvas = document.getElementById("canvas");
+            this.ctx = canvas.getContext("2d");
+            this.canvas.width = innerWidth;
+            this.canvas.height = innerHeight;
+            let x1 = this.canvas.width - 10 - 100;
+            let y1 = 10 + 100;
+            let x2 = 10 + 100;
+            let y2 = this.canvas.height - 10 - 100;
+            let x3 = this.canvas.width - 10 - 100;
+            let y3 = this.canvas.height - 10 - 100;
+            let x4 = 10 + 100;
+            let y4 = 10 + 100;
+            let powerPelletsHitbox1 = {
+                x: x1-40,
+                y: y1-10,
+                width: 50,
+                height: 50
+            }
+            let powerPelletsHitbox2 = {
+                x: x2-10,
+                y: y2-40,
+                width: 50,
+                height: 50
+            }
+            let powerPelletsHitbox3 = {
+                x: x3-40,
+                y: y3-40,
+                width: 50,
+                height: 50
+            }
+            let powerPelletsHitbox4 = {
+                x: x4-10,
+                y: y4-10,
+                width: 50,
+                height: 50
+            }
+            let pelletSpacing = 20; // Space between pellets
+            for (let x = 100; x < this.canvas.width-100; x += pelletSpacing) {
+                for (let y = 100; y < this.canvas.height-100; y += pelletSpacing) {
+                    // Randomly decide whether to include this coordinate in the final array
+                    currPelletHitbox = {
+                        x: x,
+                        y: y,
+                        width: 7,
+                        height:7
+                    }
+                    if(powerPelletsHitbox1.x < currPelletHitbox.x + currPelletHitbox.width &&
+                    powerPelletsHitbox1.x + powerPelletsHitbox1.width > currPelletHitbox.x &&
+                    powerPelletsHitbox1.y < currPelletHitbox.y + currPelletHitbox.height &&
+                    powerPelletsHitbox1.y + powerPelletsHitbox1.height > currPelletHitbox.y){
+                        //console.log("halló1");
+                    }
+                    else if(powerPelletsHitbox2.x < currPelletHitbox.x + currPelletHitbox.width &&
+                    powerPelletsHitbox2.x + powerPelletsHitbox2.width > currPelletHitbox.x &&
+                    powerPelletsHitbox2.y < currPelletHitbox.y + currPelletHitbox.height &&
+                    powerPelletsHitbox2.y + powerPelletsHitbox2.height > currPelletHitbox.y){
+                        //console.log("halló2");
+                    }
+                    else if(powerPelletsHitbox3.x < currPelletHitbox.x + currPelletHitbox.width &&
+                    powerPelletsHitbox3.x + powerPelletsHitbox3.width > currPelletHitbox.x &&
+                    powerPelletsHitbox3.y < currPelletHitbox.y + currPelletHitbox.height &&
+                    powerPelletsHitbox3.y + powerPelletsHitbox3.height > currPelletHitbox.y){
+                        //console.log("halló3");
+                    }
+                    else if(powerPelletsHitbox4.x < currPelletHitbox.x + currPelletHitbox.width &&
+                    powerPelletsHitbox4.x + powerPelletsHitbox4.width > currPelletHitbox.x &&
+                    powerPelletsHitbox4.y < currPelletHitbox.y + currPelletHitbox.height &&
+                    powerPelletsHitbox4.y + powerPelletsHitbox4.height > currPelletHitbox.y){
+                        //console.log("halló4");
+                    }
+                    else{
+                        //console.log("halló");
+                        if (Math.random() > 0.95) {
+                            pelletCoordinates.push([x, y]);
+                        }
+                    } 
+                }
+            }
+        }
+
+        function setHighScore(score) {
+            console.log("set")
+            localStorage.setItem("highScore", score);
+        }
+        function getHighScore() {
+            console.log("get")
+            return localStorage.getItem("highScore");
+        }
+
+        function blikka(){
+            setInterval(() => {
+                if(powerPellets.isDrawing === true){
+                    powerPellets.isDrawing = false;
+                }
+                else{
+                    powerPellets.isDrawing = true;
+                }
+            },500)
+        }
+        function spawnGhosts(powerPellets){
+            let counter = 0;
+            let numberOfGhosts = Math.floor(this.canvas.width/200);
+            //console.log(this.canvas.width);
+            let variable = 0;
+            variable+=numberOfGhosts;
+            setInterval(() => { 
+                if(counter < variable){
+                    canvas = document.getElementById("canvas");
+                    ctx = this.canvas.getContext("2d");
+                    let canvasWidth = canvas.width;
+                    let canvasHeight = canvas.height;
+                    let randomX = Math.floor(Math.random() * (canvasWidth - 400) + 200);
+                    let randomY = Math.floor(Math.random() * (canvasHeight - 240) + 70);
+                    let randomSpeed = Math.floor(Math.random() * 3) + 2;
+                    let randomNumberDir = Math.floor(Math.random() * 2) + 1;
+                    let randomNumberColor = Math.floor(Math.random() * 4) + 1;
+                    let direction = "";
+                    let color = "";
+
+                    if(randomNumberDir === 1){
+                        direction = "right";
+                    }
+                    else{
+                        direction = "left";
+                    }
+
+                    switch(randomNumberColor){
+                        case 1:
+                            color = "red";
+                            break;
+                        case 2:
+                            color = "orange";
+                            break;
+                        case 3:
+                            color = "blue";
+                            break;
+                        case 4:
+                            color = "pink";
+                            break;
+                    }
+                    if(powerPellets.GhostEating === false){
+                        for(let i =0; i<ghosts.length;i++){
+                                ghosts[i].isDevourable = false;
+                        }
+                    }
+
+                    if(powerPellets.GhostEating === true){
+                        ghosts.push(new Ghost(color,randomX,randomY,randomSpeed,direction,true));
+                    }
+                    else{
+                        ghosts.push(new Ghost(color,randomX,randomY,randomSpeed,direction,false));
+                    }
+                    counter++;
+                }
+                else{
+                    setInterval(() => {
+                        variable += numberOfGhosts;
+                    },10000)
+                }
+            }, 5000);
+        }
+
+
+        // setTimeout(function(){
+        //     //let pacmanTwo = new Pacman();
+        //  }, 1000);
+    </script>
+    
+</body>
+</html>

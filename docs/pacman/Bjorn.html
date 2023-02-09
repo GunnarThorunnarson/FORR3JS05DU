@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Puck-Man</title>
+    <style>
+        body{
+    background-color: black;
+    text-align: center;
+}
+
+canvas{
+    background: black;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.score{
+    display: inline;
+    font-size: 20px;
+    color: yellow;
+    font-family: Arial;
+    padding-left: 4.143%;
+}
+
+button{
+    color: white;
+    font-family: Arial;
+    font-size: 18px;
+    text-align: center;
+    background-color: red;
+    width: 100px;
+    height: 50px;
+}
+
+#game:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+  }
+  
+
+#full{
+    margin-left: 85%;
+}
+
+    </style>
+</head>
+<body>
+    <p class="score">Highscore: <span id="highscore"></span></p>
+    <p class="score">Score: <span id="score"></span></p>
+
+    <canvas id="canvas" class="canvas"></canvas>
+    <p class="score textCenter">Lives: <span id="lives">3</span></p>
+    <div id="restart"></div>
+    <button id="full">Fullscreen</button>
+    <script>
+        let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+if(window.localStorage.getItem('highscore') === null){
+    window.localStorage.setItem('highscore', '0');
+}
+
+let btn;
+
+canvas.width = 1156;
+canvas.height = 436;
+
+const SPEED = 48;
+let score = 0;
+let xDelta = SPEED;
+let yDelta = 0;
+
+
+let lives = 3;
+let huntTime = 0;
+let startTime = 0;
+let deadGhosts = [];
+
+class Map{
+    constructor(x, y, width, height, fill = true){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.fill = fill;
+    }
+    draw() {
+        if(this.fill){
+            ctx.fillStyle = "blue";
+            ctx.lineWidth = 2;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }else{
+            ctx.strokeStyle = "blue";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+        }
+    }
+};
+
+class Pacman {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.radius = 24;
+      this.color = 'yellow';
+      this.rotation = 0;
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      // Ef beygt er í 90° til vinstri þá í stað þess að rotate-a þá speiglast hann 
+      // því annars væri hann á hvolf
+      if(this.rotation === Math.PI / -1){
+        ctx.scale(-1,1);
+      }else{
+        ctx.rotate(this.rotation);
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, this.radius, 0.15 * Math.PI, 1.8 * Math.PI);
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+      ctx.fillStyle = this.color;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(this.radius / 4, -this.radius / 2, 2, 0, 2 * Math.PI);
+      ctx.fillStyle = "black";
+      ctx.fill();
+      ctx.restore();
+    }
+    rotate(deg) {
+        this.rotation = 0;
+        this.rotation = Math.PI / deg;
+    }
+};
+
+class Pellet{
+    constructor(x, y, radius, blink = false){
+        this.x = x;
+        this.y = y;
+        this.width = radius;
+        this.height = radius;
+        this.color = "pink";
+        this.blink = blink;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width, 0, 2 * Math.PI);
+        let blinkColors = ["gold", "orange", "orangered"];
+        if(this.blink){
+            let randColor = Math.floor(Math.random() * 3);
+            ctx.fillStyle = blinkColors[randColor];
+            ctx.fill();
+        }
+        else{
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    }
+}
+
+
+function isColliding(x, y, rect){
+    if(x < rect.x)
+        return false;
+    if(rect.x + rect.width < x)
+        return false;
+    if(y < rect.y)
+        return false;
+    if(rect.y + rect.height < y)
+        return false;
+    return true;
+};
+
+function isAnyColliding(x ,y, arr){
+    for(let i = 0; i < arr.length; i++){
+        if(isColliding(x, y, arr[i]))
+            return [true, i];
+    }
+    return false;
+};
+  
+
+function writeToHTML(id, value){
+    const element = document.getElementById(id);
+    element.innerHTML = value.toString();
+}
+
+function isHunting(){
+    return huntTime > 0;
+}
+
+function isFlashing(){
+    return startTime > 0;
+}
+
+function flashText(string, color, x, y){
+    ctx.font = "70px Arial";
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = color;
+    ctx.strokeText(string, x, y);
+    ctx.fillText(string, x, y);
+}
+
+function endGame(string, color){
+    flashText(string, color, 400, 218);
+    writeToHTML("restart", "<button id='btn'>RESTART</button>");
+    let btn = document.getElementById('btn');
+    btn.addEventListener('click', restart);
+    btn.addEventListener('touchstart', restart);
+    setTimeout(freeze, 200);   
+}
+
+function restart(){
+    window.location.reload();
+}
+  
+function toggleFullScreen() {
+    if(!document.fullscreenElement){
+        canvas.requestFullscreen().catch(err =>{
+            alert(`ERROR! Can't enable Fullscreen mode: ${err.message}`)
+        })
+        screen.orientation.lock('landscape');
+    }
+    else{
+        document.exitFullscreen();
+        screen.orientation.unlock();
+    }
+}
+
+let puck = new Pacman(576, 192);
+let walls = [
+    new Map(0, 0, 1140, 16),//N
+    new Map(0, 0, 16, 420), // W
+    new Map(0, 420, 1140, 16), // S
+    new Map(1140, 0, 16, 436), // E
+
+    // Vinklar W
+    new Map(88, 88, 80, 16),
+    new Map(88, 88, 16, 72),
+    new Map(88, canvas.height - 104, 80, 16),
+    new Map(88, canvas.height - 160, 16, 72),
+
+    // Vinklar E
+    new Map(canvas.width - 168, 88, 80, 16),
+    new Map(canvas.width - 104, 88, 16, 72),
+    new Map(canvas.width - 168, canvas.height - 104, 80, 16),
+    new Map(canvas.width - 104, canvas.height - 160, 16, 72),
+
+    // Strik N
+    new Map(276, 16, 16, 88),
+    new Map(canvas.width - 300, 16, 16, 88),
+    new Map(384, 88, 384, 16),
+
+    //Strik S
+    new Map(276, canvas.height - 104, 16, 88),
+    new Map(canvas.width - 300, canvas.height - 104, 16, 88),
+    new Map(384, canvas.height - 104, 384, 16),
+
+    // Middle Line W
+    new Map(192, 192, 100, 48),
+    new Map(384, 192, 100, 48),
+    new Map(624, 192, 100, 48),
+    new Map(816, 192, 100, 48),
+
+
+];
+
+class Ghost {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = 16;
+        this.width = 32,
+        this.height = 32,
+        this.angle = Math.PI / 180;
+        this.xDelta = 0;
+        this.yDelta = SPEED;
+    }
+    draw() {
+        let xState = this.x;
+        let yState = this.y;
+        ctx.beginPath();
+        if(this.colorOverride){
+            ctx.fillStyle = this.colorOverride
+        }else{
+            ctx.fillStyle = this.color;
+        }
+        ctx.arc(this.x, this.y, this.radius, this.angle * 180, 0, false);
+        ctx.lineTo(xState += 16,  yState += 15);
+        for(let i = 0; i < 6; i++){
+            ctx.lineTo(xState -= 2.7, yState - 5);
+            ctx.lineTo(xState -= 2.7, yState);
+        }
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.arc(this.x - 8, this.y - 8, 5, 0, 2 * Math.PI);
+        ctx.arc(this.x + 8, this.y - 8, 5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.arc(this.x - 6.3, this.y - 6.4, 3, 0, 2 * Math.PI);
+        ctx.arc(this.x + 6.6, this.y - 6.4, 3, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    move() {
+        let nextX = this.x + this.xDelta;
+        let nextY = this.y + this.yDelta;
+        if(isAnyColliding(nextX, nextY, walls)){
+            let rand = Math.floor(Math.random() * 4);
+            switch(rand){
+                case 0: // N
+                    this.xDelta = 0;
+                    this.yDelta = -SPEED;
+                    break;
+                case 1: // S
+                    this.xDelta = 0;
+                    this.yDelta = SPEED;                
+                    break;
+                case 2: // E
+                    this.xDelta = SPEED
+                    this.yDelta = 0;
+                    break;
+                case 3: // W
+                    this.xDelta = -SPEED;
+                    this.yDelta = 0;
+                    break;
+            }
+            return;
+        }
+        let turn = Math.floor(Math.random() * 3);
+        if(!isAnyColliding(nextX, nextY, walls) && turn == 1){
+            let randWay = Math.floor(Math.random() * 4);
+            switch(randWay){
+                case 0: // N
+                    this.xDelta = 0;
+                    this.yDelta = -SPEED;
+                    break;
+                case 1: // S
+                    this.xDelta = 0;
+                    this.yDelta = SPEED;                
+                    break;
+                case 2: // E
+                    this.xDelta = SPEED
+                    this.yDelta = 0;
+                    break;
+                case 3: // W
+                    this.xDelta = -SPEED;
+                    this.yDelta = 0;
+                    break;
+            }
+        }
+        this.x = nextX;
+        this.y = nextY;
+    }
+};
+
+let pellets = [
+    new Pellet(144, 288, 5),
+    new Pellet(240, 288, 5),
+    new Pellet(336, 288, 5),
+    new Pellet(432, 288, 5),
+    new Pellet(528, 288, 5),
+    new Pellet(624, 288, 5),
+    new Pellet(720, 288, 5),
+    new Pellet(816, 288, 5),
+    new Pellet(912, 288, 5),
+    new Pellet(1008, 288, 5),
+
+    new Pellet(144, 384, 5),
+    new Pellet(240, 384, 5),
+    new Pellet(336, 384, 5),
+    new Pellet(432, 384, 5),
+    new Pellet(528, 384, 5),
+    new Pellet(624, 384, 5),
+    new Pellet(720, 384, 5),
+    new Pellet(816, 384, 5),
+    new Pellet(912, 384, 5),
+    new Pellet(1008, 384, 5),
+
+    new Pellet(1104, 144, 5),
+    new Pellet(1104, 240, 5),
+    new Pellet(1104, 336, 5),
+
+    new Pellet(48, 144, 5),
+    new Pellet(48, 240, 5),
+    new Pellet(48, 336, 5),
+
+    new Pellet(240, 48, 5),
+    new Pellet(144, 48, 5),
+
+    new Pellet(144, 144, 5),
+    new Pellet(240, 144, 5),
+    new Pellet(336, 144, 5),
+    new Pellet(432, 144, 5),
+    new Pellet(528, 144, 5),
+    new Pellet(624, 144, 5),
+    new Pellet(720, 144, 5),
+    new Pellet(816, 144, 5),
+    new Pellet(912, 144, 5),
+    new Pellet(1008, 144, 5),
+
+    new Pellet(336, 48, 5),
+    new Pellet(432, 48, 5),
+    new Pellet(528, 48, 5),
+    new Pellet(624, 48, 5),
+    new Pellet(720, 48, 5),
+    new Pellet(816, 48, 5),
+    new Pellet(912, 48, 5),
+    new Pellet(1008, 48, 5),
+
+    // ónataðar pellets svo að draugar birtast eftir að allar pellets eru farnar
+];
+
+let powerPellets = [
+    new Pellet(48, 48, 10, true),
+    new Pellet(48, 384, 10, true),
+    new Pellet(1104, 48, 10, true),
+    new Pellet(1104, 384, 10, true),
+]
+
+let ghosts = [];
+function addGhost(color){
+    randNum = Math.floor(Math.random() * pellets.length);
+    let x = pellets[randNum].x;
+    let y = pellets[randNum].y;
+    ghosts.push(new Ghost(x, y, color));
+}
+
+addGhost("pink");
+addGhost("red");
+addGhost("orange");
+addGhost("cyan");
+
+function drawGhosts(prey){
+    for(let i = 0; i < ghosts.length; i++){
+        if(!prey){
+            delete ghosts[i].colorOverride
+            ghosts[i].draw();
+        }else{
+            ghosts[i].colorOverride = "blue";
+            ghosts[i].draw();
+        }
+    }
+}
+
+function drawArray(arr){
+    for(let i = 0; i < arr.length; i++){
+        arr[i].draw();
+    }
+};
+
+if(score === 0){
+    writeToHTML("score", 0)
+}
+
+let keys = {
+    ArrowUp: false,
+    ArrowDown: false,
+    ArrowLeft: false,
+    ArrowRight: false
+};
+
+canvas.addEventListener('touchstart', event => {
+    clientX = event.touches[0].clientX;
+    clientY = event.touches[0].clientY;
+    if(clientX > 0 && clientX < 450){
+        keys.ArrowLeft = true;
+    }
+    else if(clientX > 706 && clientX < 1156){
+        keys.ArrowRight = true;
+    }
+    else if(clientY > 0 && clientY < 200){
+        keys.ArrowUp = true;
+    }
+    else if(clientY > 236 && clientY < 436){
+        keys.ArrowDown = true;
+    }
+});
+
+canvas.addEventListener('touchend', event => {
+    keys.ArrowDown = false;
+    keys.ArrowRight = false;
+    keys.ArrowLeft = false;
+    keys.ArrowUp = false;
+}, false);
+
+let fullScreenBtn = document.getElementById("full");
+fullScreenBtn.addEventListener('click', toggleFullScreen);
+
+document.addEventListener('keydown', event => {
+    keys[event.code] = true;
+});
+
+document.addEventListener('keyup', event => {
+    keys[event.code] = false;
+});
+
+puck.draw();
+drawGhosts();
+drawArray(walls);
+drawArray(pellets);
+flashText("READY!", "Yellow", 450, 218);
+setTimeout(move, 2000);
+
+writeToHTML('highscore', window.localStorage.getItem('highscore'));
+function move() { 
+    let nextX = puck.x + xDelta;
+    let nextY = puck.y + yDelta;
+
+    writeToHTML('highscore', window.localStorage.getItem('highscore'));
+    if (score > Number(window.localStorage.getItem('highscore'))){
+        window.localStorage.setItem('highscore', score);
+    }
+    if(!isAnyColliding(nextX, nextY, walls)) {
+        puck.x = nextX;
+        puck.y = nextY;
+    }
+    if(isAnyColliding(puck.x, puck.y, ghosts) && !isHunting() && !isFlashing() || isAnyColliding(puck.x, puck.y, ghosts) && !isHunting() && !isFlashing()){
+        lives -= 1;
+        puck.x = 576;
+        puck.y = 192;
+        navigator.vibrate(200);
+        if (lives > 0){
+            flashText("READY!", "Yellow", 450, 218);
+            startTime = 10;
+        }
+        writeToHTML("lives", lives);
+        if (lives == 0){
+            endGame("GAME OVER!", "red");
+        }
+    }
+    if(isAnyColliding(puck.x, puck.y, ghosts) && isHunting() && !isFlashing() || isAnyColliding(puck.x, puck.y, ghosts) && isHunting() && !isFlashing()){
+        score += 200;
+        writeToHTML("score", score);
+        deadGhosts.push(ghosts[isAnyColliding(nextX, nextY, ghosts)[1]]);
+        ghosts.splice(isAnyColliding(nextX, nextY, ghosts)[1], 1);
+        setTimeout(() => {
+                for(i = 0; i < deadGhosts.length; i++){
+                    addGhost(deadGhosts[i].color);
+                    deadGhosts.splice(i, 1);
+                }
+          }, "3000")
+    }
+    if(isAnyColliding(puck.x, puck.y, pellets)) {
+        score += 10;
+        writeToHTML("score", score);
+        pellets.splice(isAnyColliding(nextX, nextY, pellets)[1], 1);
+    };
+    if(isAnyColliding(nextX, nextY, powerPellets)){
+        score += 50;
+        writeToHTML("score", score);
+        powerPellets.splice(isAnyColliding(nextX, nextY, powerPellets)[1], 1);
+        huntTime = 30;
+    }
+
+    if (pellets.length == 0){
+        pellets.pop()
+        endGame("You Win!", "green")
+    }
+
+    if(!isFlashing()){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(let i = 0; i < ghosts.length; i++){
+            ghosts[i].move();
+        };
+        drawArray(walls);
+        drawArray(pellets);
+        drawArray(powerPellets);
+        drawGhosts(isHunting());
+        puck.draw();
+    }
+    if(isHunting()){
+        huntTime -= 1;
+    }
+
+    if(isFlashing){
+        startTime -= 1;
+    }
+    
+    setTimeout(move, 220);
+}
+
+function movements(){
+    if(keys.ArrowDown){
+        xDelta = 0;
+        yDelta = SPEED;
+        puck.rotate(2);
+    }
+    else if(keys.ArrowUp){
+        xDelta = 0;
+        yDelta = -SPEED;
+        puck.rotate(-2);
+    }
+    else if(keys.ArrowLeft){
+        xDelta = -SPEED;
+        yDelta = 0;
+        puck.rotate(-1);
+    }
+    else if(keys.ArrowRight){
+        xDelta = SPEED;
+        yDelta = 0;
+        puck.rotate(0);
+    }
+    else if(keys.ArrowUp && keys.ArrowRight){
+        xDelta = SPEED;
+        yDelta = -SPEED;
+        puck.rotate(-2);
+    }
+    if(keys.ArrowUp && keys.ArrowRight){
+        xDelta = SPEED;
+        yDelta = -SPEED;
+        puck.rotate(-2);
+    }
+    if(keys.ArrowUp && keys.ArrowLeft){
+        xDelta = -SPEED;
+        yDelta = -SPEED;
+        puck.rotate(-2);
+    }
+    else if(keys.ArrowDown && keys.ArrowRight){
+        xDelta = SPEED;
+        yDelta = SPEED;
+        puck.rotate(-2);
+    }
+    else if(keys.ArrowDown && keys.ArrowLeft){
+        xDelta = -SPEED;
+        yDelta = SPEED;
+        puck.rotate(-2);
+    }
+}
+
+document.addEventListener('keydown', movements, false);
+canvas.addEventListener('touchstart', movements, false);
+    </script>
+</body>
+</html>

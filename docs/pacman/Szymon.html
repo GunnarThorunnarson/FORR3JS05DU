@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Leikur - Szymon</title>
+    <style>
+        * {
+        background-color: black;
+        color: white;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #myCanvas {
+            position: absolute;
+        }
+
+        #restartButton {
+            position: absolute;
+            font-size: large;
+            border: white 1px solid;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%);
+            padding: 12px;
+            border: blue 1px solid;
+            background-color: rgb(0,0,0);
+            color: blue;
+            border-radius: 20px;
+        }
+        #restartButton:hover {
+            border: blue 1px solid;
+            background-color: blue;
+            color: rgb(0,0,0);
+        }
+
+        span {
+            margin: 5px;
+        }
+
+        #fullScreenBtn {
+            border: 1px solid blue;
+            border-radius: 12px;
+            background: transparent;
+            position: absolute;
+            font-size: 20px;
+            padding: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        #fullScreenEndbtn {
+            border: 1px solid blue;
+            border-radius: 12px;
+            background: transparent;
+            position: absolute;
+            font-size: 20px;
+            padding: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+    </style>
+</head>
+    <body>
+        <p style="color: white; font-family: sans-serif; font-size: 14;
+        margin-bottom: 6px;">
+            <span>Score: </span><span id="score">0</span> <br>
+            <span>Current record: </span> <span id="max-score">0</span> <br>
+            <span>Lives: </span><span id="lives">3</span><br>
+        </p>
+
+        <canvas id="myCanvas" ></canvas>
+
+        <button id="restartButton">Restart</button> 
+        <button id="fullScreenBtn" onclick="openFullscreen()">Full screen</button>
+        <button id="fullScreenEndbtn" onclick="closeFullscreen()"> Exit Full screen</button>
+
+        <script>
+            var elem = document.documentElement;
+            const canvas = document.querySelector('canvas');
+            const c = canvas.getContext('2d');
+            canvas.width = innerWidth - (innerWidth * 0.01);
+            canvas.height = innerHeight - (innerHeight * 0.08);
+            const score = document.querySelector('#score');
+            const maxScoreDisplay = document.getElementById("max-score");
+            let livesEl = document.querySelector('#lives');
+            //const startGameButton = document.querySelector('#startGameBtn');
+            const restartButton = document.querySelector('#restartButton');
+            restartButton.style.display = 'none';   
+            const fullScreenBtn = document.getElementById('fullScreenBtn'); 
+            const endfullScreenBtn = document.getElementById('fullScreenEndbtn'); 
+            endfullScreenBtn.style.display = 'none'
+
+
+            class Pacman {
+                constructor({position, velocity}) {
+                    this.height = 75;
+                    this.radius = 15;
+                    this.radians = 0.75
+                    this.position = position;
+                    this.velocity = velocity;
+                    this.rotation = 0
+                }
+
+                draw() {
+                    c.save();
+                    c.translate(this.position.x, this.position.y)
+                    c.rotate(this.rotation);
+                    c.translate(-this.position.x, -this.position.y)
+                    c.beginPath();
+                    c.arc(this.position.x, this.position.y, this.radius, this.radians, 
+                        Math.PI * 2 - this.radians);
+                    c.lineTo(this.position.x, this.position.y);
+                    c.fillStyle = 'yellow';
+                    c.fill();
+                    c.closePath();
+
+                    c.beginPath();
+                    c.arc(this.position.x - (this.radius / 4), this.position.y - (this.radius / 4), 3, 0, 
+                        2 * Math.PI);
+                    c.fillStyle = 'black';
+                    c.fill();
+                    c.closePath();
+                    c.restore();
+                }
+
+                update() {
+                    this.draw();
+                    if (this.velocity.x !== 0 || this.velocity.y !== 0) {
+                        this.position.x += this.velocity.x;
+                        this.position.y += this.velocity.y;
+                    }
+
+                    if (this.position.y + this.radius > canvas.height || this.position.y - this.radius < 0) {
+                        this.velocity.y = 0;
+                        this.position.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.position.y));
+                    } else if (this.position.x + this.radius > canvas.width || this.position.x - this.radius < 0) {
+                        this.velocity.x = 0;
+                        this.position.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.position.x));
+                    }    
+                    }
+            }
+
+            class Pellet {
+                constructor({position}) {
+                    this.position = position;
+                    this.radius = 5;
+                }
+
+                draw() {
+                    c.beginPath();
+                    c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                    c.fillStyle = 'white';
+                    c.fill();
+                    c.closePath();
+                }
+            }
+
+            class Block {
+                constructor({position}) {
+                    this.position = position;
+                    this.radius = 25
+                }
+
+                draw() {
+                    //c.drawImage(this.image, this.position.x, this.position.y)
+                    c.beginPath();
+                    c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                    c.fillStyle = 'black';
+                    c.fill();
+                    c.strokeStyle = 'blue';
+                    c.lineWidth = 2;
+                    c.stroke();
+                    c.closePath();
+                }
+
+            }
+
+            class Ghost {
+                constructor({position, velocity, color}) {
+                    this.position = position;
+                    this.velocity = velocity;
+                    this.color = color;
+                    this.radius = 15;
+                    this.scared = false;
+                }
+
+                draw() {
+                    c.beginPath();
+                    c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                    c.fillStyle = this.scared ? 'blue' : this.color;
+                    c.fill();
+                    c.closePath();
+                }
+
+
+                update(blocks) {
+                    this.draw();
+                    this.position.x += this.velocity.x;
+                    this.position.y += this.velocity.y;
+
+                    if (this.position.y + this.radius + this.velocity.y > canvas.height ||
+                        this.position.y - this.radius + this.velocity.y < 0) {
+                    this.velocity.y = -this.velocity.y + Math.random() * 2 - 1;
+                    ;
+                    }
+                    if (this.position.x + this.radius + this.velocity.x > canvas.width ||
+                        this.position.x - this.radius + this.velocity.x < 0) {
+                    this.velocity.x = -this.velocity.x + Math.random() * 2 - 1;          ;
+                    }
+                    blocks.forEach(block => {
+                        if (Math.hypot(block.position.x - this.position.x - this.velocity.x, 
+                            block.position.y - this.position.y - this.velocity.y) < block.radius + this.radius) {
+                                console.log('touching');
+                                this.velocity.x = -this.velocity.x + Math.random() * 2 - 1; 
+                                this.velocity.y = -this.velocity.y + Math.random() * 2 - 1;
+                        }
+                    })
+                }
+            }
+
+            class PowerUp {
+                constructor({position}) {
+                    this.position = position;
+                    this.radius = 8;
+
+                }
+
+                draw() {
+                    c.beginPath();
+                    c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                    c.fillStyle = 'yellow';
+                    c.fill();
+                    c.closePath();
+                    
+                }
+            }
+
+            function openFullscreen() {
+                if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+                fullScreenBtn.style.display = 'none'
+                endfullScreenBtn.style.display = 'block';
+                endfullScreenBtn.style.position = 'absolute';
+
+            }
+            }
+            
+            function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+                endfullScreenBtn.style.display = 'none';
+                fullScreenBtn.style.display = 'block'
+                fullScreenBtn.style.position = 'absolute'
+            }
+            }
+
+
+            let player = new Pacman({
+                position: {
+                    x: 50,
+                    y: 100
+                },
+                velocity: {
+                    x: 0,
+                    y: 0
+                }
+            });
+
+            let pellets = []
+
+            for (let i = 0; i < 100; i++) {
+                pellets.push(new Pellet({
+                    position: {
+                        x: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0),
+                        y: Math.floor(Math.random() * (canvas.height - 0 + 1) + 0)
+                    }
+                }))
+            }
+
+            let powerups = [
+                new PowerUp({
+                    position: {
+                        x: canvas.width / 12,
+                        y: canvas.height / 8
+                    }
+                }),
+                new PowerUp({
+                    position: {
+                        x: canvas.width - (canvas.width / 12),
+                        y: canvas.height / 8
+                    }
+                }),
+                new PowerUp({
+                    position: {
+                        x: canvas.width - (canvas.width / 12),
+                        y: canvas.height - (canvas.height / 8)
+                    }
+                }),
+                new PowerUp({
+                    position: {
+                        x: canvas.width / 12,
+                        y: canvas.height - (canvas.height / 8)
+                    }
+                }),
+            ]
+
+
+            let blocks = [];
+            for (let i = 0; i < 20; i++) {
+                const block = new Block({
+                    position: {
+                        x: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0),
+                        y: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0)
+                    }
+                })
+                blocks.push(block);
+            }
+
+
+            let ghosts = [
+                new Ghost({
+                    position: {
+                        x: 650,
+                        y: Math.floor(Math.random() * 600) + 1
+                    },
+                    velocity: {
+                        x: Math.floor(Math.random() * 11) - 5,
+                        y: Math.floor(Math.random() * 11) - 5
+                    },
+                    color: 'red'
+                }),
+                new Ghost({
+                    position: {
+                        x: 650,
+                        y: Math.floor(Math.random() * 600) + 1
+                    },
+                    velocity: {
+                        x: Math.floor(Math.random() * 11) - 5,
+                        y: Math.floor(Math.random() * 11) - 5
+                    },
+                    color: 'pink'
+                }),
+                new Ghost({
+                    position: {
+                        x: 650,
+                        y: Math.floor(Math.random() * 600) + 1
+                    },
+                    velocity: {
+                        x: Math.floor(Math.random() * 11) - 5,
+                        y: Math.floor(Math.random() * 11) - 5
+                    },
+                    color: 'cyan'
+                }),
+                new Ghost({
+                    position: {
+                        x: 650,
+                        y: Math.floor(Math.random() * 600) + 1
+                    },
+                    velocity: {
+                        x: Math.floor(Math.random() * 11) - 5,
+                        y: Math.floor(Math.random() * 11) - 5
+                    },
+                    color: 'orange'
+                })
+            ]
+            ghosts.forEach(ghost => {
+                if (ghost.velocity.x == 0 || ghost.velocity.y == 0) {
+                    ghost.velocity = {
+                        x: Math.floor(Math.random() * 11) - 5,
+                        y: Math.floor(Math.random() * 11) - 5
+                    }
+                }
+            })
+
+            let keys = {
+                arrowUp: {
+                    pressed: false
+                },
+                arrowLeft: {
+                    pressed: false
+                },
+                arrowDown: {
+                    pressed: false
+                },
+                arrowRight: {
+                    pressed: false
+                },
+                clickUp : {
+                    clicked: false
+                },
+                clickLeft : {
+                    clicked: false
+                },
+                clickDown : {
+                    clicked: false
+                },
+                clickRight : {
+                    clicked: false
+                }
+            }
+
+            let lastKey = '';
+            let sc = 0;
+            let lives = 3;
+            let maxScore = localStorage.getItem("maxScore");
+            if (!maxScore) {
+                maxScore = 0;
+            }
+            //console.log(`Current record is ${maxScore}`);
+            
+            let border = {
+                position: {
+                    x: canvas.width,
+                    y: canvas.height
+                }
+            };
+
+
+            //fullScreenBtn.addEventListener('click', openFullscreen)
+
+            function init() {
+                player = new Pacman({
+                    position: {
+                        x: 50,
+                        y: 100
+                    },
+                    velocity: {
+                        x: 0,
+                        y: 0
+                    }
+                });
+                
+                pellets = []
+                
+                for (let i = 0; i < 100; i++) {
+                    pellets.push(new Pellet({
+                        position: {
+                            x: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0),
+                            y: Math.floor(Math.random() * (canvas.height - 0 + 1) + 0)
+                        }
+                    }))
+                }
+                
+                powerups = [
+                    new PowerUp({
+                        position: {
+                            x: canvas.width / 12,
+                            y: canvas.height / 8
+                        }
+                    }),
+                    new PowerUp({
+                        position: {
+                            x: canvas.width - (canvas.width / 12),
+                            y: canvas.height / 8
+                        }
+                    }),
+                    new PowerUp({
+                        position: {
+                            x: canvas.width - (canvas.width / 12),
+                            y: canvas.height - (canvas.height / 8)
+                        }
+                    }),
+                    new PowerUp({
+                        position: {
+                            x: canvas.width / 12,
+                            y: canvas.height - (canvas.height / 8)
+                        }
+                    }),
+                ]
+                
+                
+                blocks = [];
+                for (let i = 0; i < 20; i++) {
+                    const block = new Block({
+                        position: {
+                            x: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0),
+                            y: Math.floor(Math.random() * (canvas.width - 0 + 1) + 0)
+                        }
+                    })
+                    blocks.push(block);
+                    //player.colliders.push(block)
+                }
+                
+                
+                
+                ghosts = [
+                    new Ghost({
+                        position: {
+                            x: 650,
+                            y: Math.floor(Math.random() * 600) + 1
+                        },
+                        velocity: {
+                            x: Math.floor(Math.random() * 11) - 5,
+                            y: Math.floor(Math.random() * 11) - 5
+                        },
+                        color: 'red'
+                    }),
+                    new Ghost({
+                        position: {
+                            x: 650,
+                            y: Math.floor(Math.random() * 600) + 1
+                        },
+                        velocity: {
+                            x: Math.floor(Math.random() * 11) - 5,
+                            y: Math.floor(Math.random() * 11) - 5
+                        },
+                        color: 'pink'
+                    }),
+                    new Ghost({
+                        position: {
+                            x: 650,
+                            y: Math.floor(Math.random() * 600) + 1
+                        },
+                        velocity: {
+                            x: Math.floor(Math.random() * 11) - 5,
+                            y: Math.floor(Math.random() * 11) - 5
+                        },
+                        color: 'cyan'
+                    }),
+                    new Ghost({
+                        position: {
+                            x: 650,
+                            y: Math.floor(Math.random() * 600) + 1
+                        },
+                        velocity: {
+                            x: Math.floor(Math.random() * 11) - 5,
+                            y: Math.floor(Math.random() * 11) - 5
+                        },
+                        color: 'orange'
+                    })
+                ]
+                ghosts.forEach(ghost => {
+                    if (ghost.velocity.x == 0 || ghost.velocity.y == 0) {
+                        ghost.velocity = {
+                            x: Math.floor(Math.random() * 11) - 5,
+                            y: Math.floor(Math.random() * 11) - 5
+                        }
+                    }
+                })
+                
+                let keys = {
+                    arrowUp: {
+                        pressed: false
+                    },
+                    arrowLeft: {
+                        pressed: false
+                    },
+                    arrowDown: {
+                        pressed: false
+                    },
+                    arrowRight: {
+                        pressed: false
+                    }
+                }
+                
+                lastKey = '';
+                sc = 0;
+                score.innerHTML = sc
+                lives = 3;
+                maxScore = localStorage.getItem("maxScore");
+                if (!maxScore) {
+                    maxScore = 0;
+                }
+                //console.log(`Current record is ${maxScore}`);
+                
+                border = {
+                    position: {
+                        x: canvas.width,
+                        y: canvas.height
+                    }
+                };
+            }
+
+            function animate() { // ------------------------------------------------------- Animation loop ---------------------------------------------------------------------------------------------------------
+                maxScoreDisplay.innerHTML = maxScore;
+                
+                
+                animationId = requestAnimationFrame(animate);
+                c.clearRect(0, 0, canvas.width, canvas.height);
+
+                if (keys.arrowUp.pressed && lastKey == 'ArrowUp' || keys.clickUp.clicked) {
+                    if (keys.arrowLeft.pressed) {
+                        player.velocity.x = -5;
+                        player.velocity.y = -5;
+                    }
+                    else if (keys.arrowRight.pressed) {
+                        player.velocity.x = 5;
+                        player.velocity.y = -5;
+                    }
+                    else {
+                        player.velocity.y = -5;
+                        player.velocity.x = 0;
+                    }
+                }
+                else if (keys.arrowDown.pressed && lastKey == 'ArrowDown' || keys.clickDown.clicked) {
+                    if (keys.arrowLeft.pressed) {
+                        player.velocity.x = -5;
+                        player.velocity.y = 5;
+                    } else if (keys.arrowRight.pressed) {
+                        player.velocity.x = 5;
+                        player.velocity.y = 5;
+                    }
+                    else {
+                        player.velocity.y = 5;
+                        player.velocity.x = 0;
+                    }
+                }
+                else if (keys.arrowLeft.pressed && lastKey == 'ArrowLeft' || keys.clickLeft.clicked) {
+                    if (keys.arrowUp.pressed) {
+                        player.velocity.x = -5;
+                        player.velocity.y = -5;
+                    }
+                    else if (keys.arrowDown.pressed) {
+                        player.velocity.x = -5;
+                        player.velocity.y = 5;
+                    }
+                    else {
+                        player.velocity.y = 0;
+                        player.velocity.x = -5;
+                    }
+                }
+                else if (keys.arrowRight.pressed && lastKey == 'ArrowRight' || keys.clickRight.clicked) {
+                    if (keys.arrowUp.pressed) {
+                        player.velocity.x = 5;
+                        player.velocity.y = -5;
+                    }
+                    else if (keys.arrowDown.pressed) {
+                        player.velocity.x = 5;
+                        player.velocity.y = 5;
+                    }
+                    else {
+                        player.velocity.y = 0;
+                        player.velocity.x = 5;
+                    }
+                }
+
+                // Power Pellet lykkja ------------------------------------
+                powerups.forEach((dot, i) => {
+                    dot.draw()
+                    if (Math.hypot(dot.position.x - player.position.x, 
+                        dot.position.y - player.position.y) < dot.radius + player.radius) {
+                            //console.log('touching');
+                            powerups.splice(i, 1);
+
+                            ghosts.forEach(ghost => {
+                                ghost.scared = true
+
+                                setTimeout(() => {
+                                    ghost.scared = false;
+                                }, 5000)
+                            })
+                    }
+                })
+
+                // Drauga lykkja  ------------------------------------
+                ghosts.forEach((ghost, i) => {
+                    ghost.update(blocks); 
+                    //console.log(`Lives: ${lives}`)
+                    if (Math.hypot(
+                        ghost.position.x - player.position.x + player.radius + player.velocity.x, 
+                        ghost.position.y - player.position.y + player.radius + player.velocity.y
+                        ) <= 
+                        ghost.radius + player.radius
+                    ) {
+                        if (ghost.scared) {
+                            ghosts.splice(i, 1)
+                            sc += 30
+                            score.innerHTML = sc
+                            setTimeout(() => {
+                                ghosts.push(ghost)
+                            }, 3000)
+                            
+                        } 
+                        else  {
+                            window.navigator.vibrate([200]);
+                            console.log(`I'm vibrating, brr`)
+                            
+                            lives --;
+                            livesEl.innerHTML = lives;
+                            
+                            if (lives == 0){
+                                cancelAnimationFrame(animationId)
+                                //console.log('you lose')
+                                restartButton.style.position = 'absolute';
+                                restartButton.style.display = 'block';
+                            }
+                        }
+
+                    }
+                })
+
+                for (let i = pellets.length - 1; 0 <= i; i --) {
+                    const pellet = pellets[i]
+                    pellet.draw()
+
+                    if (Math.hypot(pellet.position.x - player.position.x, 
+                        pellet.position.y - player.position.y) < pellet.radius + player.radius) {
+                            //console.log('touching');
+                            pellets.splice(i, 1);
+                            sc += 10;
+                            score.innerHTML = sc;
+                            if (sc > maxScore) {
+                                maxScore = sc;
+                                localStorage.setItem("maxScore", maxScore);
+                            }
+                    }
+                }
+
+                if (pellets.length === 0) {
+                    //console.log('you win');
+                    cancelAnimationFrame(animationId)
+                    restartButton.style.display = 'block';
+                }
+
+                // Hindrunar lykkja ------------------------------------
+                blocks.forEach(block => {
+                    block.draw()
+                    if (Math.hypot(block.position.x - player.position.x - player.velocity.x, 
+                        block.position.y - player.position.y - player.velocity.y) < block.radius + player.radius) {
+                            console.log('touching');
+                            player.velocity.x = 0
+                            player.velocity.y = 0
+                    }
+                })
+
+                player.update()
+                if (player.velocity.x > 0) {
+                    player.rotation = 0
+                } else if (player.velocity.x < 0) {
+                    player.rotation = Math.PI 
+                } else if (player.velocity.y > 0) {
+                    player.rotation = Math.PI / 2
+                } else if (player.velocity.y < 0) {
+                    player.rotation = Math.PI * 1.5
+                }
+            }
+
+            animate()
+
+            window.addEventListener('keydown', ({ key }) => {
+                event.preventDefault()
+                switch (key) {
+                    case 'ArrowUp':
+                        keys.arrowUp.pressed = true;
+                        lastKey = 'ArrowUp';
+                        break;
+                    case 'ArrowLeft':
+                        keys.arrowLeft.pressed = true;
+                        lastKey = 'ArrowLeft';
+                        break;
+                    case 'ArrowDown':
+                        keys.arrowDown.pressed = true;
+                        lastKey = 'ArrowDown';
+                        break;
+                    case 'ArrowRight':
+                        keys.arrowRight.pressed = true;
+                        lastKey = 'ArrowRight';
+                        break;
+                }
+            });
+
+            window.addEventListener('keyup', ({ key }) => {
+                //console.log(key);
+                switch (key) {
+                    case 'ArrowUp':
+                        keys.arrowUp.pressed = false;
+                        break;
+                    case 'ArrowLeft':
+                        keys.arrowLeft.pressed = false;
+                        break;
+                    case 'ArrowDown':
+                        keys.arrowDown.pressed = false;
+                        break;
+                    case 'ArrowRight':
+                        keys.arrowRight.pressed = false;
+                        break
+                }
+            });
+
+            addEventListener('click', event => {
+                console.log(event.clientX)
+                console.log(event.clientY)
+
+                if (event.clientX > canvas.width * 0.75) {
+                    keys.clickUp.clicked = false
+                    keys.clickLeft.clicked = false
+                    keys.clickRight.clicked = true
+                    keys.clickDown.clicked = false
+                } else if (event.clientX < canvas.width * 0.25) {
+                    keys.clickUp.clicked = false
+                    keys.clickLeft.clicked = true
+                    keys.clickRight.clicked = false
+                    keys.clickDown.clicked = false
+                } else if (event.clientY > canvas.height * 0.75) {
+                    keys.clickUp.clicked = false
+                    keys.clickLeft.clicked = false
+                    keys.clickRight.clicked = false
+                    keys.clickDown.clicked = true
+                } else if (event.clientY < canvas.height * 0.35) {
+                    keys.clickUp.clicked = true
+                    keys.clickLeft.clicked = false
+                    keys.clickRight.clicked = false
+                    keys.clickDown.clicked = false
+                }
+            })
+
+            addEventListener('touchstart', e => {
+                console.log(e.changedTouches[0].pageX)
+                let touchedX = e.changedTouches[0].pageX
+                let touchedY = e.changedTouches[0].pageY
+                if (touchedX > 500) {
+                    keys.arrowRight.pressed = true;
+                } else if (touchedX > 500) {
+                    keys.arrowLeft.pressed = true;
+                } else if (touchedY > 500) {
+                    lastKey = 'ArrowDown';
+                } else if (touchedY < 500) {
+                    keys.arrowUp.pressed = true;
+                }
+            })
+            addEventListener('touchmove', e => {
+                console.log(e.changedTouches[0].pageY)
+            })
+            addEventListener('touchend', e => {
+                console.log(e.changedTouches[0].pageX)
+                let touchedX = e.changedTouches[0].pageX
+                let touchedY = e.changedTouches[0].pageY
+                if (touchedX > 500) {
+                    keys.arrowRight.pressed = true;
+                }
+
+            })
+
+            restartButton.addEventListener('click', () => {
+                restartButton.style.display = 'none';
+                init();
+                animate();
+            });
+        </script>
+    </body>
+</html>
+ 

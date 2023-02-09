@@ -1,0 +1,510 @@
+<html style="height: 100%">
+  <head>
+    <title>Pacman</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #canvas-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      canvas {
+        background-color: black;
+      }
+
+      #canvas {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body style="height: 100%">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      "
+    >
+      <canvas id="pacman"></canvas>
+    </div>
+  </body>
+  <script>
+    //Lárus Ármann Kjartansson
+    let score = 0;
+    let life = 3;
+    let töflur = 0;
+
+    class Pacman {
+      constructor(x, y, radius, speed) {
+        this.x = x * 40;
+        this.y = y * 40;
+        this.radius = radius;
+        this.speed = speed;
+        this.startX = this.x;
+        this.startY = this.y;
+      }
+
+      setStartPosition() {
+        this.x = this.startX;
+        this.y = this.startY;
+      }
+
+      draw(context, direction) {
+        context.beginPath();
+
+        let startAngle = 0.2 * Math.PI;
+        let endAngle = 1.8 * Math.PI;
+        if (direction.x === 1) {
+          startAngle = 0.25 * Math.PI;
+          endAngle = 1.75 * Math.PI;
+        } else if (direction.x === -1) {
+          startAngle = 1.25 * Math.PI;
+          endAngle = 0.75 * Math.PI;
+        } else if (direction.y === 1) {
+          startAngle = 0.75 * Math.PI;
+          endAngle = 2.25 * Math.PI;
+        } else if (direction.y === -1) {
+          startAngle = 1.75 * Math.PI;
+          endAngle = 1.25 * Math.PI;
+        }
+
+        context.arc(
+          this.x + 20,
+          this.y + 20,
+          this.radius,
+          startAngle,
+          endAngle
+        );
+        context.lineTo(this.x + 20, this.y + 20);
+        context.fillStyle = "yellow";
+        context.fill();
+
+
+        context.beginPath();
+        context.arc(this.x + 18, this.y + 17, 2, 0, 2 * Math.PI);
+        context.fillStyle = "black";
+        context.fill();
+
+        context.font = "30px Arial";
+        context.fillText("Stig: " + score, 225, 30);
+        context.fillText("Líf: " + life, 450, 30);
+      }
+
+      updatePosition(direction) {
+        let nextX = this.x + direction.x;
+        let nextY = this.y + direction.y;
+
+        if (
+          nextX + this.radius >= canvas.width - 20 ||
+          nextX - this.radius <= 0
+        ) {
+          direction.x = 0;
+        }
+
+        if (
+          nextY + this.radius >= canvas.height - 20 ||
+          nextY - this.radius <= 0
+        ) {
+          direction.y = 0;
+        }
+
+        for (let i = 0; i < walls.length; i++) {
+          const wall = walls[i];
+          if (
+            nextX + this.radius >= wall.x - 20 &&
+            nextX - this.radius <= wall.x + wall.width - 20 &&
+            nextY + this.radius >= wall.y - 20 &&
+            nextY - this.radius <= wall.y + wall.height - 20
+          ) {
+            direction.x = 0;
+            direction.y = 0;
+            console.log("here i am");
+            break;
+          }
+        }
+        for (let i = 0; i < pillur.length; i++) {
+          const pilla = pillur[i];
+          if (
+            nextX + this.radius >= pilla.x &&
+            nextX - this.radius <= pilla.x + pilla.width &&
+            nextY + this.radius >= pilla.y &&
+            nextY - this.radius <= pilla.y + pilla.height
+          ) {
+            if (pilla.activated) {
+              töflur++;
+              score++;
+              pilla.activated = false;
+            }
+            break;
+          }
+        }
+        for (let i = 0; i < superpillur.length; i++) {
+          const superpilla = superpillur[i];
+          if (
+            nextX + this.radius >= superpilla.x &&
+            nextX - this.radius <= superpilla.x + superpilla.width &&
+            nextY + this.radius >= superpilla.y &&
+            nextY - this.radius <= superpilla.y + superpilla.height
+          ) {
+            if (superpilla.activated) {
+              score = score + 50;
+              superpilla.activated = false;
+            }
+
+            for (let i = 0; i < ghosts.length; i++) {
+              const ghost = ghosts[i];
+              ghost.isChasing(false);
+            }
+            break;
+          }
+        }
+
+        for (let i = 0; i < ghosts.length; i++) {
+          const ghost = ghosts[i];
+          if (
+            nextX + this.radius >= ghost.x &&
+            nextX - this.radius <= ghost.x + ghost.width &&
+            nextY + this.radius >= ghost.y &&
+            nextY - this.radius <= ghost.y + ghost.height
+          ) {
+            if (ghost.chasing && ghost.activated) {
+              life--;
+              ghosts.forEach((x) => {
+                x.setStartPosition();
+                x.activated = true;
+              });
+              direction.x = 0;
+              direction.y = 0;
+              pacman.setStartPosition();
+            } else {
+              if (ghost.activated) {
+                ghost.activated = false;
+                score = score + 200;
+              }
+            }
+          }
+          if (life == 0) {
+            alert("Leik Lokið");
+            score = 0;
+            life = 3;
+            töflur = 0;
+            direction.x = 0;
+            direction.y = 0;
+            this.setStartPosition();
+            ghosts.forEach((x) => {
+              x.setStartPosition();
+              x.activated = true;
+            });
+            pillur.forEach((x) => (x.activated = true));
+            superpillur.forEach((x) => (x.activated = true));
+          }
+          if (töflur == 156) {
+            alert(
+              "Vel gert þú náðir öllum kúlunum" +
+                "\n\nÞú vannst með: " +
+                life +
+                " Líf eftir"
+            );
+
+            score = 0;
+            life = 3;
+            töflur = 0;
+            direction.x = 0;
+            direction.y = 0;
+            this.setStartPosition();
+            ghosts.forEach((x) => {
+              x.setStartPosition();
+              x.activated = true;
+            });
+            pillur.forEach((x) => (x.activated = true));
+            superpillur.forEach((x) => (x.activated = true));
+          }
+        }
+
+        this.x += direction.x;
+        this.y += direction.y;
+      }
+    }
+
+    class Ghost {
+      constructor(x, y, radius, speed, chasing, color) {
+        this.x = x * 40;
+        this.y = y * 40;
+        this.radius = radius;
+        this.height = 20;
+        this.width = 20;
+        this.chasing = chasing;
+        this.count = 0;
+        this.startX = this.x;
+        this.startY = this.y;
+        this.activated = true;
+        this.color = color;
+      }
+      setStartPosition() {
+        this.x = this.startX;
+        this.y = this.startY;
+      }
+
+      isChasing(chasing) {
+        this.chasing = chasing;
+      }
+      setColor(color) {
+        this.color = color;
+      }
+      draw(context) {
+        if (this.activated) {
+          context.beginPath();
+          context.arc(this.x + 20, this.y + 20, this.radius, 0, 2 * Math.PI);
+          if (this.chasing) {
+            context.fillStyle = this.color;
+          } else {
+            context.fillStyle = "blue";
+          }
+          context.fill();
+
+          context.beginPath();
+          context.arc(this.x + 16, this.y + 16, 2, 0, 2 * Math.PI);
+          context.fillStyle = "white";
+          context.fill();
+          context.beginPath();
+          context.arc(this.x + 24, this.y + 16, 2, 0, 2 * Math.PI);
+          context.fillStyle = "white";
+          context.fill();
+
+          context.beginPath();
+          context.arc(this.x + 20, this.y + 22, 6, 0, Math.PI, false);
+          context.lineWidth = 2;
+          context.strokeStyle = "white";
+          context.stroke();
+        }
+      }
+
+      updatePosition() {
+        let ghostDirection = { x: 0, y: 0 };
+        let previousDirection = ghostDirection;
+
+        let randomÁtt = Math.floor(Math.random() * 4);
+        switch (randomÁtt) {
+          case 0:
+            ghostDirection = { x: -1, y: 0 };
+            break;
+          case 1:
+            ghostDirection = { x: 0, y: -1 };
+            break;
+          case 2:
+            ghostDirection = { x: 1, y: 0 };
+            break;
+          case 3:
+            ghostDirection = { x: 0, y: 1 };
+            break;
+        }
+
+        let nextX = this.x + ghostDirection.x * 5;
+        let nextY = this.y + ghostDirection.y * 5;
+        let hitWall = false;
+
+        for (let i = 0; i < walls.length; i++) {
+          const wall = walls[i];
+          if (
+            nextX + this.radius >= wall.x - 20 &&
+            nextX - this.radius <= wall.x + wall.width - 20 &&
+            nextY + this.radius >= wall.y - 20 &&
+            nextY - this.radius <= wall.y + wall.height - 20
+          ) {
+            hitWall = true;
+            break;
+          }
+        }
+        if (hitWall) {
+          ghostDirection = previousDirection;
+          nextX = this.x + ghostDirection.x * 10;
+          nextY = this.y + ghostDirection.y * 10;
+        }
+        this.x = nextX;
+        this.y = nextY;
+        previousDirection = ghostDirection;
+
+        if (!this.chasing) {
+          this.count = this.count + 1;
+        }
+        if (this.count >= 1000) {
+          this.isChasing(true);
+          this.count = 0;
+        }
+      }
+    }
+
+    class Wall {
+      constructor(x, y) {
+        this.x = x * 40;
+        this.y = y * 40;
+        this.width = 40;
+        this.height = 40;
+      }
+
+      draw(context) {
+        context.fillStyle = "purple";
+        context.fillRect(this.x, this.y, this.width, this.height);
+      }
+    }
+
+    class Pill {
+      constructor(x, y, radius) {
+        this.x = x * 40;
+        this.y = y * 40;
+        this.radius = radius;
+        this.width = 5;
+        this.height = 5;
+        this.activated = true;
+      }
+
+      draw(context) {
+        if (this.activated) {
+          context.beginPath();
+          context.arc(this.x + 20, this.y + 20, this.radius, 0, 2 * Math.PI);
+          context.fillStyle = "white";
+          context.fill();
+        }
+      }
+    }
+
+    class SuperPill {
+      constructor(x, y, radius) {
+        this.x = x * 40;
+        this.y = y * 40;
+        this.radius = radius;
+        this.width = 5;
+        this.height = 5;
+        this.activated = true;
+        this.blink = false;
+        this.blinkInterval = setInterval(() => {
+          this.blink = !this.blink;
+        }, 500);
+      }
+
+      draw(context) {
+        if (this.activated) {
+          context.beginPath();
+          context.arc(this.x + 20, this.y + 20, this.radius, 0, 2 * Math.PI);
+          context.fillStyle = this.blink ? "gray" : "white";
+          context.fill();
+        }
+      }
+    }
+
+ const map = [
+["2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2",],
+["2","4","1","1","1","1","1","1","1","2","1","1","1","1","1","1","1","4","2",],
+["2","1","2","2","1","2","2","2","1","2","1","2","2","2","1","2","2","1","2"],
+["2","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","2"],
+["2","1","2","2","1","2","1","2","2","2","2","2","1","2","1","2","2","1","2"],
+["2","1","1","1","1","2","1","1","1","2","1","1","1","2","1","1","1","1","2"],
+["2","2","2","2","1","2","2","2","1","2","1","2","2","2","1","2","2","2","2"],
+["0","0","0","2","1","2","1","1","1","1","1","1","1","2","1","2","0","0","0"],
+["2","2","2","2","1","2","1","2","2","8","2","2","1","2","1","2","2","2","2"],
+["2","0","0","0","1","1","1","1","5","6","7","1","1","1","1","0","0","0","2"],
+["2","2","2","2","1","2","1","2","2","1","2","2","1","2","1","2","2","2","2"],
+["0","0","0","2","1","2","1","1","1","3","1","1","1","2","1","2","0","0","0"],
+["2","2","2","2","1","2","2","2","1","2","1","2","2","2","1","2","2","2","2",],
+["2","1","1","1","1","2","1","1","1","2","1","1","1","2","1","1","1","1","2"],
+["2","1","2","2","1","2","1","2","2","2","2","2","1","2","1","2","2","1","2"],
+["2","1","1","1","1","1","1","1","1","3","1","1","1","1","1","1","1","1","2",],
+["2","1","2","2","1","2","2","2","1","2","1","2","2","2","1","2","2","1","2"],
+["2","4","1","1","1","1","1","1","1","2","1","1","1","1","1","1","1","4","2"],
+["2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2",]
+];
+
+    let ghosts = [];
+    let walls = [];
+    let pillur = [];
+    let superpillur = [];
+    let pacman;
+
+    map.forEach((row, i) => {
+      row.forEach((symbol, j) => {
+        switch (symbol) {
+          case "2":
+            walls.push(new Wall(j, i));
+            break;
+          case "1":
+            pillur.push(new Pill(j, i, 5));
+            break;
+          case "3":
+            pacman = new Pacman(j, i, 15, 5);
+            break;
+          case "5":
+            ghosts.push(new Ghost(j, i, 17, 5, true, "red"));
+            break;
+          case "6":
+            ghosts.push(new Ghost(j, i, 17, 5, true, "pink"));
+            break;
+          case "7":
+            ghosts.push(new Ghost(j, i, 17, 5, true, "cyan"));
+            break;
+          case "8":
+            ghosts.push(new Ghost(j, i, 17, 5, true, "orange"));
+            break;
+          case "4":
+            superpillur.push(new SuperPill(j, i, 10));
+            break;
+        }
+      });
+    });
+
+    const canvas = document.getElementById("pacman");
+    const context = canvas.getContext("2d");
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
+
+    let direction = { x: 0, y: 0 };
+
+    document.onkeydown = (event) => {
+      switch (event.keyCode) {
+        case 37:
+        case 65:
+          direction = { x: -1, y: 0 };
+          break;
+        case 38:
+        case 87:
+          direction = { x: 0, y: -1 };
+          break;
+        case 39:
+        case 68:
+          direction = { x: 1, y: 0 };
+          break;
+        case 40:
+        case 83:
+          direction = { x: 0, y: 1 };
+          break;
+      }
+    };
+
+    const drawPacman = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      pacman.updatePosition(direction);
+      walls.forEach((x) => x.draw(context));
+      pillur.forEach((x) => x.draw(context));
+      superpillur.forEach((x) => x.draw(context));
+      ghosts.forEach((x) => x.updatePosition());
+      ghosts.forEach((x) => x.draw(context));
+
+      pacman.draw(context, direction);
+    };
+
+    setInterval(drawPacman, 7);
+  </script>
+</html>

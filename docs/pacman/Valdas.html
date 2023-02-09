@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Pacman-game</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background:grey;
+      }
+      #myCanvas {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,50%);
+        border: 5px solid white;
+        max-width: 100%;
+        max-height: 100%;
+        
+      }
+      h1{
+        position:absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%,50%);
+        max-width: 100%;
+        max-height: 100%;
+        text-align: center;
+        font-size: -webkit-xxx-large;
+        font-family: system-ui;
+      }
+    </style>
+  </head>
+
+<body>
+  <h1>↓ Pac-Man leikurinn ↓</h1>
+  <canvas id="myCanvas" width="600" height="800"></canvas>
+  
+
+  <script>
+    class PacMan {
+      constructor(stadsetning_x, stadsetning_y) {
+        this.x = stadsetning_x;
+        this.y = stadsetning_y;
+        this.radius = 25;
+        this.litur = "yellow";
+        this.open = 0;
+        this.lif = 3;
+        this.speed = 10;
+        this.startAngle = 2.0 * Math.PI;
+        this.endAngle = 0.0 * Math.PI;
+      }
+    
+      draw() {
+        let canvas = document.getElementById("myCanvas");
+        let ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, this.startAngle - this.open, this.endAngle + this.open);
+        ctx.lineTo(this.x, this.y);
+        ctx.fillStyle = this.litur;
+        ctx.fill();
+      }
+      
+      moveUp() {
+        this.y -= this.speed;
+        this.startAngle = 1.75 * Math.PI;
+        this.endAngle = 1.25 * Math.PI;
+      }
+    
+      moveDown() {
+        this.y += this.speed;
+        this.startAngle = 0.75 * Math.PI;
+        this.endAngle = 0.25 * Math.PI;
+
+      }
+    
+      moveLeft() {
+        this.x -= this.speed;
+        this.startAngle = 1.25 * Math.PI;
+        this.endAngle = 0.75 * Math.PI;
+      }
+    
+      moveRight() {
+        this.x += this.speed;
+        this.startAngle = 0.25 * Math.PI;
+        this.endAngle = 1.75 * Math.PI;
+      }
+
+    }
+    class Board {
+      constructor() {
+        this.width = 600;
+        this.height = 800;
+      }
+    
+      draw() {
+        let canvas = document.getElementById("myCanvas");
+        let ctx = canvas.getContext("2d");
+    
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, this.width, this.height);
+
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 750, 600, 50); /*Neðri banner*/
+        ctx.fillRect(0, 0, 600, 50); /*Efri Banner*/
+        ctx.fillRect(550, 0, 50, 800); /*Vinstri Banner*/
+        ctx.fillRect(0, 0, 50, 800); /**/
+      }
+      clear() {
+        let canvas = document.getElementById("myCanvas");
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, this.width, this.height);
+      }
+    }
+    
+    let newBoard = new Board();
+    newBoard.draw();
+    
+    let pacMan = new PacMan(200, 200);
+    pacMan.draw();
+  
+    document.addEventListener("keydown", function(event) {
+      switch (event.code) {
+        case "ArrowUp":
+          pacMan.moveUp();
+          event.preventDefault();
+          break;
+        case "ArrowDown":
+          pacMan.moveDown();
+          event.preventDefault();
+          break;
+        case "ArrowLeft":
+          pacMan.moveLeft();
+          event.preventDefault();
+          break;
+        case "ArrowRight":
+          pacMan.moveRight();
+          event.preventDefault();
+          break;
+      }
+      newBoard.clear();
+      newBoard.draw();
+      pacMan.draw();
+      
+    });
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+  </script>
+
+</body>
+</html>

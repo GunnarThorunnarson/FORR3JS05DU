@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verkefni 1 Leikur</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: black;
+    }
+
+    #canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+
+        let canvas = document.getElementById("canvas");
+        let html = document.getElementById("html");
+        canvas.width = 1920
+        canvas.height = 720
+        // canvas.width = 6000
+        // canvas.height = 2500
+        let ctx = canvas.getContext("2d");
+        let hradi = 15
+        let secondsPassed;
+        let oldTimeStamp;
+        let fps;
+        let totaltime = 1;
+        let oldstamp = 0
+        let powpel = false;
+        let startAngle = 0.15 * Math.PI;
+        let endAngle = 1.85 * Math.PI;
+        let augax = 0
+        let augay = -11
+        let touchstart, touchmove;
+        let lasttouch = 0;
+        let touchtime = 0;
+        let touchendtime = 0;
+        let powerpcolor = "rgb(255, 248, 168)";
+        let startFlag = true;
+        let startTimeout;
+
+        const fullScreenButton = document.createElement("button");
+        fullScreenButton.style.position = "absolute";
+        fullScreenButton.style.top = "10px";
+        fullScreenButton.style.right = "10px";
+        fullScreenButton.style.width = "42px";
+        fullScreenButton.style.height = "42px";
+        fullScreenButton.style.backgroundColor = "#000";
+        fullScreenButton.style.cursor = "pointer";
+        fullScreenButton.style.border = "none"
+        fullScreenButton.innerHTML =  '\u2196\u2197' + '<br>' + '\u2199\u2198';
+        fullScreenButton.style.fontSize = "29px";
+        fullScreenButton.style.fontWeight = "900";
+        fullScreenButton.style.color = "white"
+        fullScreenButton.style.lineHeight = "18px";
+
+
+        
+        window.screen.orientation.lock('landscape');
+
+
+
+        // Add the button to the page
+        document.body.appendChild(fullScreenButton);
+
+        // Add event listeners for touch and mouse events
+        fullScreenButton.addEventListener("touchstart", toggleFullScreen);
+        fullScreenButton.addEventListener("click", toggleFullScreen);
+
+
+        function toggleFullScreen() {
+            if (canvas.requestFullscreen) {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    canvas.requestFullscreen();
+                    window.screen.orientation.lock('landscape');
+
+                }
+            } else if (canvas.mozRequestFullScreen) {
+                if (document.mozFullScreenElement) {
+                    document.mozCancelFullScreen();
+                } else {
+                    canvas.mozRequestFullScreen();
+                    window.screen.orientation.lock('landscape');
+
+                }
+            } else if (canvas.webkitRequestFullscreen) {
+                if (document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen();
+                } else {
+                    canvas.webkitRequestFullscreen();
+                    window.screen.orientation.lock('landscape');
+
+                }
+            }
+        }
+
+
+
+
+        function randomatt() {
+            let arr = [[15, 0], [-15, 0], [0, 15], [0, -15], [10.6, 10.6], [-10.6, -10.6], [-10.6, 10.6], [10.6, -10.6]];
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+
+        function powerpellcolor() {
+            if (powerpcolor == "rgb(255, 248, 168)") {
+                powerpcolor = "#000";
+            } else {
+                powerpcolor = "rgb(255, 248, 168)";
+            }
+
+            setTimeout(powerpellcolor, 250)
+        }
+
+
+        class GameObjects {
+
+            constructor(x, y, xv, yv) {
+                this.x = x;
+                this.y = y;
+                this.xv = xv;
+                this.yv = yv;
+                this.isColliding = false;
+
+            }
+        }
+
+        class innrivegg extends GameObjects {
+
+            constructor(x, y, xv, yv, height, width, color) {
+                super(x, y, xv, yv)
+                this.height = height;
+                this.width = width;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.strokeStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height,);
+                // ctx.beginPath();
+                // ctx.roundRect(this.x, this.y, this.width, this.height [40]);
+                // ctx.stroke();
+
+            }
+        }
+        class telepop extends GameObjects {
+            constructor(x, y, xv, yv, height, width, color, objex) {
+                super(x, y, xv, yv)
+                this.height = height;
+                this.width = width;
+                this.color = color;
+                this.objex = objex
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.strokeStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                // ctx.beginPath();
+                // ctx.roundRect(this.x, this.y, this.width, this.height [40]);
+                // ctx.stroke();
+
+            }
+        }
+
+        class Ghost extends GameObjects {
+
+            constructor(x, y, xv, yv, width, height, color) {
+                super(x, y, xv, yv);
+                this.color = color;
+                this.width = width;
+                this.height = height;
+                let ratt = randomatt();
+                this.xv = ratt[0];
+                this.yv = ratt[1];
+                this.lastcol = 0;
+                this.dead = false;
+
+            }
+
+            draw() {
+                if (this.dead == false) {
+                    if (powpel == true) {
+                        ctx.fillStyle = "purple";
+                    } else {
+                        ctx.fillStyle = this.color;
+                    }
+
+
+
+                    // Draw the head
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.width / 2, 0, 2 * Math.PI);
+                    ctx.fill();
+
+
+                    ctx.fillRect(this.x - this.width / 2, this.y, this.height, this.width - 75)
+
+                    ctx.arc(this.x - this.width / 2 + this.width / 6.0, this.y + 70, this.width / 6.0, 0, 2 * Math.PI);
+                    ctx.arc(this.x - this.width / 2 + this.width / 6.0 * 3, this.y + 70, this.width / 6.0, 0, 2 * Math.PI);
+                    ctx.arc(this.x - this.width / 2 + this.width / 6.0 * 5, this.y + 70, this.width / 6.0, 0, 2 * Math.PI);
+
+
+                    ctx.fill();
+
+                    // Draw the eyes
+                    ctx.beginPath();
+                    ctx.arc(this.x - 35, this.y, this.width / 8, 0, 2 * Math.PI);
+                    ctx.fillStyle = "white";
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(this.x + 35, this.y, this.width / 8, 0, 2 * Math.PI);
+                    ctx.fillStyle = "white";
+                    ctx.fill();
+
+                    // Draw the pupils
+                    ctx.beginPath();
+                    ctx.arc(this.x - 35, this.y, this.width / 16, 0, 2 * Math.PI);
+                    ctx.fillStyle = "black";
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(this.x + 35, this.y, this.width / 16, 0, 2 * Math.PI);
+                    ctx.fillStyle = "black";
+                    ctx.fill();
+
+
+                }
+            }
+        }
+
+        class Powerpellet extends GameObjects {
+
+            constructor(x, y, xv, yv) {
+                super(x, y, xv, yv)
+                this.laststamp = 0;
+                this.radius = 30;
+
+
+            }
+
+            draw() {
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = powerpcolor;
+                ctx.fill();
+
+
+            }
+
+        }
+
+        class Pellet extends GameObjects {
+
+            constructor(x, y, xv, yv) {
+                super(x, y, xv, yv);
+                this.color = "rgb(255, 248, 168)"
+                this.radius = 18;
+
+            }
+
+        draw() {
+            ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+
+        }
+
+
+        }
+
+
+        let powwp = {
+            powxy: [
+                [-1700, -1100],
+                [-1920 + 5370, -1100],
+                [-1920 + 5370, -1540 + 720 * 3],
+                [-1700, -1540 + 720 * 3]
+            ],
+            powwp: []
+        }
+        for (let x = 0; x < powwp.powxy.length; x++) {
+            powwp.powwp.push(new Powerpellet(powwp.powxy[x][0], powwp.powxy[x][1], 0, 0))
+        }
+
+        let pell = {
+
+            pellline: [
+                [-1700, -1100, -1920 + 5370, -1100, 'x'],
+                [-1920 + 5370, -1100+100, -1700, -1540 + 720 * 2+100, 'y'],
+                [-1920 + 5370, -1540 + 720 * 2+100, -1700, -1540 + 720 * 3, 'y'],
+                [750, -1540 + 720*3, -1920 + 5370, -1100, 'x'],
+                [-1700, -1540 + 720*3, -1920 + 2600, -1100, 'x'],
+                [-1700, -1540 + 720*3-440, -1920 + 4600, -1100, 'x'],
+                [-1700, -1540 + 720*3-1240, -1920 + 3800, -1100, 'x'],
+                [-1700, -1100, -1700, -1540 + 720 * 2-340, 'y'],
+                [-1700+660, -1100, -1700, -1540 + 720 * 2-400, 'y'],
+                [-1700+2100, -1100, -1700, -1540 + 720 * 2-400, 'y'],
+                [-1700+3300, -1100, -1700, -1540 + 720 * 2-400, 'y'],
+                [-1700+3740, -1100, -1700, -1540 + 720 * 2+350, 'y'],
+                [-1700+4460, -900, -1700, -1540 + 720 * 2+350, 'y'],
+
+
+
+
+
+
+
+
+
+
+
+                ],
+
+            pellxy: [],
+            pells: []
+        }
+
+        for (let i = 0; i < pell.pellline.length; i++) {
+            if (pell.pellline[i][4] == 'x') {
+               for (let j = pell.pellline[i][0]+220; j <= pell.pellline[i][2]-220; j+=220) {
+                pell.pells.push(new Pellet(j, pell.pellline[i][1], 0, 0))
+                pell.pellxy.push([j, pell.pellline[i][1], 0, 0])
+               }
+            } else {
+                for (let j = pell.pellline[i][1]+220; j <= pell.pellline[i][3]-220; j+=220) {
+                pell.pells.push(new Pellet (pell.pellline[i][0], j, 0, 0))
+                pell.pellxy.push([pell.pellline[i][0], j, 0, 0])
+            }
+        }
+    }
+
+        for (let i = 0; i < pell.pells.length; i++) {
+            pell.pells[i].draw();
+        }
+
+
+
+
+        class leikbord extends GameObjects {
+
+            constructor(x, y, xv, yv, height, width) {
+                super(x, y, xv, yv);
+                this.height = height;
+                this.width = width;
+                this.innrivegg = [
+                    new innrivegg(-1920 + 2880 - 400, -720 + 1080 - 225 - 600, 0, 0, 450, 800, '#0023a8'),
+                    new innrivegg(-1920 + 2880 - 400, -720 + 565 - 225 - 600, 0, 0, 150, 800, '#0023a8'),
+                    new innrivegg(-1920 + 1450 - 400, -720 + 565 - 225 - 600, 0, 0, 150, 1050, '#0023a8'),
+                    new innrivegg(-1920 + 750 - 400, -720 + 565 - 225 - 600, 0, 0, 150, 300, '#0023a8'),
+                    new innrivegg(-1920, -720 + 1080 - 225 - 600, 0, 0, 450, 650, '#0023a8'),
+                    new innrivegg(-1920 + 750 - 400, -720 + 1865 - 225 - 600, 0, 0, 150, 300, '#0023a8'),
+                    new innrivegg(-1920 + 1450 - 400, -720 + 1865 - 225 - 600, 0, 0, 150, 1050, '#0023a8'),
+                    new innrivegg(-1920 + 1450 - 400, -720 + 1305 - 150 - 600, 0, 0, 150, 1050, '#0023a8'),
+                    new innrivegg(-1920 + 1450 - 400, -720 + 1080 - 225 - 600, 0, 0, 450, 150, '#0023a8'),
+                    new innrivegg(-1920 + 1450 - 400 + 900, -720 + 1080 - 225 - 600, 0, 0, 450, 150, '#0023a8'),
+                    new innrivegg(-1920 + 2880 - 400, 920 - 600, 0, 0, 520, 150, '#0023a8'),
+                    new innrivegg(1090, -720 + 1865 - 225 - 600, 0, 0, 150, 800, '#0023a8'),
+                    new innrivegg(1740, -720 + 565 - 225 - 600, 0, 0, 965, 150, '#0023a8'),
+                    new innrivegg(2255, -720 + 565 - 225 - 600, 0, 0, 150, 1050, '#0023a8'),
+                    new innrivegg(2255 + 900, -380 - 600, 0, 0, 450, 150, '#0023a8'),
+                    new innrivegg(2255, -380 - 600, 0, 0, 450, 150, '#0023a8'),
+                    new innrivegg(2255 + 1050 + 365 - 500, 70 + 365 - 600, 0, 0, 150, 500, '#0023a8'),
+                    new innrivegg(2455, 435 - 600, 0, 0, 485 + 150, 150, '#0023a8'),
+                    new innrivegg(2455, -720 + 1865 - 225 - 600, 0, 0, 150, 715, '#0023a8'),
+
+
+
+
+                ]
+                // this.telep = [
+                //     new telepop(-1920+1620-400, -720+1305-220-600, 0, 0, 50, 710, '#f0b410', [-1920, -720-600, -600, 500, 720*3, 5590]),
+                //     new telepop(2255+170, -720+510-600, 0, 0, 50, 710, '#f0b410', [-1920, -720-600, 0, 0, 720*3, 5590])
+                //     ]
+
+                this.ghosts = [
+                    new Ghost(750, -140, 0, 0, 150, 150, "red"),
+                    new Ghost(750, -320, 0, 0, 150, 150, "pink"),
+                    new Ghost(1200, -140, 0, 0, 150, 150, "cyan"),
+                    new Ghost(1200, -320, 0, 0, 150, 150, "orange"),
+                ]
+                this.powpell = powwp;
+
+
+                this.pells = pell
+
+
+            }
+            draw() {
+                ctx.strokeStyle = '#0023a8';
+                ctx.lineWidth = 10;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+
+                let x = 3
+                for (var i = 0; i < pacman.hp; i++) {
+                    // calculate position for each heart
+                    var xPos = 90 * i + 60;
+                    var yPos = 50;
+
+                    // draw heart shape
+                    ctx.beginPath();
+                    ctx.moveTo(xPos, yPos);
+                    ctx.bezierCurveTo(xPos - 40, yPos - 40, xPos - 40, yPos + 40, xPos, yPos + 55);
+                    ctx.bezierCurveTo(xPos + 40, yPos + 40, xPos + 40, yPos - 40, xPos, yPos);
+                    ctx.fillStyle = "red";
+                    ctx.fill();
+                }
+                ctx.font = "65px retro";
+                ctx.fillStyle = "yellow";
+                ctx.fillText("Score: " + pacman.score, 300, 90);
+                ctx.fillText("Highscore: " + pacman.highscore, 650, 90);
+            }
+        }
+
+
+
+
+        let pacman = {
+            radius: 30,
+            x: 1920 / 2,
+            y: 720 / 2,
+            xv: 0,
+            yv: 0,
+            rotation: 0,
+            hp: 3,
+            score: 0,
+            highscore: localStorage.getItem('highscore') || 0,
+            draw: function () {
+
+                let xv = leikb.xv;
+                let yv = leikb.yv;
+
+                if (Math.abs(xv) > Math.abs(yv)) {
+                    yv = 0;
+                } 
+                else {
+                    xv = 0;
+                }
+
+                if (xv > 0) {
+                    startAngle = 1.1 * Math.PI;
+                    endAngle = 0.75 * Math.PI;
+                    augax = 0;
+                    augay = -11
+                } else if (xv < 0) {
+                    startAngle = 0.15 * Math.PI;
+                    endAngle = 1.85 * Math.PI;
+                    augax = 0
+                    augay = -11
+
+                } else if (yv > 0) {
+                    startAngle = 1.55 * Math.PI;
+                    endAngle = 1.3 * Math.PI;
+                    augax = -18
+                    augay = -6
+
+                } else if (yv < 0) {
+                    startAngle = 0.55 * Math.PI;
+                    endAngle = (0.55 + 1.75) * Math.PI;
+                    augax = 15
+                    augay = -4
+
+                }
+
+
+                ctx.fillStyle = "yellow";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, startAngle, endAngle);
+                ctx.lineTo(this.x, this.y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = "black";
+                ctx.beginPath();
+                ctx.arc(this.x + augax, this.y + augay, this.radius / 6, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+
+
+
+        powerpellcolor();
+
+        let leikb = new leikbord(-1920, -720 - 600, 0, 0, 720 * 3, 5590)
+
+
+        timeStamp = 0;
+        function init(timeStamp) {
+            secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+            oldTimeStamp = timeStamp;
+            totaltime += (timeStamp - oldTimeStamp) / 1000;
+
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // veggja collision
+            if (timeStamp > oldstamp + 300) {
+
+                for (let i = 0; i < leikb.innrivegg.length; i++) {
+                    let midjax = leikb.innrivegg[i].x + leikb.innrivegg[i].width / 2
+                    let midjay = leikb.innrivegg[i].y + leikb.innrivegg[i].height / 2
+                    if (
+                        pacman.x + pacman.radius < leikb.innrivegg[i].x ||
+                        pacman.x - pacman.radius > leikb.innrivegg[i].x + leikb.innrivegg[i].width ||
+                        pacman.y + pacman.radius < leikb.innrivegg[i].y ||
+                        pacman.y - pacman.radius > leikb.innrivegg[i].y + leikb.innrivegg[i].height) {
+                    }
+
+                    else {
+                        let xv = leikb.xv;
+                        let yv = leikb.yv;
+                        leikb.xv = 0;
+                        leikb.yv = 0;
+                        if (pacman.x + pacman.radius < midjax && xv > 0) {
+                            leikb.xv = xv;
+                        }
+
+                        else if (pacman.x - pacman.radius > midjax && xv < 0) {
+                            leikb.xv = xv;
+                        }
+
+                        else if (pacman.y + pacman.radius < midjay && yv > 0) {
+                            leikb.yv = yv;
+                        }
+                        else if (pacman.y - pacman.radius - hradi > midjay && yv < 0) {
+                            leikb.yv = yv;
+                        }
+                    }
+                    for (let j = 0; j < leikb.ghosts.length; j++) {
+
+                        if (
+                            leikb.ghosts[j].x + leikb.ghosts[j].width / 4 < leikb.innrivegg[i].x ||
+                            leikb.ghosts[j].x - leikb.ghosts[j].width / 4 > leikb.innrivegg[i].x + leikb.innrivegg[i].width ||
+                            leikb.ghosts[j].y + leikb.ghosts[j].width / 4 < leikb.innrivegg[i].y ||
+                            leikb.ghosts[j].y - leikb.ghosts[j].width / 4 > leikb.innrivegg[i].y + leikb.innrivegg[i].height) {
+                        } else {
+
+
+                            if (timeStamp > 4000) {
+                                if (timeStamp > leikb.ghosts[j].lastcol + 100) {
+                                    let ratt = randomatt();
+                                    if (leikb.ghosts[j].x + leikb.ghosts[j].width * -0.1 > midjax) {
+                                        leikb.ghosts[j].lastcol = timeStamp
+                                        leikb.ghosts[j].xv = 15;
+                                        leikb.ghosts[j].yv = 0;
+                                        setTimeout(() => {
+                                            leikb.ghosts[j].xv = ratt[0];
+                                            leikb.ghosts[j].yv = ratt[1];
+                                        }, 200)
+                                    } else if (leikb.ghosts[j].x - leikb.ghosts[j].width * -0.1 < midjax) {
+                                        leikb.ghosts[j].lastcol = timeStamp
+                                        leikb.ghosts[j].xv = -15;
+                                        leikb.ghosts[j].yv = 0;
+                                        setTimeout(() => {
+                                            leikb.ghosts[j].xv = ratt[0];
+                                            leikb.ghosts[j].yv = ratt[1];
+                                        }, 200)
+                                    }
+                                    if (leikb.ghosts[j].y + leikb.ghosts[j].width * -0.1 > midjay) {
+                                        leikb.ghosts[j].lastcol = timeStamp
+                                        leikb.ghosts[j].xv = 0;
+                                        leikb.ghosts[j].yv = 15;
+                                        setTimeout(() => {
+                                            leikb.ghosts[j].xv = ratt[0];
+                                            leikb.ghosts[j].yv = ratt[1];
+                                        }, 200)
+                                    } else if (leikb.ghosts[j].y - leikb.ghosts[j].width * -0.1 < midjay) {
+                                        leikb.ghosts[j].lastcol = timeStamp
+                                        leikb.ghosts[j].xv = 0;
+                                        leikb.ghosts[j].yv = -15;
+                                        setTimeout(() => {
+                                            leikb.ghosts[j].xv = ratt[0];
+                                            leikb.ghosts[j].yv = ratt[1];
+                                        }, 200)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            // for (let i = 0; i < leikb.telep.length; i++) {
+            //     if (
+            //         pacman.x + pacman.radius < leikb.telep[i].x ||
+            //         pacman.x - pacman.radius > leikb.telep[i].x + leikb.telep[i].width ||
+            //         pacman.y + pacman.radius < leikb.telep[i].y ||
+            //         pacman.y - pacman.radius > leikb.telep[i].y + leikb.telep[i].height) {
+            //         }
+
+            //     else {
+            //         if (timeStamp > (oldstamp + 10000)) {
+
+            //         oldstamp = timeStamp;
+            //             let telepp = leikb.telep[i].objex;
+            //             leikb = new leikbord(telepp[0], telepp[1], telepp[2], telepp[3], telepp[4], telepp[5]);
+            //     }}
+            //     }
+
+
+
+            // power pellet collision
+            for (let i = 0; i < leikb.powpell.powwp.length; i++) {
+                if (
+                    pacman.x + pacman.radius < leikb.powpell.powwp[i].x - leikb.powpell.powwp[i].radius ||
+                    pacman.x - pacman.radius > leikb.powpell.powwp[i].x + leikb.powpell.powwp[i].radius ||
+                    pacman.y + pacman.radius < leikb.powpell.powwp[i].y - leikb.powpell.powwp[i].radius ||
+                    pacman.y - pacman.radius > leikb.powpell.powwp[i].y + leikb.powpell.powwp[i].radius) {
+                }
+
+                else {
+                    leikb.powpell.powwp.splice(i, 1)
+                    powwp.powxy.splice(i, 1)
+                    powpel = true;
+
+                    setTimeout(() => {
+                        powpel = false;
+                    }, 10000);
+                }
+            }
+
+
+            for (let i = 0; i < leikb.pells.pells.length; i++) {
+                if (
+                    pacman.x + pacman.radius < leikb.pells.pells[i].x - leikb.pells.pells[i].radius ||
+                    pacman.x - pacman.radius > leikb.pells.pells[i].x + leikb.pells.pells[i].radius ||
+                    pacman.y + pacman.radius < leikb.pells.pells[i].y - leikb.pells.pells[i].radius ||
+                    pacman.y - pacman.radius > leikb.pells.pells[i].y + leikb.pells.pells[i].radius) {
+                }
+
+                else {
+                    leikb.pells.pells.splice(i, 1)
+                    leikb.pells.pellxy.splice(i, 1)
+                    pacman.score += 10;
+
+                }
+            }
+
+            // border collision
+            if (pacman.x + pacman.radius - hradi * 2 <= leikb.x && leikb.xv > 0) {
+                leikb.xv = 0;
+            } else if (pacman.x - pacman.radius + hradi * 2 >= leikb.x + leikb.width && leikb.xv < 0) {
+                leikb.xv = 0;
+            }
+            if (pacman.y + pacman.radius - hradi * 2 <= leikb.y && leikb.yv > 0) {
+                leikb.yv = 0;
+            } else if (pacman.y - pacman.radius + hradi * 2 >= leikb.y + leikb.height && leikb.yv < 0) {
+                leikb.yv = 0
+            }
+
+            // ghost collision
+
+            for (let i = 0; i < leikb.ghosts.length; i++) {
+                let ratt = randomatt();
+                if (leikb.ghosts[i].x - leikb.ghosts[i].width / 4 <= leikb.x) {
+
+                    leikb.ghosts[i].xv = 15;
+                    leikb.ghosts[i].yv = 0;
+                    setTimeout(() => {
+                        leikb.ghosts[i].xv = ratt[0];
+                        leikb.ghosts[i].yv = ratt[1];
+                    }, 300)
+                } else if (leikb.ghosts[i].x + leikb.ghosts[i].width / 4 >= leikb.x + leikb.width) {
+
+
+                    leikb.ghosts[i].xv = -15;
+                    leikb.ghosts[i].yv = 0;
+                    setTimeout(() => {
+                        leikb.ghosts[i].xv = ratt[0];
+                        leikb.ghosts[i].yv = ratt[1];
+                    }, 300)
+                }
+                if (leikb.ghosts[i].y - leikb.ghosts[i].width / 4 <= leikb.y) {
+
+                    leikb.ghosts[i].xv = 0;
+                    leikb.ghosts[i].yv = 15;
+                    setTimeout(() => {
+                        leikb.ghosts[i].xv = ratt[0];
+                        leikb.ghosts[i].yv = ratt[1];
+                    }, 300)
+                } else if (leikb.ghosts[i].y + leikb.ghosts[i].width / 4 >= leikb.y + leikb.height) {
+
+                    leikb.ghosts[i].xv = 0;
+                    leikb.ghosts[i].yv = -15;
+                    setTimeout(() => {
+                        leikb.ghosts[i].xv = ratt[0];
+                        leikb.ghosts[i].yv = ratt[1];
+                    }, 300)
+                }
+                if (pacman.x + pacman.radius < leikb.ghosts[i].x - leikb.ghosts[i].width / 2 ||
+                    pacman.x - pacman.radius > leikb.ghosts[i].x + leikb.ghosts[i].width / 2 ||
+                    pacman.y + pacman.radius < leikb.ghosts[i].y - leikb.ghosts[i].width / 2 ||
+                    pacman.y - pacman.radius > leikb.ghosts[i].y + leikb.ghosts[i].width / 2) {
+                } else {
+                    if (timeStamp > (leikb.ghosts[i].lastcol + 500)) {
+                        leikb.ghosts[i].lastcol = timeStamp;
+                        if (powpel == true) {
+                            leikb.ghosts[i].dead = true;
+                            pacman.score += 200;
+                            setTimeout(() => {
+                                leikb.ghosts[i].x = leikb.innrivegg[0].x - 100;
+                                leikb.ghosts[i].y = leikb.innrivegg[0].y + 100;
+                                leikb.ghosts[i].dead = false;
+                            }, 3000);
+                        } else {
+                            window.navigator.vibrate(350);
+                            pacman.hp -= 1;
+                            leikb = new leikbord(-1920, -720 - 600, 0, 0, 720 * 3, 5590)
+
+                            powwp.powwp.length = 0;
+                            for (let x = 0; x < powwp.powxy.length; x++) {
+                                powwp.powwp.push(new Powerpellet(powwp.powxy[x][0], powwp.powxy[x][1], 0, 0))
+                            }
+                            pell.pells.length = 0;
+                            
+                            for (let x = 0; x < pell.pellxy.length; x++) {
+                                pell.pells.push(new Pellet(pell.pellxy[x][0], pell.pellxy[x][1], pell.pellxy[x][2], pell.pellxy[x][3]))
+                            }
+
+                        }
+                    }
+                    leikb.ghosts[i].lastcol = timeStamp;
+                }
+            }
+
+
+
+
+            leikb.x += leikb.xv;
+            leikb.y += leikb.yv;
+
+
+
+
+
+            for (let i = 0; i < leikb.innrivegg.length; i++) {
+                leikb.innrivegg[i].x += leikb.xv
+                leikb.innrivegg[i].y += leikb.yv
+                leikb.innrivegg[i].draw();
+            }
+            // for (let i = 0; i < leikb.telep.length; i++) {
+            //     leikb.telep[i].x += leikb.xv
+            //     leikb.telep[i].y += leikb.yv
+            //     leikb.telep[i].draw();
+            // }
+
+            for (let i = 0; i < leikb.powpell.powwp.length; i++) {
+                leikb.powpell.powwp[i].x += leikb.xv;
+                leikb.powpell.powwp[i].y += leikb.yv;
+                leikb.powpell.powwp[i].draw();
+
+            }
+            for (let i = 0; i < leikb.pells.pells.length; i++) {
+                leikb.pells.pells[i].x += leikb.xv;
+                leikb.pells.pells[i].y += leikb.yv;
+                leikb.pells.pells[i].draw();
+            }
+            for (let i = 0; i < leikb.ghosts.length; i++) {
+                leikb.ghosts[i].x += leikb.xv;
+                leikb.ghosts[i].y += leikb.yv;
+                leikb.ghosts[i].x += leikb.ghosts[i].xv;
+                leikb.ghosts[i].y += leikb.ghosts[i].yv;
+                leikb.ghosts[i].draw();
+
+            }
+            pacman.draw();
+            leikb.draw();
+
+
+            document.addEventListener("keydown", function (event) {
+
+                if (event.code === "ArrowRight") {
+                    leikb.xv = -hradi;
+                } else if (event.code === "ArrowLeft") {
+                    leikb.xv = hradi;
+                } else if (event.code === "ArrowUp") {
+                    leikb.yv = hradi;
+                } else if (event.code === "ArrowDown") {
+                    leikb.yv = -hradi;
+                }
+            });
+
+            document.addEventListener("keyup", function (event) {
+                if (event.code === "ArrowLeft" || event.code === "ArrowRight") {
+                    leikb.xv = 0;
+                } else if (event.code === "ArrowUp" || event.code === "ArrowDown") {
+                    leikb.yv = 0;
+                }
+            });
+
+            
+            window.addEventListener('touchstart', (e) => {
+                if (startFlag == false) {   setTimeout(() => {
+                                            clearTimeout(startTimeout)
+                                            location.reload();}), 150}
+
+                touchtime = e.timeStamp;
+                touchstart = [e.changedTouches[0].pageX, e.changedTouches[0].pageY];
+
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                if (timeStamp > lasttouch + 40) {
+                lasttouch = timeStamp;
+                let x = e.changedTouches[0].pageX-window.innerWidth/2
+                let y = e.changedTouches[0].pageY-window.innerHeight/2
+                const c = hradi;
+                const radians = Math.atan2(y, x);
+                const a = c * Math.cos(radians);
+                const b = c * Math.sin(radians);
+                leikb.xv = -a;
+                leikb.yv = -b;
+                }
+            });
+
+            window.addEventListener('touchend', (e) => {
+                if (timeStamp > touchendtime + 1500) {
+                touchendtime = timeStamp;
+                if (120 < (e.timeStamp - touchtime) && 700 > (e.timeStamp - touchtime)) {
+                    let x = e.changedTouches[0].pageX - touchstart[0]
+                    let y = e.changedTouches[0].pageY - touchstart[1]
+                    let xv = leikb.xv;
+                    let yv = leikb.yv;
+                    console.log(Math.sqrt(x*x + y*y))
+                    if (Math.sqrt(x*x + y*y) < 100) {
+                        leikb.xv *= 1.15;
+                        leikb.yv *= 1.15;
+                    } else if (Math.sqrt(x*x + y*y) < 300) {
+                        leikb.xv *= 1.3;
+                        leikb.yv *= 1.3;
+                    } else {
+                        leikb.xv *= 1.5;
+                        leikb.yv *= 1.5; 
+                    }
+
+                    setTimeout(() => {
+                        leikb.xv = xv;
+                        leikb.yv = yv;
+                        
+                    }, 1500)}
+            
+                // let x = e.changedTouches[0].pageX-window.innerWidth/2
+                // let y = e.changedTouches[0].pageY-window.innerHeight/2
+                // const c = hradi;
+                // const radians = Math.atan2(y, x);
+                // const a = c * Math.cos(radians);
+                // const b = c * Math.sin(radians);
+                // leikb.xv = -a;
+                // leikb.yv = -b;
+                
+
+            
+        }}, false);
+
+
+
+            if (pacman.hp != 0 && leikb.pells.pells.length != 0) {
+                requestAnimationFrame(init);
+            } else {
+                if (startFlag == true) {startFlag = false;};
+                ctx.font = "100px retro";
+                ctx.fillStyle = "red";
+                ctx.fillText("Game over", canvas.width / 2 - canvas.width / 4+200, canvas.height / 2);
+                ctx.fillText("Game will restart in 10sec or on touch", canvas.width / 2 - canvas.width / 4-190, canvas.height / 2+100);
+
+                if (localStorage.getItem('highscore') < pacman.score) {
+                    localStorage.setItem('highscore', pacman.score);
+                }
+                startTimeout = setTimeout(function () {
+                    location.reload();
+                }, 10000);
+
+
+
+
+            }
+        }
+
+
+
+        init();
+
+
+
+    </script>
+</body>
+
+</html>

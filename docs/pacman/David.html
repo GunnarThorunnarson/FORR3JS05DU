@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testing game</title>
+</head>
+<body>
+    <canvas id="juicySloppy" tabindex="0" width="1440" height="800"></canvas>
+    <style>
+        canvas{border: 1px solid black; width: 100%; height: 100%;}
+        body{background-color: #301934; margin: 0;}
+    </style>
+    <script>
+        const canvas = document.getElementById("juicySloppy");
+const d = canvas.getContext("2d")
+
+let angle = Math.PI / 180
+
+const width = canvas.width;
+const height = canvas.height;
+
+let score = 0;
+
+class Ghost {
+
+    constructor(color, x, y, vx, vy){
+
+        this.color = color
+        this.x = x
+        this.y = y
+        this.vx = vx
+        this.vy = vy
+
+    }
+
+    draw() {
+
+        d.beginPath();
+        d.fillStyle = this.color;
+        d.arc(this.x, this.y, 20, angle * 180, angle * 0);
+
+        let changeX = this.x + 20;
+        let changerY = this.y + 40;
+        let changeY = this.y + 40;
+
+        for (let i = 0; i < 7; i++) {
+            d.lineTo(changeX, changeY);
+            changeX -= 6.5;
+            if (changeY === changerY){
+                changeY -= 6;
+            }
+            else{
+                changeY += 6;
+            }
+        }
+
+
+        d.lineTo((this.x - 20), this.y)
+        d.fill();
+        d.stroke();
+        d.closePath();
+
+        let x1 = this.x + 6;
+        let x2 = this.x + 4;
+
+        for (let i = 0; i < 2; i++) {
+
+            d.beginPath();
+            d.strokeStyle = "black";
+            d.fillStyle = "white"
+            d.arc(x1, this.y, 7, angle * 0, angle * 360)
+            d.stroke();
+            d.fill();
+
+            d.beginPath();
+            d.fillStyle = "black";
+            d.arc(x2 , this.y, 2, angle * 0, angle * 360)
+            d.fill();
+            d.closePath();
+
+            x1 -= 16
+            x2 -= 14
+        }
+        
+    }
+
+    update() {
+
+        if (this.x + 20 >= width || this.x - 20 <= 0){
+            this.vx  = -this.vx;
+          }
+      
+        if (this.y + 20 >= height || this.y - 20 <= 0){
+            this.vy = -this.vy;
+          }
+
+      
+          this.x += this.vx;
+          this.y += this.vy;
+      
+    }
+
+}
+
+class Life {
+
+    constructor(x) {
+        this.xx = x
+        this.yy = 20
+        this.rr = 10
+    }
+
+    draw() {
+        d.beginPath();
+        d.arc(this.xx, this.yy, this.rr, angle * 30, angle * 330)
+        d.lineTo(this.xx, this.yy)
+        d.closePath();
+        d.fillStyle = "yellow"
+        d.fill();
+        d.closePath();
+    }
+
+
+}
+
+class Pellet {
+
+    constructor(x, y,) {
+        this.x = x;
+        this.y = y;
+        this.r = 5;
+    }
+
+    draw() {
+        d.beginPath();
+        d.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+        d.fillStyle = "purple"
+        d.fill();
+        d.closePath();
+    }
+}
+
+const pacman = {
+    x:100,
+    y:100,
+    vx:5,
+    vy:5,
+    r:20,
+    drawR() {
+
+        d.beginPath();
+        d.arc(this.x, this.y, this.r, angle * 30, angle * 330)
+        d.lineTo(this.x, this.y)
+        d.closePath();
+        d.fillStyle = "yellow"
+        d.fill();
+        d.closePath();
+
+        d.beginPath();
+        d.arc(this.x, (this.y - 10), (this.r - 17),0, Math.PI * 2)
+        d.fillStyle = "black"
+        d.fill();
+        d.closePath();
+    },
+
+    drawL() {
+
+        d.beginPath();
+        d.arc(this.x, this.y, this.r, angle * 210, angle * 500)
+        d.lineTo(this.x, this.y)
+        d.closePath();
+        d.fillStyle = "yellow"
+        d.fill();
+        d.closePath();
+
+        d.beginPath();
+        d.arc(this.x, (this.y - 10), (this.r - 17),0, Math.PI * 2)
+        d.fillStyle = "black"
+        d.fill();
+        d.closePath();
+    },
+
+    drawU() {
+
+        d.beginPath();
+        d.arc(this.x, this.y, this.r, angle * 300, angle * 600)
+        d.lineTo(this.x, this.y)
+        d.closePath();
+        d.fillStyle = "yellow"
+        d.fill();
+        d.closePath()
+    },
+
+    drawD() {
+
+        d.beginPath();
+        d.arc(this.x, this.y, this.r, angle * 130, angle * 410)
+        d.lineTo(this.x, this.y)
+        d.closePath();
+        d.fillStyle = "yellow"
+        d.fill();
+        d.closePath()
+    },
+
+    update() {
+
+        if ( this.x - 20 <= 0){
+            this.x += 5
+          }
+      
+        if (this.y + 20 >= height ){
+            this.y -= 5
+          }
+
+        if (this.x + 20 >= width) {
+            this.x -= 5
+        }
+
+        if(this.y - 20 <= 0){
+            this.y += 5
+        }
+    }
+
+}
+
+let ghost = [];
+let life = [new Life(20),new Life(50),new Life(80)];
+let pellets = [];
+
+let LEFT, UP, RIGHT, DOWN;
+
+function move() {
+    pacman.drawR();
+    pacman.update();
+
+    if(LEFT){
+        pacman.x -= pacman.vx
+    }
+
+    if(RIGHT){
+        pacman.x += pacman.vx
+    }
+
+    if(UP){
+        pacman.y -= pacman.vy
+    }
+
+    if(DOWN){
+        pacman.y += pacman.vy
+    }
+
+}
+
+function movement() {
+
+
+    document.addEventListener("keydown", function(e){
+
+
+        if (e.code === "KeyA") { 
+            LEFT = true; 
+            pacman.drawL();
+        }
+        if (e.code === "KeyD") {
+            RIGHT = true;
+            pacman.drawR();
+        }
+        if (e.code === "KeyW") {
+            UP = true;
+        }
+        if (e.code === "KeyS") {
+            DOWN = true;
+        }
+    })
+    
+    document.addEventListener("keyup", function(e) {
+
+    
+        if (e.code === "KeyA") { 
+            LEFT = false; 
+        }
+        if (e.code === "KeyD") {
+            RIGHT = false;
+        }
+        if (e.code === "KeyW") {
+            UP = false;
+        }
+        if (e.code === "KeyS") {
+            DOWN = false;
+        }
+    })
+
+}
+
+function random(min, max) {
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+}
+
+function circieMeet(circle1, circle2) {
+    let dx = circle1.x - circle2.x;
+    let dy = circle1.y - circle2.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance < circle1.r + 20) {
+        return true;
+    }
+
+    return false;
+}
+
+
+let textWidth1 = d.measureText("GAME OVER").width;
+let textWidth2 = d.measureText("YOU WIN").width;
+
+function gameOver() {
+    d.fillStyle = "red"
+    d.fillRect(0,0,width,height)
+    d.font = "100px sans-serif";
+    d.fillStyle = "black"
+    d.fillText("GAME OVER", (width - textWidth1) / 4, height / 2)
+}
+
+function win() {
+    d.fillStyle = "green"
+    d.fillRect(0,0,width,height)
+    d.font = "100px sans-serif";
+    d.fillStyle = "black"
+    d.fillText("YOU WIN", (width - textWidth2) / 4, height / 2)
+}
+
+function count() {
+    d.font = "24px sans-serif";
+    d.fillStyle = "black"
+    d.fillText(`Score: ${score}`, 1300, 20);
+}
+function begin() {
+    d.fillStyle = "#301934"
+    d.fillRect(0,0,width,height)
+    d.font = "100px sans-serif";
+    d.fillStyle = "white"
+    d.fillText("PAC-MAN", (width - textWidth2) / 4, height / 2)
+    d.fillText("press spacebar to begin",500,500)
+}
+
+for (let i = 0; i < 8; i++) {
+    ghost.push(new Ghost(`rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)})`, random(60, 1000), random(60, 750), random(-4, 4),  random(-4, 4)))
+}
+
+for (let i = 0; i < 1000; i++) {
+    pellets.push(new Pellet(random(20, 2000),random(20, 2000)))
+}
+function animate(){
+
+    d.clearRect(0, 0, width, height)
+
+
+    for (let i = 0; i < pellets.length; i++){
+        pellets[i].draw();
+    }
+    
+    movement();
+    move();
+
+
+    for (let i = 0; i < life.length; i++){
+        life[i].draw();
+    }
+
+    for (let i = 0; i < pellets.length; i++) {
+        if (circieMeet(pacman,pellets[i])) {
+            pellets.splice(i,1)
+            score += 1
+        }
+    }
+
+    for (let i = 0; i < ghost.length; i++) {
+        ghost[i].draw();
+        ghost[i].update();
+    }
+
+    for (let i = 0;i < ghost.length; i++) {
+        if(circieMeet(pacman,ghost[i])) {
+            pacman.x = 100;
+            pacman.y = 100;
+            life.pop();
+                
+        }
+    }
+
+    if(life.length === 0) {
+        gameOver();
+    }
+
+    if(score > 100) {
+        win();
+    }
+
+    count();
+
+    
+    window.requestAnimationFrame(animate);
+}
+
+animate();
+    </script>
+    <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+</body>
+</html>

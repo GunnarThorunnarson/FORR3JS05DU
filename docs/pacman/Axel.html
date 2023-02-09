@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+}
+</style>
+
+</head>
+<body>
+
+    <canvas id="canvas" width="600" height="480"></canvas>
+
+<script>
+
+let ab = 0;
+
+// Simple 2d vector class with a bunch of helper functions
+class Vector2 {
+    x = 0;
+    y = 0;
+
+    constructor(x, y) {
+        this.x = x ?? 0;
+        this.y = y ?? 0;
+    }
+
+    // Returns a copy of this vector
+    duplicate() {
+        return new Vector2(this.x, this.y);
+    }
+
+    // Sets the x and y values of the vector
+    set(x, y) {
+        this.x = x ?? 0;
+        this.y = y ?? 0;
+
+        return this;
+    }
+
+    // Checks whether this vector is equal to the provided vector
+    equals(other) {
+        return this.x === other.x && this.y === other.y;
+    }
+
+    // Normalizes the vector (makes it's length 1)
+    normalize() {
+        let len = this.length();
+        if (len === 0)
+            return this;
+
+        return this.divide(len);
+    }
+
+    // Creates a copy of this vector that is normalized
+    normalized() {
+        return this.duplicate().normalize();
+    }
+
+    // Returns the length of the vector
+    length() {
+        return Math.abs(Math.sqrt(this.x ** 2 + this.y ** 2));
+    }
+
+    // Returns the distance between this vector and another
+    dist(vec) {
+        return vec.duplicate().sub(this).length();
+    }
+
+    // Adds another vector to this vector
+    add(vec) {
+        this.x += vec.x;
+        this.y += vec.y;
+
+        return this;
+    }
+
+    // Subtracts another vector from this vector
+    sub(vec) {
+        this.x -= vec.x;
+        this.y -= vec.y;
+
+        return this;
+    }
+
+    // Multiplies this vector by a number
+    multiply(amt) {
+        this.x *= amt;
+        this.y *= amt;
+
+        return this;
+    }
+
+    // Divides this vector by a number
+    divide(amt) {
+        this.x /= amt;
+        this.y /= amt;
+
+        return this;
+    }
+}
+
+// Function to draw text at the center of the screen
+function drawCenteredText(ctx, text, yLevel) {
+    let size = ctx.measureText(text);
+    ctx.fillText(text, Game.width / 2 - size.width / 2, yLevel);
+}
+
+// Class used for keeping track of time
+class Stopwatch {
+    constructor() {
+        this._startTime = 0;
+        this._active = false;
+    }
+
+    // Starts the timer
+    startTimer() {
+        this._active = true;
+        this._startTime = Game.time;
+    }
+
+    // Stops and resets the timer
+    stopTimer() {
+        this._active = false;
+        this._startTime = 0;
+    }
+
+    // Returns whether the timer is active
+    isActive() {
+        return this._active;
+    }
+
+    // Returns the time the stopwatch was started in seconds
+    startTime() {
+        return this._startTime;
+    }
+
+    // Returns the amount of time passed since the stopwatch was started in seconds
+    elapsed() {
+        return Game.time - this._startTime;
+    }
+}
+
+
+// Base class used for creating objects that can be updated and rendered in-game
+class GameObject {
+    constructor(x, y, ...args) {
+        // Initialize members
+        this.pos = new Vector2(x, y);
+        this.collider = null;
+
+        // Keep the name of the class for use in the 'ifOfType' function
+        this.classId = new.target.name;
+
+        // Call the onInit event for the subclass
+        this.onInit(...args);
+    }
+
+    // Function to check if the object is of the specified type
+    isOfType(type) {
+        return type.name == this.classId;
+    }
+
+    // Add a simple box collider to the struct
+    addCollider(width, height) {
+        this.collider = {
+            size: new Vector2(width, height),
+            offset: new Vector2(0, 0),
+        };
+    }
+
+    // Check if the object is colliding with another object
+    checkCollision(other) {
+        // If either object has no collider, then there cannot be any collision
+        if (!this.collider || !other.collider)
+            return false;
+
+        // Get the size and position of both colliders
+        let s1 = this.collider.size;
+        let s2 = other.collider.size;
+        let p1 = this.pos.duplicate().add(this.collider.offset).sub(s1.duplicate().divide(2));
+        let p2 = other.pos.duplicate().add(other.collider.offset).sub(s2.duplicate().divide(2));
+
+        // Return whether or not there is any overlap
+        return p1.x < p2.x + s2.x &&
+            p1.x + s1.x > p2.x &&
+            p1.y < p2.y + s2.y &&
+            s1.x + p1.y > p2.y;
+    }
+
+    // Draw the collider
+    _drawCollision(ctx) {
+        // If there is no collider, then return
+        if (!this.collider)
+            return;
+
+        // Draw the collider with a solid outline and a semi-transparent fill color
+        ctx.strokeStyle = 'rgba(255, 100, 100, 1)';
+        ctx.fillStyle = 'rgba(255, 100, 100, 0.5)';
+        ctx.fillRect(
+            -this.collider.size.x / 2,
+            -this.collider.size.y / 2,
+            this.collider.size.x,
+            this.collider.size.y
+        );
+        ctx.strokeRect(
+            -this.collider.size.x / 2,
+            -this.collider.size.y / 2,
+            this.collider.size.x,
+            this.collider.size.y
+        );
+    }
+
+    // Initialization
+    onInit() {}
+
+    // Update
+    onUpdate() {}
+    onLateUpdate() {}
+    onCollision(collider) {}
+
+    // Graphics
+    onDraw(ctx, frame) {}
+
+    // Input
+    onKeyDown(key) {}
+    onKeyUp(key) {}
+    onGesture(gesture) {}
+    onTap(pos) {}
+}
+
+// Base class used for creating levels
+class Level {
+    _objects = [];
+    _objectsToDestroy = [];
+
+    constructor() {
+        // Call the onLoad event that the subclass can override
+        this.onLoad();
+    }
+
+    // Creates a new game object of the specified type and places it into the level at the provided position
+    newGameObject(type, x, y, ...args) {
+        this._objects.push(new type(x, y, ...args));
+    }
+
+    // Tags a game object for destruction later in the frame
+    destroyGameObject(object) {
+        this._objectsToDestroy.push(object);
+    }
+
+    // Finds all game object of a specific type
+    findGameObjectsOfType(type) {
+        let objs = [];
+        this._objects.forEach(obj => {
+            if (obj.isOfType(type))
+                objs.push(obj);
+        });
+
+        return objs;
+    }
+
+    // Updates every object in the level and checks for collisions
+    _update(delta) {
+        // Call both the onUpdate event for the level and every object in it
+        this.onUpdate(delta);
+        this._objects.forEach(obj => obj.onUpdate(delta));
+
+        // Check collisions between every object
+        for (let i = 0; i < this._objects.length; i++) {
+            for (let j = i + 1; j < this._objects.length; j++) {
+                // If there is no collision, continue
+                if (!this._objects[i].checkCollision(this._objects[j]))
+                    continue;
+
+                // Otherwise, call the onCollision event for both objects
+                this._objects[i].onCollision(this._objects[j]);
+                this._objects[j].onCollision(this._objects[i]);
+            }
+        }
+
+        // Call the late update event for each object
+        this._objects.forEach(obj => obj.onLateUpdate(this.deltaTime));
+
+        // Destroy all objects that were tagged by the 'destroyGameObject' function
+        this._destroyTaggedObjects();
+    }
+
+    _draw(ctx) {
+        // Draw each object
+        this._objects.forEach(obj => {
+            // Move the context to the object's position
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.translate(Game.width / 2, Game.height / 2);
+            ctx.translate(obj.pos.x, obj.pos.y);
+
+            // Draw the object
+            obj.onDraw(ctx)
+        });
+
+        // If 'showColliders' is on, then draw every collider
+        if (Game.showColliders) {
+            this._objects.forEach(obj => {
+                // If there is no collider, continue
+                if (!obj.collider)
+                    return;
+
+                // Move the context to the position of the object plus the offset of the collider
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.translate(Game.width / 2, Game.height / 2);
+                ctx.translate(obj.pos.x + obj.collider.offset.x, obj.pos.y + obj.collider.offset.y);
+                obj._drawCollision(ctx)
+            });
+        }
+
+        // Reset the context and draw the ui
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.onDrawUI(ctx);
+    }
+
+    // Destroys all objects that were tagged by the 'destroyGameObject' function
+    _destroyTaggedObjects() {
+        this._objectsToDestroy.forEach(obj => this._objects.splice(this._objects.indexOf(obj), 1));
+        this._objectsToDestroy = [];
+    }
+
+    // Key down event handler
+    _keyDown(key) {
+        // Pass the event on to the level subclass and each object
+        this.onKeyDown(key)
+        this._objects.forEach(obj => obj.onKeyDown(key));
+    }
+
+    // Key up event handler
+    _keyUp(key) {
+        // Pass the event on to the level subclass and each object
+        this.onKeyUp(key)
+        this._objects.forEach(obj => obj.onKeyUp(key));
+    }
+
+    // Gesture event handler
+    _gesture(gesture) {
+        // Pass the event on to the level subclass and each object
+        this.onGesture(gesture)
+        this._objects.forEach(obj => obj.onGesture(gesture));
+    }
+
+    // Tap event handler
+    _tap(pos) {
+        // Pass the event on to the level subclass and each object
+        this.onTap(pos)
+        this._objects.forEach(obj => obj.onTap(pos));
+    }
+
+
+    onLoad() {}
+    onUpdate(delta) {}
+    onDrawUI(ctx) {}
+    onKeyDown(key) {}
+    onKeyUp(key) {}
+    onGesture(gesture) {}
+    onPress(pos) {}
+}
+
+// Game singleton used to run the game loop and keep track of the game's state
+const Game = {
+    frame: 0,
+    time: 0,
+    deltaTime: 0,
+    width: 0,
+    height: 0,
+    keyDown: {},
+    state: {},
+    level: null,
+    showColliders: false,
+
+    _oldTimeStamp: 0,
+    _canvas: null,
+    _ctx: null,
+    _touches: {},
+
+    // Initializes the main game singleton
+    init() {
+        // Fetch canvas and create context
+        this._canvas = document.getElementById('canvas');
+        this._ctx = this._canvas.getContext('2d')
+
+        // Set correct width and height
+        this.width  = this._canvas.clientWidth;
+        this.height = this._canvas.clientHeight;
+
+        // Bind functions to events
+        document.addEventListener('keydown', this._onKeyDown.bind(this));
+        document.addEventListener('keyup',   this._onKeyUp.bind(this));
+        this._canvas.addEventListener('touchstart', this._onTouchStart.bind(this));
+        this._canvas.addEventListener('touchmove',  this._onTouchMove.bind(this));
+        this._canvas.addEventListener('touchend',   this._onTouchEnd.bind(this));
+
+        // Start main game loop
+        window.requestAnimationFrame(this._gameLoop.bind(this));
+    },
+
+    // Creates and loads a level
+    loadLevel(level) {
+        this.level = new level();
+    },
+
+    // Saves a variable to localStorage
+    saveVar(name, value) {
+        localStorage[name] = value;
+    },
+
+    // Retrieves a variable from localStorage
+    loadVar(name) {
+        return localStorage[name];
+    },
+
+    // The main game loop
+    _gameLoop(timeStamp) {
+        // Update time information using the new time stamp
+        this._updateTime(timeStamp);
+
+        // Handle resizing
+        this._updateGameSize();
+
+        // Updates the level
+        this.level?._update(this.deltaTime);
+
+        // Reset context state and clear the screen
+        this._ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this._ctx.fillStyle = '#000000';
+        this._ctx.fillRect(0, 0, this.width, this.height);
+
+        // Draw the level
+        this.level?._draw(this._ctx);
+
+        // Advance to the next frame
+        this.frame++;
+        window.requestAnimationFrame(this._gameLoop.bind(this));
+    },
+
+    // Update time information based on the provided time stamp
+    _updateTime(timeStamp) {
+        // Update time & delta time
+        this.time = timeStamp / 1000;
+        this.deltaTime = this.time - this._oldTimeStamp;
+
+        // Save this time stamp for the next calculation
+        this._oldTimeStamp = this.time;
+    },
+
+    // Updates the canvas size based on the window size
+    _updateGameSize() {
+        // If the size of the window does not equal the size of the canvas...
+        if (this.width !== window.innerWidth || this.height !== window.innerHeight) {
+            // ...then update the size of the canvas to match the size of the window
+            this._canvas.width = window.innerWidth;
+            this._canvas.height = window.innerHeight;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+        }
+    },
+
+    // Key down event handler
+    _onKeyDown(e) {
+        // Get whether the key is pressed or not
+        let wasDown = this.keyDown[e.key];
+
+        // Set the key as being pressed
+        this.keyDown[e.key] = true;
+
+        // If the key was not already pressed (for repeats, i.e. holding down the key)...
+        if (!wasDown) {
+            // Invoke the key down event in the current level
+            this.level._keyDown(e.key);
+
+            // If the key was 'F2'...
+            if (e.key === 'F2') {
+                // then show all hitboxes
+                this.showColliders = !this.showColliders;
+            }
+        }
+    },
+
+    // Key up event handler
+    _onKeyUp(e) {
+        // Set the key as being released
+        this.keyDown[e.key] = false;
+
+        // Call the key up event for the level
+        this.level._keyUp(e.key);
+    },
+
+    // Touch start event handler
+    _onTouchStart(e) {
+        e.preventDefault();
+
+        // For each touch, record it into the this._touches variable for future access
+        for (let i = 0; i < e.changedTouches.length; i++) {
+            this._touches[e.changedTouches[i].identifier] = e.changedTouches[i];
+        }
+    },
+
+    // Touch move event handler
+    _onTouchMove(e) {
+        e.preventDefault();
+    },
+
+    // Touch end event handler
+    _onTouchEnd(e) {
+        e.preventDefault();
+
+        // For each of the affected touches
+        for (let i = 0; i < e.changedTouches.length; i++) {
+            // Get the start and end position
+            let start = this._touches[e.changedTouches[i].identifier];
+            let end = e.changedTouches[i];
+
+            // Create a gesture object
+            let gesture = {
+                start: new Vector2(start.clientX, start.clientY),
+                end: new Vector2(end.clientX, end.clientY),
+            };
+
+            // If the start and end position are equal
+            if (gesture.start.equals(gesture.end)) {
+                // then it was a tap
+                this.level._tap(gesture.start);
+            } else {
+                // otherwise it was a gesture
+                this.level._gesture(gesture);
+            }
+        }
+    }
+};
+
+
+class Rigidbody extends GameObject {
+    onInit() {
+        this.velocity = new Vector2(0, 0);
+    }
+
+    onUpdate(delta) {
+        // Throw a warning if there is no collider, as that would make the rigidbody useless
+        if (!this.collider) {
+            console.warn(`Missing collider for rigidbody of type: ${this.classId}`);
+            return;
+        }
+
+        // Get all obstacles and the amount the rigidbody is gonna move
+        let obstacles = Game.level.findGameObjectsOfType(Obstacle);
+        let moveAmount = this.velocity.duplicate().multiply(delta);
+
+        // For every obstacle
+        obstacles.forEach(obstacle => {
+            //  Move the collider in the x axis
+            this.collider.offset.x += moveAmount.x;
+
+            // If there was a collision, bounce in the x axis
+            if (this.checkCollision(obstacle)) {
+                this.velocity.x = -this.velocity.x;
+            }
+
+            // Move the collider in the y axis and move back the collider in the x axis
+            this.collider.offset.x -= moveAmount.x;
+            this.collider.offset.y += moveAmount.y;
+
+            // If there was a collision, bounce in the y axis
+            if (this.checkCollision(obstacle)) {
+                this.velocity.y = -this.velocity.y;
+            }
+
+            // Move back the collider in the y axis
+            this.collider.offset.y -= moveAmount.y;
+        });
+
+        // Move the rigidbody by the new velocity
+        this.pos.add(this.velocity.duplicate().multiply(delta));
+
+        // If the rigidbody reaches the end of the level, then bounce back in
+        if (this.pos.x - this.size / 2 < -Game.width / 2 || this.pos.x + this.size / 2 > Game.width / 2)
+            this.velocity.set(-this.velocity.x, this.velocity.y);
+        if (this.pos.y - this.size < -Game.height / 2|| this.pos.y + this.size > Game.height / 2)
+            this.velocity.set(this.velocity.x, -this.velocity.y);
+    }
+}
+
+class Obstacle extends GameObject {
+    onInit(width, height) {
+        this.width = width ?? 20;
+        this.height = height ?? 20;
+
+        this.addCollider(this.width, this.height);
+    }
+
+    onCollision(other) {
+        // If the obstacle is on top of a dot, then destroy the dot
+        if (other.isOfType(Dot)) {
+            Game.level.destroyGameObject(other);
+        }
+    }
+
+    onDraw(ctx) {
+        // Draw the collider
+
+        let cornerSize = 3;
+
+        ctx.fillStyle = '#0033ff';
+
+        ctx.fillRect(-this.width / 2, cornerSize - this.height / 2, this.width, this.height - cornerSize * 2);
+        ctx.fillRect(cornerSize - this.width / 2, -this.height / 2, this.width - cornerSize * 2, this.height);
+
+        ctx.fillStyle = '#000000';
+
+        ctx.fillRect(cornerSize - this.width / 2, cornerSize - this.height / 2, this.width - cornerSize * 2, this.height - cornerSize * 2);
+    }
+}
+
+class Ghost extends Rigidbody {
+    onInit(type) {
+        super.onInit();
+
+        this.type = type;
+        this.deathTimer = new Stopwatch();
+        this.deathTime = 10;
+        this.size = 20;
+        this.move = true;
+        this.addCollider(this.size, this.size * 2);
+
+        this.velocity.set(Math.random(), Math.random()).normalize().multiply(70);
+    }
+
+    onUpdate(delta) {
+        if (!this.move)
+            return;
+
+        // If the ghost has been dead for long enough, then respawn him
+        if (this.deathTimer.elapsed() > this.deathTime)
+            this.deathTimer.stopTimer();
+
+        // Update the rigidbody
+        super.onUpdate(delta);
+    }
+
+    onDraw(ctx) {
+        // Draw the ghost
+
+        if (!this.deathTimer.isActive())
+            this.drawMainShape(ctx);
+
+        this.drawEyes(ctx);
+    }
+
+    drawMainShape(ctx) {
+        // Get the ghost's color and set it as the fill color
+        let color = this.getColor();
+        ctx.fillStyle = color;
+
+        // If the player has a powerup, then switch between two colors to make the ghost blink
+        if (Game.state.powerUp.isActive()) {
+            ctx.fillStyle = Math.floor(Game.state.powerUp.elapsed() * 8) % 2 === 0
+                ? '#ffffff' : '#0000ff';
+        }
+
+        // Draw the main shape
+        ctx.beginPath();
+        ctx.arc(0, -this.size / 2,  this.size / 2, 0, Math.PI, true);
+        ctx.moveTo(-this.size / 2, -this.size / 2);
+        ctx.lineTo( this.size / 2, -this.size / 2);
+        ctx.lineTo( this.size / 2,  this.size / 2);
+
+        // Draw the squiggles
+        const squiggleCount = 6;
+        const squiggleDepth = 4;
+
+        for (let i = 0; i < squiggleCount; i++) {
+            ctx.lineTo(this.size / 2 - (i * this.size) / squiggleCount, this.size / 2 - (i % 2) * squiggleDepth);
+        }
+
+        ctx.lineTo(-this.size / 2, this.size / 2);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    drawEyes(ctx) {
+        // Calculate an offset for the eyes so they look in the direction the ghost moves in
+        let eyeOffset = this.velocity.normalized().multiply(this.size / 8);
+
+        // Draw the eyes
+        ctx.fillStyle = '#ffffff';
+
+        ctx.beginPath();
+        ctx.arc(eyeOffset.x - this.size / 4, eyeOffset.y - this.size / 2, this.size / 6, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(eyeOffset.x + this.size / 4, eyeOffset.y - this.size / 2, this.size / 6, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.fillStyle = '#0000aa';
+
+        ctx.beginPath();
+        ctx.arc(eyeOffset.x * 1.2 - this.size / 4, eyeOffset.y * 1.2 - this.size / 2, this.size / 10, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(eyeOffset.x * 1.2 + this.size / 4, eyeOffset.y * 1.2 - this.size / 2, this.size / 10, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    getColor() {
+        // Returns the color the ghost should be based on it's type
+        switch (this.type) {
+            case 'blinky': return '#ff0000';
+            case 'pinky':  return '#ff0099';
+            case 'inky':   return '#00ccff';
+            case 'clyde':  return '#ffaa00';
+        }
+    }
+}
+
+class Dot extends GameObject {
+    onInit() {
+        this.size = 6;
+        this.addCollider(this.size * 2, this.size * 2);
+    }
+
+    onDraw(ctx, frame) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+    }
+
+    onCollision(other) {
+        // If the player collides with the dot, increase the score and destroy the dot
+
+        if (!other.isOfType(Pacman))
+            return;
+
+        Game.state.score += 10;
+        Game.level.destroyGameObject(this);
+    }
+}
+
+class Cherry extends GameObject {
+    onInit() {
+        this.size = 6;
+        this.addCollider(this.size * 2, this.size * 2);
+
+        // Create the graphic
+
+        this.paths = [
+            'M206 466.1h77.8v81.2H206zM740.7 466.1h77.8v81.2h-77.8zM283.9 400.2h91.4v65.9h-91.4zM649.3 400.2h91.4v65.9h-91.4zM375.2 334.2h91.4v65.9h-91.4zM558 334.2h91.4v65.9H558zM466.6 46.1H558v288.2h-91.4z',
+            'M128.2 579.5h155.7v358.7H128.2z',
+            'M128.2 547.3h155.7v390.9H128.2z',
+            'M10.6 665h390.9v155.7H10.6zM740.7 579.5h155.7v358.7H740.7z',
+            'M740.7 547.3h155.7v390.9H740.7z',
+            'M623.1 665H1014v155.7H623.1z',
+        ].map(path => new Path2D(path));
+
+        this.colors = [
+            '#35D335',
+            '#E02D2D',
+            '#E02D2D',
+            '#E02D2D',
+            '#E02D2D',
+            '#E02D2D',
+        ];
+    }
+
+    onDraw(ctx, frame) {
+        // Draw the cherry
+        ctx.scale(0.02, 0.02);
+        for (let i = 0; i < this.paths.length; i++) {
+            ctx.fillStyle = this.colors[i];
+            ctx.fill(this.paths[i]);
+        }
+    }
+
+    onCollision(other) {
+        // If the player collides with the cherry, increase the score and destroy the cherry
+
+        if (!other.isOfType(Pacman))
+            return;
+
+        Game.state.score += 250;
+        Game.level.destroyGameObject(this);
+    }
+}
+
+class PowerPellet extends GameObject {
+    onInit() {
+        this.size = 10;
+        this.respawnTimer = new Stopwatch();
+        this.respawnTime = 10;
+        this.addCollider(this.size * 2, this.size * 2);
+    }
+
+    onUpdate(delta) {
+        if (this.respawnTimer.elapsed() > this.respawnTime) {
+            this.respawnTimer.stopTimer();
+        }
+    }
+
+    onDraw(ctx) {
+        // If the dot has been used recently, don't draw it
+        if (this.respawnTimer.isActive())
+            return;
+
+        let cornerSize = 2;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(-this.size / 2, -this.size / 2 + cornerSize, this.size, this.size - cornerSize * 2);
+        ctx.fillRect(-this.size / 2 + cornerSize, -this.size / 2, this.size - cornerSize * 2, this.size);
+    }
+
+    onCollision(other) {
+        // If the power pellet is on top of a dot, then destroy the dot
+        if (other.isOfType(Dot))
+            Game.level.destroyGameObject(other);
+
+        // If the dot has been used recently, don't do anything
+        if (this.respawnTimer.isActive())
+            return;
+
+        if (!other.isOfType(Pacman))
+            return;
+
+        // If the player touches the power pellet, then start the power up timer, increase the score and destroy the pellet
+        Game.state.powerUp.startTimer();
+        Game.state.score += 50;
+
+        this.respawnTimer.startTimer();
+    }
+}
+
+class Pacman extends Rigidbody {
+    onInit() {
+        super.onInit();
+
+        this.size  = 10;
+        this.speed = 100;
+        this.powerUpDuration = 5;
+        this.invincibilityFrameDuration = 1;
+        this.invincibilityFrames = new Stopwatch();
+        this.deathTimer = new Stopwatch();
+
+        this.addCollider(this.size, this.size);
+        Game.state.lives = 3;
+        Game.state.score = 0;
+        Game.state.powerUp = new Stopwatch();
+    }
+
+    onUpdate(delta) {
+        // If the player is not dead, then update the rigidbody
+        if (!this.deathTimer.isActive())
+            super.onUpdate(delta);
+
+        // If the player is dead
+        if (this.deathTimer.isActive()) {
+            // Then load the game over level once enough time has passed
+            if (this.deathTimer.elapsed() > 1) {
+                Game.loadLevel(GameOverLevel);
+            }
+
+            return;
+        }
+
+        // If the power up time has run out, then stop the timer
+        if (Game.state.powerUp.elapsed() > this.powerUpDuration) {
+            Game.state.powerUp.stopTimer();
+        }
+
+        // If the invincibility time has run out, then stop the timer
+        if (this.invincibilityFrames.elapsed() > this.invincibilityFrameDuration) {
+            this.invincibilityFrames.stopTimer();
+        }
+    }
+
+    onLateUpdate() {
+        // If the player is dead, then don't do anything
+        if (this.deathTimer.isActive())
+            return;
+
+        // Get all the dots in the scene
+        let dots = Game.level.findGameObjectsOfType(Dot);
+
+        // If there are none left, then load the win level
+        if (dots.length + pellets.length === 0) {
+            Game.loadLevel(WinLevel);
+        }
+    }
+
+    onCollision(other) {
+        if (!other.isOfType(Ghost))
+            return;
+
+        if (other.deathTimer.isActive())
+            return;
+
+        // If the player touches a ghost that is not dead
+        if (Game.state.powerUp.isActive()) {
+            // and the power up is active, then kill the ghost and add score
+            Game.state.score += 100;
+            other.deathTimer.startTimer();
+        } else if (!this.invincibilityFrames.isActive()) {
+            // otherwise, if the player is not invincible, then decrease the lives, vibrate the phone and make him invincible
+            Game.state.lives--;
+            window.navigator.vibrate(200);
+            this.invincibilityFrames.startTimer();
+
+            // If the player has run out of lives, then kill the player
+            if (Game.state.lives === 0) {
+                this.deathTimer.startTimer();
+            }
+        }
+    }
+
+    onDraw(ctx) {
+        // If the player is invincible, then make him blink by not rendering him half of the time
+        if (this.invincibilityFrames.isActive() && Math.floor(this.invincibilityFrames.elapsed() * 8) % 2 === 0)
+            return;
+
+        // Draw the player
+
+        let heading = this.velocity.normalized();
+        let rotationOffset = Math.atan2(heading.y, heading.x);
+        let mouthOffset = Math.PI * 2 * ((Math.cos(Game.time * 16) + 1) / 16);
+
+        let left = rotationOffset < -Math.PI * (1/2) || rotationOffset >= Math.PI * (1/2);
+        let eyeRotationOffset = left ? Math.PI * (1/3) : -Math.PI * (1/3);
+        let eyeDistanceOffset = this.size * (2/3);
+        let eyePositionOffset = new Vector2(Math.cos(rotationOffset + eyeRotationOffset), Math.sin(rotationOffset + eyeRotationOffset)).multiply(eyeDistanceOffset);
+
+        ctx.fillStyle = '#ffff00';
+
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, mouthOffset + rotationOffset, Math.PI + mouthOffset + rotationOffset);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, Math.PI - mouthOffset + rotationOffset, Math.PI * 2 - mouthOffset + rotationOffset);
+        ctx.fill();
+
+        ctx.fillStyle = '#000000';
+
+        ctx.beginPath();
+        ctx.arc(eyePositionOffset.x, eyePositionOffset.y, this.size / 6, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    onKeyDown(key) {
+        // If the player is dead, don't do anything
+        if (this.deathTimer.isActive())
+            return;
+
+        // Calculate the direction that the player should go in
+        let hoz  = Number(Game.keyDown['d'] === true) - Number(Game.keyDown['a'] === true);
+        let vert = Number(Game.keyDown['s'] === true) - Number(Game.keyDown['w'] === true);
+
+        // If the player pressed a movement button
+        if (hoz !== 0 || vert !== 0) {
+            // Then set the velocity to the new move direction
+            let move = new Vector2(hoz, vert)
+                .normalize()
+                .multiply(this.speed);
+
+            this.velocity = move;
+        }
+    }
+
+    onGesture(gesture) {
+        // If the player is dead, then don't do anything
+        if (this.deathTimer.isActive())
+            return;
+
+        // Set the velocity of the player to the direction of the swipe
+        this.velocity = gesture.end.duplicate()
+            .sub(gesture.start)
+            .normalize()
+            .multiply(this.speed);
+    }
+}
+
+
+class StartLevel extends Level {
+    onLoad() {
+        // Exit fullscreen
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    }
+
+    onKeyDown(key) {
+        // Load the main level if the player presses the space bar
+        switch (key) {
+            case ' ':
+                Game.loadLevel(MainLevel);
+                break;
+        }
+    }
+
+    onDrawUI(ctx) {
+        // Draw the menu text
+
+        ctx.fillStyle = '#ffffff';
+
+        ctx.font = '38px Arial';
+        drawCenteredText(ctx, 'PACMAN', Game.height / 2);
+
+        ctx.font = '17px Arial';
+        drawCenteredText(ctx, 'Press space or tap the screen to start', Game.height / 2 + 30);
+
+        ctx.font = '12px Arial';
+        drawCenteredText(ctx, `Highscore: ${Game.loadVar('highscore')}`, Game.height / 2 + 100);
+    }
+
+    onTap(pos) {
+        // Load the main level if the player taps the screen
+        Game.loadLevel(MainLevel);
+    }
+}
+
+class MainLevel extends Level {
+    onLoad() {
+        // Request fullscreen
+        if (!document.fullscreenElement) {
+            document.body.requestFullscreen();
+        }
+
+        // Spawn the dots around the map
+        for (let x = 0; x <= 10; x++)
+            for (let y = 0; y <= 10; y++)
+                this.newGameObject(Dot, -125 + x * 25, -125 + y * 25);
+
+        // Spawn a power pellet in each corner
+        this.newGameObject(PowerPellet, -100, -100);
+        this.newGameObject(PowerPellet, -100,  100);
+        this.newGameObject(PowerPellet,  100, -100);
+        this.newGameObject(PowerPellet,  100,  100);
+
+        // Create the outer walls
+        this.newGameObject(Obstacle, -150,  0,   20,  275);
+        this.newGameObject(Obstacle,  150,  0,   20,  275);
+        this.newGameObject(Obstacle,  0,   -150, 275, 20);
+        this.newGameObject(Obstacle,  0,    150, 275, 20);
+
+        // Create the inner walls
+        this.newGameObject(Obstacle, -75, 0, 20, 175);
+        this.newGameObject(Obstacle,  75, 0, 20, 175);
+        this.newGameObject(Obstacle,  0, -100, 20, 75);
+        this.newGameObject(Obstacle,  0, 100, 20, 75);
+
+        // Place the cherry
+        this.newGameObject(Cherry, 100, 100);
+
+        // Spawn each of the four ghosts
+        this.newGameObject(Ghost, 100, 10, 'blinky');
+        this.newGameObject(Ghost, -100, -10, 'pinky');
+        this.newGameObject(Ghost, -50, 100, 'inky');
+        this.newGameObject(Ghost, 50, -100, 'clyde');
+
+        // Spawn the player
+        this.newGameObject(Pacman, 0, 0);
+    }
+
+    onDrawUI(ctx) {
+        // Show the score in the top right corner
+
+        // Select font and color
+        ctx.font = '24px Arial';
+        ctx.fillStyle = '#ffffff';
+
+        // Write the text
+        let scoreText = `${Game.state.score}`;
+        let scoreSize = ctx.measureText(scoreText)
+        ctx.fillText(scoreText, Game.width - scoreSize.width - 15, 25);
+
+        // Show the health in the top left corner as hearts
+
+        // Create the heart graphic
+        let p = new Path2D('M927.4 273.5v-95.4h-87.9V82.8h-201v95.3h-87.9v95.4h-78.5v-95.4h-88V82.8H183.2v95.3H95.3v95.4H16.7v190.6h78.6v95.4h75.3v95.3H246v95.3h87.9v95.4h100.5v95.3h153.9v-95.3h100.4v-95.4h88v-95.3H852.1v-95.3h75.3v-95.4h78.5V273.5z');
+        ctx.fillStyle = '#E02D2D';
+        ctx.translate(10, 10);
+        ctx.scale(0.02, 0.02);
+
+        // Place them in a row in the top left corner
+        for (let i = 0; i < Game.state.lives; i++) {
+            ctx.fill(p);
+            ctx.translate(30 / 0.02, 0);
+        }
+    }
+
+    onTap(pos) {
+        // Toggle fullscreen when the screen is tapped
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.body.requestFullscreen();
+        }
+    }
+}
+
+class GameOverLevel extends Level {
+    onLoad() {
+        // Update the highscore
+        let highscore = Game.loadVar('highscore') ?? 0;
+        if (Game.state.score > highscore) {
+            Game.saveVar('highscore', Game.state.score);
+        }
+
+        // Exit fullscreen
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    }
+
+    onKeyDown(key) {
+        // Load the main level if the player presses the space bar
+        switch (key) {
+            case ' ':
+                Game.loadLevel(MainLevel);
+                break;
+        }
+    }
+
+    onDrawUI(ctx) {
+        // Draw the menu text
+
+        ctx.fillStyle = '#ffffff';
+
+        ctx.font = '24px Arial';
+        drawCenteredText(ctx, 'Game Over', Game.height / 2);
+
+        ctx.font = '17px Arial';
+        drawCenteredText(ctx, 'Press space or tap the screen to restart', Game.height / 2 + 30);
+
+        ctx.font = '12px Arial';
+        drawCenteredText(ctx, `Score: ${Game.state.score}`, Game.height / 2 + 80);
+        drawCenteredText(ctx, `Highscore: ${Game.loadVar('highscore')}`, Game.height / 2 + 100);
+    }
+
+    onTap(pos) {
+        // Load the main level if the player taps the screen
+        Game.loadLevel(MainLevel);
+    }
+}
+
+class WinLevel extends Level {
+    onLoad() {
+        // Update the highscore
+        let highscore = Game.loadVar('highscore') ?? 0;
+        if (Game.state.score > highscore) {
+            Game.saveVar('highscore', Game.state.score);
+        }
+
+        // Exit fullscreen
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    }
+
+    onKeyDown(key) {
+        // Load the main menu if the player presses the space bar
+        switch (key) {
+            case ' ':
+                Game.loadLevel(StartLevel);
+                break;
+        }
+    }
+
+    onDrawUI(ctx) {
+        // Draw the menu text
+
+        ctx.fillStyle = '#ffffff';
+
+        ctx.font = '24px Arial';
+        drawCenteredText(ctx, 'You Win!', Game.height / 2);
+
+        ctx.font = '17px Arial';
+        drawCenteredText(ctx, 'Press space or tap the screen to continue', Game.height / 2 + 30);
+
+        ctx.font = '12px Arial';
+        drawCenteredText(ctx, `Score: ${Game.state.score}`, Game.height / 2 + 80);
+        drawCenteredText(ctx, `Highscore: ${Game.loadVar('highscore')}`, Game.height / 2 + 100);
+    }
+
+    onTap(pos) {
+        // Load the main menu if the player taps the screen
+        Game.loadLevel(StartLevel);
+    }
+}
+
+// Initializes the game and load a level
+function start() {
+    Game.init();
+    Game.loadLevel(StartLevel);
+}
+
+// Call the start function once everything has loaded in
+document.addEventListener('DOMContentLoaded', start);
+</script>
+
+</body>
+</html>

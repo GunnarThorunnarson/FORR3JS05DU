@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <title>PacMan-Remix, verkefni 1</title>
+    <style>
+        body {
+            background-color: black;
+            display: grid;
+            place-items: center;
+            margin: 0px;
+        }
+
+        #wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #playArea {
+            border: 1px solid blue;
+            grid-column: 1 / 2;
+        }
+
+        #right-side {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            grid-column: 2 / 3;
+        }
+
+        #touchArea, #textArea {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <canvas height="395" width="560" id="playArea"></canvas>
+        <div id="right-side">
+            <canvas height="100" width="80" id="textArea"></canvas>
+            <canvas height="100" width="100" id="touchArea"></canvas>
+        </div>
+    </div>
+  
+    <script>
+        let canvas = document.getElementById("playArea");
+let canvasTouch = document.getElementById("touchArea");
+let canvasText = document.getElementById("textArea");
+let ctx = canvas.getContext("2d");
+let ctxTouch = canvasTouch.getContext("2d");
+let ctxText = canvasText.getContext("2d");
+
+const cellWidth = canvasTouch.width / 3;
+const cellHeight = canvasTouch.height / 3;
+const padding = 5;
+
+ctxTouch.fillStyle = "white";
+for (let row = 0; row < 3; row++) {
+  for (let col = 0; col < 3; col++) {
+    if (row !== 1 || col !== 1) {
+      ctxTouch.fillRect(
+        col * cellWidth + padding,
+        row * cellHeight + padding,
+        cellWidth - 2 * padding,
+        cellHeight - 2 * padding
+      );
+    }
+  }
+}
+
+
+let device = "phone"; // ætlaði að hafa device recognition, en þar sem ég rann smá út úr tíma er þetta quick fix :/
+canvas.height = 395; // það sést út um allan kóðan að ég ætlaði að hafa það dynamic, en svona gerist stundum :)
+
+function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+    if (x2 > w1 + x1 || x1 > w2 + x2 || y2 > h1 + y1 || y1 > h2 + y2){
+        return false;
+    }
+    return true;
+}
+function circleIntersect(x1, y1, r1, x2, y2, r2) {
+    let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+
+    return squareDistance <= ((r1 + r2) * (r1 + r2))
+}
+function scoreboardDraw(){
+    ctxText.clearRect(0,0,200,200);
+    ctxText.font = "12px Arial";
+    ctxText.fillStyle = "white";
+    ctxText.fillText("Points: " + pacMan.points, 5, 30);
+    ctxText.fillText("Life count: " + pacMan.life, 5,50);
+    ctxText.fillText("High Score: ", 5, 70);
+    ctxText.fillText(oldHighScore,5,90);
+}
+let pacMan = {
+    x: 300,
+    y: 300,
+    radius: 15,
+    color: "yellow",
+    life:3,
+    speed:0.4,
+    points:0,
+    isCollidingWall:false,
+    powerPeletState:0,
+    draw(option){
+        if(option === "N" || option === "NE" || option === "NW"){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.radius, 1.7 * Math.PI, 1.3 * Math.PI, false);
+            ctx.lineTo(this.x,this.y);
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc((this.x + 5), this.y, this.radius * 0.1, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.fill()
+        }else if (option === "S" || option === "SW" || option === "SE"){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.radius, 0.7 * Math.PI, 0.3 * Math.PI, false);
+            ctx.lineTo(this.x,this.y);
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc((this.x + 5), this.y, this.radius * 0.1, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.fill()
+        }else if (option === "W"){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.radius,0.2 * Math.PI, 1.8 * Math.PI, false);
+            ctx.lineTo(this.x,this.y);
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(this.x, (this.y - 5), this.radius * 0.1, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.fill();
+        }else if (option === "E"){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.radius, 1.2 * Math.PI, 0.8 * Math.PI, false);
+            
+            ctx.lineTo(this.x,this.y);
+            
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(this.x, (this.y - 5), this.radius * 0.1, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.fill()
+        }
+    },
+    move(option){
+        if (option === "N" && this.isCollidingWall === false){
+            if (this.y > 15){
+                this.y -= 5 * this.speed/slowdown;
+            }
+        }else if (option === "S" && this.isCollidingWall === false){
+            if (this.y < 365){
+                this.y += 5 * this.speed/slowdown;
+            }
+        }else if (option === "E" && this.isCollidingWall === false){
+            if (this.x > 15){
+                this.x -= 5 * this.speed/slowdown;
+            }
+        }else if (option === "W" && this.isCollidingWall === false){
+            if (this.x < 550){
+                this.x += 5 * this.speed/slowdown;
+            }
+        }else if (option === "NE" && this.isCollidingWall === false){
+            if (this.y > 15 && this.y > 15){
+                this.y -= 5 * this.speed/slowdown;
+                this.x -= 5 * this.speed/slowdown;
+            }
+        }else if (option === "NW" && this.isCollidingWall === false){
+            if (this.y > 15 && this.x < 595){
+                this.y -= 5 * this.speed/slowdown;
+                this.x += 5 * this.speed/slowdown;
+            }
+        }else if (option === "SE" && this.isCollidingWall === false){
+            if (this.y < 365 && this.x > 15){
+                this.y += 5 * this.speed/slowdown;
+                this.x -= 5 * this.speed/slowdown;
+            }
+        }else if (option === "SW" && this.isCollidingWall === false){
+            if (this.y < 365 && this.x < 595){
+                this.y += 5 * this.speed/slowdown;
+                this.x += 5 * this.speed/slowdown;
+            }
+        }
+    }
+};
+
+class Ball{
+    constructor(id,x,y){
+        this.touched = false;
+        this.radius = 10;
+        this.id = id;
+        this.x = x;
+        this.y = y;
+    }
+    
+    draw(){
+        ctx.beginPath();
+        ctx.moveTo(this.x,this.y)
+        ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+    }
+};
+
+class PowerPellet{
+    constructor(x,y){
+        this.touched = false;
+        this.x = x;
+        this.y = y;
+        this.width = 20,
+        this.height = 20,
+        this.blinked = 0
+    }
+    draw(){
+        ctx.beginPath();
+        ctx.fillStyle = "White";
+        ctx.rect(this.x,this.y,this.width,this.height);
+        ctx.fill();
+    }
+}
+
+class Ghost{
+    constructor (id,x,y,color){
+        this.id = id;
+        this.x = x;
+        this.spawnX = x;
+        this.y = y;
+        this.spawnY = y;
+        this.color = color;
+        this.width = 20;
+        this.height = 25;
+        this.speed = 2.3;
+        this.eaten = false;
+        this.goneToCheckPoint = false
+        this.moveDirection = 1;
+    }
+    move(id){
+        switch(id){
+            case 0:
+                if (device === "computer"){
+
+                }else{
+                    this.y += this.speed/slowdown * this.moveDirection;
+                    if (this.y >= 350 || this.y <= 15) {
+                        this.moveDirection *= -1;
+                    }
+                }
+                break;
+            case 1:
+                if (device === "computer"){
+
+                }else{
+                    this.x += this.speed/slowdown * this.moveDirection;
+                    if (this.x >= 575 || this.x <= 15) {
+                        this.moveDirection *= -1;
+                    }
+                }
+                break;
+            case 2:
+                if (device === "computer"){
+
+                }else{
+                    this.x += this.speed/slowdown * this.moveDirection;
+                    if (this.x >= 565 || this.x <= 15) {
+                        this.moveDirection *= -1;
+                    }
+                }
+                break;
+            case 3:
+                if (device === "computer"){
+
+                }else{
+                    this.y += this.speed/slowdown * this.moveDirection;
+                    if (this.y >= 350 || this.y <= 15) {
+                        this.moveDirection *= -1;
+                    }
+                }
+        }
+    }
+    kill() {
+        this.eaten = true;
+        setTimeout(() => {
+            this.x = this.spawnX;
+            this.y =this.spawnY;
+            this.eaten = false
+        }, 1000);
+    }
+    draw(){
+        if (this.eaten === true){
+            return;
+        }
+        ctx.fillStyle = this.color;
+
+        if (pacMan.powerPeletState <= 0){
+            ctx.beginPath();
+            ctx.arc(this.x , this.y, this.width, Math.PI, 2* Math.PI);
+            ctx.lineTo(this.x + this.width, this.y + this.height);
+            ctx.arc(this.x + this.width / 2, this.y + this.height, this.width * 0.5, 0, Math.PI);
+            ctx.arc(this.x + this.width / 2 - this.width , this.y + this.height, this.width * 0.5, 0, Math.PI);
+            ctx.closePath();
+            ctx.fill();
+        }else if(pacMan.powerPeletState > 0 && pacMan.powerPeletState < 300){
+            if(Date.now() % 1000 < 500){
+                ctx.fillStyle = "blue";
+                ctx.beginPath();
+                ctx.arc(this.x , this.y, this.width, Math.PI, 2* Math.PI);
+                ctx.lineTo(this.x + this.width, this.y + this.height);
+                ctx.arc(this.x + this.width / 2, this.y + this.height, this.width * 0.5, 0, Math.PI);
+                ctx.arc(this.x + this.width / 2 - this.width , this.y + this.height, this.width * 0.5, 0, Math.PI);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }else{
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(this.x , this.y, this.width, Math.PI, 2* Math.PI);
+            ctx.lineTo(this.x + this.width, this.y + this.height);
+            ctx.arc(this.x + this.width / 2, this.y + this.height, this.width * 0.5, 0, Math.PI);
+            ctx.arc(this.x + this.width / 2 - this.width , this.y + this.height, this.width * 0.5, 0, Math.PI);
+            ctx.closePath();
+            ctx.fill();
+        }
+    }
+}
+
+class Wall{
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+    }
+    
+    drawVert(){
+        ctx.beginPath();
+        ctx.fillStyle = "Blue";
+        ctx.rect(this.x,this.y,10,50);
+        ctx.fill();
+    }
+    drawHorz(){
+        ctx.beginPath();
+        ctx.fillStyle = "Blue";
+        ctx.rect(this.x,this.y,50,10);
+        ctx.fill();
+    }
+}
+// Breytur nýtar í keyrslu
+let direction;
+let wallToCompare;
+let slowdown = 1;
+
+let peletsToCollect = 94;
+
+if (device === "phone"){
+    peletsToCollect = 58;
+}
+
+let pelletPointWorth = 1;
+let ghostPointWorth = 10;
+let ghostKillCounter = 0;
+
+let oldHighScore = localStorage.getItem("HighScore");
+
+if (oldHighScore === null){
+    localStorage.setItem("HighScore","0");
+    oldHighScore = "0";
+}
+
+function update(){
+    if (pacMan.points - ghostPointWorth*ghostKillCounter < peletsToCollect && pacMan.life > 0){
+        //Gá fyrir collision á ghost
+        for (let i = 0; i < 4; i++){
+            if (rectIntersect(pacMan.x,pacMan.y,pacMan.radius,pacMan.radius,ghosts[i].x,ghosts[i].y,ghosts[i].width,ghosts[i].height)){
+                if(pacMan.powerPeletState <= 0){
+                    window.navigator.vibrate(200);
+                    pacMan.life -= 1;
+                    scoreboardDraw();
+                    pacMan.x = 300;
+                    pacMan.y = 300;
+                }else if(pacMan.powerPeletState > 0 && ghosts[i].eaten === false){
+                    ghosts[i].kill()
+                    ghostKillCounter++;
+                    pacMan.points += ghostPointWorth;
+                    scoreboardDraw();
+                }
+            }
+        }
+
+        // gá fyrir collision á power pellet
+        
+        for (let i = 0; i < powerPeletList.length; i++){
+            if(rectIntersect(pacMan.x,pacMan.y,pacMan.radius,pacMan.radius,powerPeletList[i].x,powerPeletList[i].y,powerPeletList[i].width,powerPeletList[i].height) && powerPeletList[i].touched === false){
+                powerPeletList[i].touched = true;
+                pacMan.powerPeletState = 750;
+            }
+        }
+        // gá fyrir collision á pellet
+        
+        for(let i = 0; i < peletList.length; i++){
+            if(circleIntersect(pacMan.x,pacMan.y,pacMan.radius,peletList[i].x,peletList[i].y,peletList[i].radius) && peletList[i].touched === false){
+                pacMan.points += pelletPointWorth;
+                peletList[i].touched = true;
+
+                scoreboardDraw();
+            }
+        }
+
+        // Svo að hann hefur möguleika á að færa sig eftir að hitta vegg
+        if (pacMan.isCollidingWall === true)
+            if (direction === "N"){
+                pacMan.y += 1;
+            }else if (direction === "S"){
+                pacMan.y -= 1;
+            }else if (direction === "E"){
+                pacMan.x += 1;
+            }else if (direction === "W"){
+                pacMan.x -= 1;
+            }
+        //Endursett colision og checka á öllum veggjum
+        pacMan.isCollidingWall = false;
+        for (let i = 0; i < allVertWallList.length; i++){
+            wallToCompare = allVertWallList[i];
+            if (rectIntersect(pacMan.x,pacMan.y,15,15,wallToCompare.x,wallToCompare.y,10,50)){
+                pacMan.isCollidingWall = true;
+            }
+        }
+        for (let i = 0; i < allHorzWallList.length; i++){
+            wallToCompare = allHorzWallList[i];
+            if (rectIntersect(pacMan.x,pacMan.y,15,15,wallToCompare.x,wallToCompare.y,50,10)){
+                pacMan.isCollidingWall = true;
+            }
+        }
+        pacMan.move(direction)
+        if (pacMan.powerPeletState > 0){
+            pacMan.powerPeletState -= 1*2/slowdown;
+        }
+        
+
+        //Drawing;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pacMan.draw(direction);
+        
+        for (let x = 0; x < allVertWallList.length; x++){
+            allVertWallList[x].drawVert();
+        }
+        for (let x = 0; x < allVertWallList.length; x++){
+            allHorzWallList[x].drawHorz();
+        }
+        for (let x = 0; x < peletList.length; x++){
+            if (peletList[x].touched === false){
+                peletList[x].draw()
+            }
+        }
+        for (let x = 0; x < powerPeletList.length; x++){
+            if (powerPeletList[x].touched === false){
+                if (powerPeletList[x].blinked > 25*slowdown && powerPeletList[x].blinked < 50*slowdown){
+                    powerPeletList[x].blinked++;
+                }else if(powerPeletList[x].blinked === 50*slowdown){
+                    powerPeletList[x].blinked = 0;
+                }else{
+                    powerPeletList[x].draw();
+                    powerPeletList[x].blinked++;
+                }
+            }
+        }
+        for (let x = 0; x < 4; x++){
+            ghosts[x].move(x);
+            ghosts[x].draw();
+        }
+    }else if (pacMan.life === 0){ // game over - death by ghost
+        ctx.font = "30px Ariel";
+        ctx.fillStyle = "Yellow";
+        ctx.fillText("Leik Lokið - Þú Tappaðir :(",201,301);
+    }else{ //all pelets collected and life is over 0 - game won
+        ctx.font = "30px Ariel";
+        ctx.fillStyle = "Yellow";
+        ctx.fillText("Leik Lokið - Þú Vanst!!!",201,301);
+
+        if (parseInt(oldHighScore) < pacMan.points){
+            localStorage.setItem("HighScore",pacMan.points);
+        }
+    }
+    window.requestAnimationFrame(update);
+};
+
+// Movement direction
+
+canvasTouch.addEventListener("touchstart",(event)=>{
+    event.preventDefault();
+    let recentTouch = event.changedTouches[0];
+
+    if (recentTouch.pageX > canvasTouch.offsetLeft && recentTouch.pageX < canvasTouch.offsetLeft + 40){ // vinstri
+        if (recentTouch.pageY > canvasTouch.offsetTop && recentTouch.pageY < canvasTouch.offsetTop + 30){ // upp
+            direction = "NE";
+        }else if(recentTouch.pageY > canvasTouch.offsetTop + 35 && recentTouch.pageY < canvasTouch.offsetTop + 65){// miðja
+            direction = "E";
+        }else{// niðri
+            direction = "SE";
+        }
+    }else if(recentTouch.pageX > canvasTouch.offsetLeft + 70 && recentTouch.pageX < canvasTouch.offsetLeft + 100){ //hægri
+        if (recentTouch.pageY > canvasTouch.offsetTop && recentTouch.pageY < canvasTouch.offsetTop + 30){ // upp
+            direction = "NW";
+        }else if(recentTouch.pageY > canvasTouch.offsetTop + 35 && recentTouch.pageY < canvasTouch.offsetTop + 65){// miðja
+            direction = "W";
+        }else{// niðri
+            direction = "SW";
+        }
+    }else{//miðja
+        if (recentTouch.pageY > canvasTouch.offsetTop && recentTouch.pageY < canvasTouch.offsetTop + 30){ // upp
+            direction = "N";
+        }else if(recentTouch.pageY > canvasTouch.offsetTop + 35 && recentTouch.pageY < canvasTouch.offsetTop + 65){// miðja
+            
+        }else{// niðri
+            direction = "S";
+        }
+    } 
+    slowdown++;
+    window.requestAnimationFrame(update);
+})
+
+document.addEventListener("keydown",(event)=>{
+    if(event.code === "KeyA"){
+        direction = "E";
+    }else if(event.code === "KeyD"){
+        direction = "W";
+    }else if (event.code === "KeyW"){
+        direction = "N";
+    }else if (event.code === "KeyS"){
+        direction = "S";
+    }else if (event.code === "KeyQ"){
+        direction = "NE";
+    }else if (event.code === "KeyZ"){
+        direction = "SE";
+    }else if (event.code === "KeyE"){
+        direction = "NW";
+    }else if (event.code === "KeyC"){
+        direction = "SW";
+    }
+    slowdown++;
+    window.requestAnimationFrame(update);
+});
+
+//Power pelet making
+if (device === "computer"){
+    powerPeletList = [
+        new PowerPellet(15,30),
+        new PowerPellet(565,30),
+        new PowerPellet(15,550),
+        new PowerPellet(565,550)
+    ];
+}else{
+    powerPeletList = [
+        new PowerPellet(15,30),
+        new PowerPellet(525,30),
+        new PowerPellet(15,350),
+        new PowerPellet(525,350)
+    ];
+}
+
+//Pelet making
+
+if (device === "computer"){
+    peletListTemplate = [
+        [75,125,175,225,275,325,375,425,475,525],
+        [25,75,125,175,225,275,325,375,425,475,525,575],
+        [25,75,175,225,275,325,375,425,525,575],
+        [25,75,125,175,275,325,425,475,525,575],
+        [25,75,175,225,275,325,375,425,525,575],
+        [25,75,125,175,275,325,425,475,525,575],
+        [25,75,175,225,275,325,375,425,525,575],
+        [25,75,125,175,225,275,325,375,425,475,525,575],
+        [75,125,175,225,275,325,375,425,475,525],
+    ]
+    peletList = [];
+    
+    counter = 0
+    for(let x = 1; x < 10; x++){
+        for (let i = 0; i < peletListTemplate[(x-1)].length; i++){
+            peletList.push(new Ball(counter,peletListTemplate[(x-1)][i],x*65-25));
+            counter++;
+        }
+    }
+}else{
+    peletListTemplate = [
+        [75,125,175,225,275,325,375,425,475],
+        [25,75,125,175,225,275,325,375,425,475,525],
+        [25,125,175,275,325,475,525],
+        [25,75,125,175,225,275,325,375,425,475,525],
+        [25,75,125,175,225,275,325,375,425,475,525],
+        [75,125,175,225,275,325,375,425,475]
+    ]
+    peletList = [];
+    
+    counter = 0;
+    for(let x = 1; x < 7; x++){
+        for (let i = 0; i < peletListTemplate[(x-1)].length; i++){
+            peletList.push(new Ball(counter,peletListTemplate[(x-1)][i],x*65-25));
+            counter++;
+        }
+    }
+}
+
+//Making the wall map
+allVertWallList = []
+allHorzWallList = []
+
+if (device === "computer"){
+    vertWallList = [
+        [50, 540],
+        [120, 470],
+        [50, 210, 400, 540],
+        [120, 470],
+        [50, 210, 400, 540],
+        [120, 470],
+        [50, 540]
+    ];
+    horzWallList = [
+        [50, 190, 370, 500],
+        [120, 285 ,430],
+        [210, 360],
+        [],
+        [210, 360],
+        [120, 285, 430],
+        [50, 190, 360, 500]
+    ];
+    
+    for (let i = 0; i < 7; i++){
+        for (let placement = 0; placement < vertWallList[i].length; placement++){
+            allVertWallList.push(new Wall(vertWallList[i][placement], 60+i*70));
+        }
+    }
+    for (let i = 0; i < 7; i++){
+        for (let placement = 0; placement < horzWallList[i].length; placement++){
+            if(i < 4){
+                allHorzWallList.push(new Wall(horzWallList[i][placement],60+i*70));
+            }else{
+                allHorzWallList.push(new Wall(horzWallList[i][placement],100+i*70));
+            }
+        }
+    }
+}else{
+    vertWallList = [
+        [50, 500],
+        [50, 500]
+    ];
+
+    horzWallList = [
+        50, 170, 330, 440
+    ];
+
+    for (let i = 0; i < 2; i++){
+        for (let placement = 0; placement < vertWallList[i].length; placement++){
+            allVertWallList.push(new Wall(vertWallList[i][placement], 60+i*200));
+        }
+    }
+    
+    for(let i = 0; i < horzWallList.length; i++){
+        allHorzWallList.push(new Wall(horzWallList[i],170));
+    }
+}
+
+// making the Ghosts
+ghosts = [];
+
+if (device === "computer"){
+    ghosts = [];
+}else{
+    ghosts = [
+        new Ghost(0,15,30,"red"),
+        new Ghost(1,525,130,"gray"),
+        new Ghost(2,15,220,"pink"),
+        new Ghost(3,525,340,"green")
+    ];
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Canvas sýnidæmi</title>
+    <link rel="stylesheet" type="MIME" href="../Java-pacman/style.css">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>  
+</head>
+<style>
+  body {
+    background-color: black;
+    margin: 0
+  }
+
+  span {
+    color: aliceblue;
+    font-size: 3em;
+  }
+</style>
+<body>
+  
+  <span>Score: </span><span id="theScore">0</span><span id="theLives">    Lives 3</span><span id="theInfo">               </span>
+    <canvas id="canvas">
+    </canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const theScore = document.getElementById("theScore");
+const theLives = document.getElementById("theLives");
+const theInfo = document.getElementById("theInfo");
+console.log(theScore)
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+class Pacman {
+  constructor({ position }, { move }, { color }) {
+      this.position = position;
+      this.move = move;
+      this.radius = 5;
+      this.color = color
+  }
+  
+  draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.position.x, this.position.y, 40, Math.PI / 7, -Math.PI / 7, false);
+      ctx.lineTo(this.position.x + 5, this.position.y + 5);
+      ctx.fill();
+      ctx.fillStyle = "black";
+      ctx.beginPath();
+      ctx.arc(this.position.x + 5, this.position.y - 15, 5, 0, Math.PI * 2, true);
+      ctx.fill();
+  }
+  
+  update() {
+      this.draw();
+      this.position.x += this.move.x;
+      this.position.y += this.move.y;
+      if (this.position.y > canvas.height - 10) {
+          this.position.y = 0;
+      }
+      if (this.position.y < 0) {
+          this.position.y = canvas.height - 3;
+      }
+      if (this.position.x > canvas.width ) {
+          this.position.x = 0;
+      }
+      if (this.position.x < 0) {
+          this.position.x = canvas.width - 5;
+      }
+  }
+}
+
+class Ghost {
+  constructor({ position }, { move }, {color}) {
+      this.position = position;
+      this.move = move;
+      this.radius = 5;
+      this.color = color
+  }
+  
+  draw() {
+      ctx.fillStyle = this.color
+      ctx.beginPath()
+      ctx.arc(this.position.x, this.position.y, 40, Math.PI, false);
+      ctx.lineTo(this.position.x - 40, this.position.y + 50);
+      ctx.lineTo(this.position.x + 40, this.position.y + 0);
+      ctx.lineTo(this.position.x + 40, this.position.y + 50);
+      ctx.lineTo(this.position.x + 30, this.position.y + 40);
+      ctx.lineTo(this.position.x + 20, this.position.y + 50);
+      ctx.lineTo(this.position.x + 10, this.position.y + 40);
+      ctx.lineTo(this.position.x, this.y + this.position50);
+      ctx.lineTo(this.position.x - 10, this.position.y + 40);
+      ctx.lineTo(this.position.x - 20, this.position.y + 50);
+      ctx.lineTo(this.position.x - 30, this.position.y + 40);
+      ctx.lineTo(this.position.x - 40, this.position.y + 50);
+      ctx.fill();
+      ctx.fillStyle = "white"
+      ctx.beginPath();
+      ctx.arc(this.position.x+10, this.position.y - 15, 14, 0, Math.PI * 2, true)
+      ctx.fill()
+      ctx.beginPath();
+      ctx.arc(this.position.x-20, this.position.y - 15, 14, 0, Math.PI * 2, true)
+      ctx.fill()
+      ctx.fillStyle = "black"
+      ctx.beginPath();
+      ctx.arc(this.position.x+10, this.position.y - 15, 5, 0, Math.PI * 2, true)
+      ctx.fill()
+      ctx.beginPath();
+      ctx.arc(this.position.x-20, this.position.y - 15, 5, 0, Math.PI * 2, true)
+      ctx.fill()
+  }
+  
+  update() {
+      this.draw();
+      this.position.x += this.move.x;
+      this.position.y += this.move.y;
+
+      if (this.position.y > canvas.height || this.position.y < 0) {
+          this.move.y = -this.move.y;
+      }
+      if (this.position.x > canvas.width || this.position.x < 0) {
+          this.move.x = -this.move.x;
+      }
+  }
+}
+
+class Power {
+    constructor({position}) {
+        this.position = position
+        this.radius = 10
+    }
+    
+    draw() {
+        ctx.fillStyle = "green"
+        ctx.beginPath()
+        ctx.arc(this.position.x, this.position.y, 10, 0, Math.PI * 2, true)
+        ctx.fill()
+    }
+}
+
+class Pellet {
+  constructor({position}) {
+      this.position = position
+      this.radius = 5
+  }
+  
+  draw() {
+      ctx.fillStyle = "white"
+      ctx.beginPath()
+      ctx.arc(this.position.x, this.position.y, 5, 0, Math.PI * 2, true)
+      ctx.fill()
+  }
+}
+
+const powers = []
+
+for (let i = 0; i <= 4; i++) {
+    powers.push(
+        new Power({
+            position:{
+                x: Math.random()*innerWidth,
+                y: Math.random()*innerHeight,
+            }
+        
+        })
+    )
+}
+
+const pellets = []
+
+for (let i = 0; i < 20; i++) {
+  pellets.push(
+      new Pellet({
+          position:{
+              x: Math.random()*innerWidth,
+              y: Math.random()*innerHeight,
+          }
+      
+      })
+  )
+}
+
+let score = 0
+let lives = 0
+let real_lives = 3
+
+const pink = new Ghost({ position: { x: Math.random()*innerWidth, y: Math.random()*innerHeight, } }, { move: { x: Math.random()*5, y: Math.random()*5, } }, {color: "pink" });
+const red = new Ghost({ position: { x: Math.random()*innerWidth, y: Math.random()*innerHeight, } }, { move: { x: Math.random()*5, y: Math.random()*5, } }, {color: "red" });
+const blue = new Ghost({ position: { x: Math.random()*innerWidth, y: Math.random()*innerHeight, } }, { move: { x: Math.random()*5, y: Math.random()*5, } }, {color: "lightblue" });
+const orange = new Ghost({ position: { x: Math.random()*innerWidth, y: Math.random()*innerHeight, } }, { move: { x: Math.random()*5, y: Math.random()*5, } }, {color: "orange" });
+
+const pacman = new Pacman({ position: { x: 100, y: 100 } }, { move: { x: 0, y: 0 } }, {color: "yellow"});
+
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  powers.forEach(( power, z) => {
+    power.draw()
+    if ( 
+        Math.hypot(
+            power.position.x - pacman.position.x,
+            power.position.y - pacman.position.y
+            ) < 
+            power.radius + pacman.radius + 60
+        ) {
+            powers.splice(z, 1)
+            let intervalID = setInterval(function() {
+                orange.color = "gray"
+                red.color = "gray"
+                blue.color = "gray"
+                pink.color = "gray"
+                if (pink.position.x < pacman.position.x + 100  && pink.position.y < pacman.position.y + 100
+                    && pink.position.x > pacman.position.x - 100  && pink.position.y > pacman.position.y - 100)
+                  {
+                    theInfo.innerHTML = " Killed a Ghost"
+                    pink.color = "black"
+                    pink.position.x = innerWidth
+                    pink.position.y = innerHeight
+                  }
+                if (red.position.x < pacman.position.x + 100  && red.position.y < pacman.position.y + 100
+                    && red.position.x > pacman.position.x - 100  && red.position.y > pacman.position.y - 100)
+                  {
+                    theInfo.innerHTML = " Killed a Ghost"
+                    red.color = "black"
+                    red.position.x = innerWidth
+                    red.position.y = innerHeight
+                  }
+                if (blue.position.x < pacman.position.x + 100  && blue.position.y < pacman.position.y + 100
+                    && blue.position.x > pacman.position.x - 100  && blue.position.y > pacman.position.y - 100)
+                  {
+                    theInfo.innerHTML = " Killed a Ghost"
+                    blue.color = "black"
+                    blue.position.x = innerWidth
+                    blue.position.y = innerHeight
+                  }
+                if (orange.position.x < pacman.position.x + 100  && orange.position.y < pacman.position.y + 100
+                    && orange.position.x > pacman.position.x - 100  && orange.position.y > pacman.position.y - 100)
+                  {
+                    theInfo.innerHTML = " Killed a Ghost"
+                    orange.color = "black"
+                    orange.position.x = innerWidth
+                    orange.position.y = innerWidth
+                  }
+              }, 100);
+              
+              setTimeout(function() {
+                orange.color = "orange"
+                red.color = "red"
+                blue.color = "blue"
+                pink.color = "pink"
+                clearInterval(intervalID);
+              }, 5000);
+        }  
+    }
+  )
+  pellets.forEach(( pellet, i) => {
+    pellet.draw()
+    if ( 
+        Math.hypot(
+            pellet.position.x - pacman.position.x,
+            pellet.position.y - pacman.position.y
+            ) < 
+            pellet.radius + pacman.radius + 30
+        ) {
+            pellets.splice(i, 1)
+            score += 10
+            theScore.innerHTML = score
+        }
+    if (pink.position.x < pacman.position.x + 60  && pink.position.y < pacman.position.y + 60
+        && pink.position.x > pacman.position.x - 60  && pink.position.y > pacman.position.y - 60)
+         {
+            theInfo.innerHTML = " You Lost A Life"
+            lives -= 1
+            pacman.position.x = 10
+            pacman.position.y = 10
+        }
+    if (red.position.x < pacman.position.x + 60  && red.position.y < pacman.position.y + 60
+        && red.position.x > pacman.position.x - 60  && red.position.y > pacman.position.y - 60)
+        {
+            theInfo.innerHTML = " You Lost A Life"
+            lives -= 1
+            pacman.position.x = 10
+            pacman.position.y = 10
+        }
+    if (blue.position.x < pacman.position.x + 60  && blue.position.y < pacman.position.y + 60
+        && blue.position.x > pacman.position.x - 60  && blue.position.y > pacman.position.y - 60)
+        {
+            theInfo.innerHTML = " You Lost A Life"
+            lives -= 1
+            pacman.position.x = 10
+            pacman.position.y = 10
+        }
+    if (orange.position.x < pacman.position.x + 60  && orange.position.y < pacman.position.y + 60
+        && orange.position.x > pacman.position.x - 60  && orange.position.y > pacman.position.y - 60)
+        {
+            theInfo.innerHTML = " You Lost A Life"
+            lives -= 1
+            pacman.position.x = 10
+            pacman.position.y = 10
+        }
+    if (real_lives == 0) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            theInfo.innerHTML = "  You Died"
+            pellets.splice(i, 1)
+            pacman.color = "white"
+        }
+    if (score == 200) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        theInfo.innerHTML = "  You Win!"
+        pellets.splice(i, 1)
+        powers.splice(0, 5)
+        
+    }
+  })
+
+  if (lives < 0) {
+    lives = 0
+    real_lives -= 1
+    theLives.innerHTML = "    Lives" + real_lives
+  }
+  
+  pink.update();
+  red.update();
+  blue.update();
+  orange.update();
+  pacman.update();
+}
+
+
+
+addEventListener('keydown', ({ key }) => {
+  switch (key) {
+      case 'w':
+          pacman.move.y = -10;
+          break;
+      case 'a':
+          pacman.move.x = -10;
+          break;
+      case 's':
+          pacman.move.y = 10;
+          break;
+      case 'd':
+          pacman.move.x = 10;
+          break;
+      case ' ':
+        animate();
+          break;
+  }
+});
+
+addEventListener('keyup', ({ key }) => {
+  switch (key) {
+      case 'w':
+      case 's':
+          pacman.move.y = 0;
+          break;
+      case 'a':
+      case 'd':
+          pacman.move.x = 0;
+          break;
+  }
+});
+
+
+    </script>
+</body>
+</html>
