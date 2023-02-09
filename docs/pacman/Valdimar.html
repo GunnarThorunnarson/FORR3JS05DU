@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Pac-Man</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>  
+</head>
+<body>
+    <style>
+        body {
+            background-color: rgb(33, 0, 127);
+            margin: 0;
+        }
+        canvas {
+            background-color: black;
+            display: block;
+        }
+        #scoreboard {
+            position: fixed;
+            text-align: center;
+            right: 0;
+            top: 20%;
+        }
+        h2 {
+            color: white;
+        }
+        .button {
+            position: fixed;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+        }
+        #startButton {
+            padding: 1em;
+            margin: 2em;
+            font-size: 2em;
+            text-align: center;
+            background-color: white;
+            border-radius: 1em;
+            cursor: pointer;
+        }
+        #startButton:hover {
+            background-color: #ccc;
+        }
+    </style>
+    <div id="scoreboard">
+        <h2>Score</h2>
+        <h2 id="score">0</h2>
+        <h2>Highscore</h2>
+        <h2 id="highscore">0</h2>
+        
+        <div id="startButton">Hefja Leik</div>
+    </div>
+    <canvas id="tutorial" width="1280" height="0"></canvas>
+    <script>
+    const canvas = document.getElementById('tutorial');
+    const ctx = canvas.getContext('2d');
+
+    const startButton = document.getElementById("startButton");
+
+    let size = 0;
+    let speed = 0;
+    let powerUpDuration = 10000;
+
+    let score = 0;
+    let highscore = localStorage.getItem('highscore') || 0;
+    let startTime;
+    let change = -0.1;
+
+    let initialX = 0;
+    let initialY = 0;
+    let x = 0;
+    let y = 0;
+    let swiping = false
+
+    let ghosts = [];
+    let dots = [];
+    let obstacles = [];
+
+    let keys = {left: false, up: false, right: false, down: false};
+
+    const keyCodes = {
+        37: 'left', 65: 'left',
+        38: 'up', 87: 'up',
+        39: 'right', 68: 'right',
+        40: 'down', 83: 'down'
+    };
+
+    function randomX(margin, gap=1) {
+        return Math.floor(Math.random() * (canvas.width-margin*2)/gap)*gap + margin;
+    }
+    
+    function randomY(margin, gap=1) {
+        return Math.floor(Math.random() * (canvas.height-margin*2)/gap)*gap + margin;
+    }
+
+    const widthPercent = (percent) => percent/100*canvas.width;
+    const heightPercent = (percent) => percent/100*canvas.height;
+
+    const pacman = {
+        x: canvas.width/2,
+        y: canvas.height/2,
+        vx: 0,
+        vy: 0,
+        jx: 0,
+        jy: 0,
+        speed: speed,
+        size: size,
+        gap: 0.0,
+        rot: 0,
+        color: 'rgb(255, 200, 0)',
+        powerUp: false,
+        lives: 3,
+        dead: true,
+
+        draw(x) {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, this.rot-this.gap, this.rot+this.gap, true);
+            ctx.lineTo(this.x, this.y);
+            ctx.closePath();
+            ctx.fill();
+
+            let eyeX = this.x + x*((this.size/3) * Math.cos(this.rot+1.5));
+            let eyeY = this.y + x*((this.size/2) * Math.sin(this.rot+1.5));
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, size/5, 0, 2*Math.PI);
+            ctx.fill();
+        }
+    }
+
+    class Ghost {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.vx = speed;
+            this.vy = speed;
+            this.size = size;
+            this.color = color;
+            this.edible = false;
+            this.blue = false;
+        }
+    
+        draw(ctx) {
+            if (this.blue) ctx.fillStyle = 'blue'; else ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI, true);
+            ctx.lineTo(this.x - this.size, this.y + this.size);
+            ctx.lineTo(this.x - this.size, this.y + this.size);
+            ctx.lineTo(this.x - this.size/2, this.y + this.size/2);
+            ctx.lineTo(this.x, this.y + this.size);
+            ctx.lineTo(this.x + this.size/2, this.y + this.size/2);
+            ctx.lineTo(this.x + this.size, this.y + this.size);
+            ctx.fill();
+        }
+    }
+
+    class Dot {
+        constructor(x, y, size, isBig=false) {
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.isBig = isBig;
+        }
+
+        draw(ctx) {
+            ctx.fillStyle = 'white'
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
+            ctx.fill();
+        }
+    }
+
+    class Obstacle {
+        constructor(xPercent, yPercent, lengthPercent, vertical, thickness = size*2) {
+            this.x = widthPercent(xPercent)-thickness/2;
+            this.y = heightPercent(yPercent)-thickness/2;
+            this.width = thickness;
+            this.height = thickness;
+            if(vertical) this.height = heightPercent(lengthPercent)+thickness; else this.width = widthPercent(lengthPercent)+thickness; 
+        }
+
+        draw(ctx) {
+            ctx.fillStyle = 'rgb(33, 0, 127)'
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+
+    class Border {
+        constructor(x, y, w, h) {
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.height = h;
+        }
+
+        draw(ctx) {}
+    }
+
+    function animateMouth() {
+        pacman.gap += change;
+        if (pacman.gap >= 0.8 || pacman.gap <= 0.015 ) change = -change;
+    }
+
+    function updatePacman() {
+        pacman.vx = 0;
+        pacman.vy = 0;
+
+        function calcX(speed) {
+            let vx = speed;
+            while (detectObstacles(pacman.x + vx, pacman.y)) vx -= speed/Math.abs(speed);
+            return vx;
+        }
+        
+        function calcY(speed) {
+            let vy = speed;
+            while (detectObstacles(pacman.x, pacman.y + vy)) vy -= speed/Math.abs(speed);
+            return vy;
+        }
+
+        if (swiping) {
+            pacman.vx = calcX(pacman.jx);
+            pacman.vy = calcY(pacman.jy);
+        } else {
+            if (keys.left) pacman.vx = calcX(-pacman.speed);
+            if (keys.up) pacman.vy = calcY(-pacman.speed);
+            if (keys.right) pacman.vx = calcX(pacman.speed);
+            if (keys.down) pacman.vy = calcY(pacman.speed);
+            if (keys.left && keys.right) pacman.vx = 0;
+            if (keys.up && keys.down) pacman.vy = 0;
+        }
+        if (pacman.vx**2+pacman.vy**2 != 0) animateMouth(); else pacman.gap = 0.41;
+
+        pacman.x += pacman.vx;
+        pacman.y += pacman.vy;
+
+        pacman.rot = Math.atan2(-pacman.vy, -pacman.vx) + Math.PI;
+        if (pacman.vx < 0) pacman.draw(1); else pacman.draw(-1);
+    }
+
+    function updateGhost(ghost) {
+        ghost.x += ghost.vx;
+        ghost.y += ghost.vy;
+
+        if (detectObstacles(ghost.x+ghost.vx, ghost.y)) ghost.vx = -ghost.vx;
+        if (detectObstacles(ghost.x, ghost.y+ghost.vy)) ghost.vy = -ghost.vy;
+
+        if (ghost.y + ghost.vy > canvas.height-ghost.size || ghost.y + ghost.vy < ghost.size) ghost.vy = -ghost.vy;
+        if (ghost.x + ghost.vx > canvas.width-ghost.size || ghost.x + ghost.vx < ghost.size) ghost.vx = -ghost.vx;
+
+        if (pacman.powerUp) {
+            let timer = performance.now() - startTime;
+            if (timer >= powerUpDuration-2000) {
+                ghosts.forEach(ghost => {
+                    if (ghost.edible) ghost.blue = Math.floor(timer / 200) % 2 === 0;
+                });
+            }
+            if (timer > powerUpDuration) pacman.powerUp = false;    
+        } else ghosts.forEach(ghost => {ghost.edible = false; ghost.blue = false});
+
+        ghost.draw(ctx);
+    }
+
+    function circleIntersect(x1, y1, r1, x2, y2, r2) {
+        let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+        return squareDistance <= ((r1 + r2) * (r1 + r2))
+    }
+
+    function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+        if (x2 > w1 + x1 || x1 > w2 + x2 || y2 > h1 + y1 || y1 > h2 + y2) return false;
+        return true;
+    }
+
+    function detectCollisions() {
+
+        for (let i = 0; i < dots.length; i++) {
+            obj1 = pacman;
+            obj2 = dots[i];
+            if (circleIntersect(obj1.x, obj1.y, obj1.size, obj2.x, obj2.y, obj2.size)) {
+                if (obj2.isBig) {
+                    score += 4;
+                    pacman.powerUp = true;
+                    ghosts.forEach(ghost => {ghost.edible = true; ghost.blue = true});
+                    startTime = performance.now();
+                }
+            score += 1;
+            dots.splice(i, 1);
+            i--;
+            }
+        }
+
+        for (let i = 0; i < ghosts.length; i++) {
+            obj1 = pacman;
+            obj2 = ghosts[i];
+            if (circleIntersect(obj1.x, obj1.y, obj1.size, obj2.x, obj2.y, obj2.size)) {
+                if (obj1.powerUp && obj2.edible) {
+                    score += 10;
+                    obj2.x = randomX(canvas.width*0.4, speed)
+                    obj2.y = randomY(canvas.height*0.4, speed)
+                    obj2.edible = false;
+                    obj2.blue = false;
+                } else if (pacman.lives > 1) {
+                    window.navigator.vibrate(200);
+                    pacman.x = canvas.width/2
+                    pacman.y = canvas.height/2
+                    pacman.lives -= 1;
+                } else pacman.dead = true;
+            }
+        }
+    }
+
+    function detectObstacles(x, y) {
+        for (i = 0; i < obstacles.length; i++) {
+            obj = obstacles[i];
+            if (rectIntersect(x-size, y-size, size*2, size*2, obj.x, obj.y, obj.width, obj.height)) return true;
+        }
+        return false
+    }
+
+    function updateScore() {
+        if (score > highscore) {
+            highscore = score;
+            localStorage.setItem('highscore', highscore);
+        }
+        document.getElementById('score').innerHTML = score;
+        document.getElementById('highscore').innerHTML = (localStorage.getItem('highscore') || 0);
+    }
+
+    function resetGame() {
+        score = 0;
+        canvas.width = window.innerWidth*0.8;
+        canvas.height = window.innerHeight;
+
+        size = Math.floor(Math.sqrt(canvas.width*canvas.height)/50);
+        speed = Math.floor(size/5);
+
+        pacman.dead = false;
+        pacman.lives = 3;
+        pacman.size = size;
+        pacman.speed = speed;
+        pacman.x = canvas.width/2;
+        pacman.y = canvas.height/2;
+
+        let w = canvas.width;
+        let h = canvas.height;
+
+        ghosts = [];
+        dots = [];
+        obstacles = [
+            new Border(0, 0, w, 0),
+            new Border(0, h, w, 0),
+            new Border(0, 0, 0, h),
+            new Border(w, 0, 0, h),
+
+            new Obstacle(15, 15, 20, true),
+            new Obstacle(15, 65, 20, true),
+            new Obstacle(15, 85, 25, false),
+            new Obstacle(0, 50, 20, false),
+            new Obstacle(15, 15, 25, false),
+            new Obstacle(30, 30, 40, true),
+
+            new Obstacle(50, 0, 35, true),
+            new Obstacle(50, 65, 35, true),
+
+            new Obstacle(85, 15, 20, true),
+            new Obstacle(85, 65, 20, true),
+            new Obstacle(64, 85, 20, false),
+            new Obstacle(79, 50, 20, false),
+            new Obstacle(64, 15, 20, false),
+            new Obstacle(70, 30, 40, true)
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            x = randomX(size, speed);
+            y = randomY(size, speed);
+            while(detectObstacles(x, y)){
+                x = randomX(size, speed);
+                y = randomY(size, speed);
+            }
+            let ghost = new Ghost(x, y, ['red','pink','orange', 'cyan'][i])
+            ghosts.push(ghost);
+        }
+
+        for (let i = 0; i < 80; i++) {
+            x = randomX(size);
+            y = randomY(size);
+            while(detectObstacles(x, y)){
+                x = randomX(size);
+                y = randomY(size);
+            }
+            let dot = new Dot(x, y, size/8);
+            dots.push(dot);
+        }
+
+        for (let x = -1; x < 2; x += 2) {
+            for (let y = -1; y < 2; y += 2) {
+                let dot = new Dot(w/2-w*0.45*x, h/2-h*0.45*y, size/2, true);
+                dots.push(dot);
+            }
+        }
+        init();
+    }
+
+    function joystickOutput(number) {
+        num = number/50;
+        if (Math.abs(num) > speed) return speed*number/Math.abs(number);
+        return num
+    }
+    
+    document.addEventListener("touchstart", function(event) {
+        swiping = true;
+        initialX = event.touches[0].clientX;
+        initialY = event.touches[0].clientY;
+    });
+
+    document.addEventListener("touchmove", function(event) {
+        x = event.touches[0].clientX - initialX;
+        y = event.touches[0].clientY - initialY;
+        pacman.jx = joystickOutput(x);
+        pacman.jy = joystickOutput(y)
+    });
+
+    document.addEventListener("touchend", function(event) {
+        swiping = false;
+        x = 0;
+        y = 0;
+    });
+
+    document.addEventListener("DOMContentLoaded", () => screen.orientation.lock('landscape-primary'));
+
+    document.addEventListener("keydown", e => keys[keyCodes[e.keyCode]] = true);
+    document.addEventListener("keyup", e => keys[keyCodes[e.keyCode]] = false);
+    startButton.addEventListener("click", () => document.documentElement.requestFullscreen().then(() => resetGame()).catch());
+    startButton.addEventListener("touchstart", () => document.documentElement.requestFullscreen().then(() => resetGame()).catch());
+    
+
+    function init() {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        document.getElementById('scoreboard').style.width = canvas.width*0.25+'px';
+
+        if (pacman.dead) {
+            startButton.style.display = 'block';
+        } else {
+            startButton.style.display = 'none'
+            ctx.strokeStyle = 'rgb(0, 33, 33)'
+            ctx.strokeRect(widthPercent(40), heightPercent(40), widthPercent(20), heightPercent(20))
+
+            detectCollisions();
+            dots.forEach(dot => dot.draw(ctx));
+            updatePacman();
+            ghosts.forEach(ghost => updateGhost(ghost));
+            obstacles.forEach(obstacle => obstacle.draw(ctx));
+            updateScore();
+            window.requestAnimationFrame(init);
+        }
+    }
+    init();
+    </script>
+</body>
+</html>
