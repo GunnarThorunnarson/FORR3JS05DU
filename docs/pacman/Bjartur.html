@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Canvas sýnidæmi</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>  
+</head>
+<body>
+    <!-- breyttu breidd og hæð -->
+    <canvas id="Main" ></canvas>
+    <script>
+        
+"use strict";
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.documentElement.requestFullscreen();
+    screen.orientation.lock('landscape');
+  }
+
+let canvas = document.getElementById('Main');
+let ctx = canvas.getContext('2d');
+
+let lastUpdate = Date.now();
+
+let startX, startY, endX, endY;
+
+let obsticles = [];
+
+let keyboardMode = true;
+
+let tap = false;
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50;
+
+window.addEventListener("resize", function() {
+  canvas.width = window.innerWidth-50;
+  canvas.height = window.innerHeight-50;
+});
+
+function clampVector(vector, canvasWidth, canvasHeight) {
+    return [
+      Math.max(0, Math.min(vector[0], canvasWidth)),
+      Math.max(0, Math.min(vector[1], canvasHeight))
+    ];
+}
+  
+function randint(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function normalize(vector) {
+    let magnitude = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
+    return [vector[0] / magnitude, vector[1] / magnitude];
+}
+
+function circlesOverlap(x1, y1, r1, x2, y2, r2) {
+    const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    return distance < r1 + r2;
+}
+  
+function generateObsticles(){
+    let maxTests = 10;
+    let minSize = [20, 20];
+    let maxSize = [200, 200];
+    let posRange = [canvas.width - maxSize[0], canvas.height - maxSize[1]];
+
+    for(let i = 0; i < maxTests; i++){
+
+        let flag = false;
+        let pos = [Math.random()*posRange[0], Math.random()*posRange[1]];
+        let size = [Math.random()*(maxSize[0]-minSize[0]) + minSize[0], Math.random()*(maxSize[1]-minSize[1]) + minSize[1]];
+        for(let s = 0; s < obsticles.length; s++){
+            if(isBoxCollition(pos,size,obsticles[s].pos,obsticles[s].size)){
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag == false){
+            obsticles.push(new Obsticle(pos, size, randColor()));
+            break;
+        }
+    }
+}
+
+function getValidEntityPlacement(entitySize, maxTests = 50){
+
+    let posRange = [canvas.width, canvas.height];
+
+    for(let i = 0; i < maxTests; i++){
+
+        let flag = false;
+        let pos = [Math.random()*posRange[0]-(entitySize[0] / 2), Math.random()*posRange[1]-(entitySize[1] / 2)];
+        for(let s = 0; s < obsticles.length; s++){
+            if(isBoxCollition(pos,entitySize,obsticles[s].pos,obsticles[s].size)){
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag == false){
+            return pos;
+        }
+    }
+
+    return [0,0];
+
+}
+
+function isBoxCollition(box1Pos, box1Size, box2Pos, box2Size){
+    return (
+        box1Pos[0] < box2Pos[0] + box2Size[0] &&
+        box1Pos[0] + box1Size[0] > box2Pos[0] &&
+        box1Pos[1] < box2Pos[1] + box2Size[1] &&
+        box1Pos[1] + box1Size[1] > box2Pos[1]
+    );
+}
+      
+
+function CircleBoxCollition(cVelocity, cPos, cRadius, sPos, sSize) {
+    let dx = Math.max(sPos[0] - cPos[0], 0, cPos[0] - (sPos[0] + sSize[0]));
+    let dy = Math.max(sPos[1] - cPos[1], 0, cPos[1] - (sPos[1] + sSize[1]));
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance > cRadius) {
+      return;
+    }
+  
+    if (dx > dy) {
+        if (cPos[0] > sPos[0] + sSize[0]) {
+            if(cVelocity[0] < 0){
+                cVelocity[0] = 0;
+            }
+        } 
+        else {
+            if(cVelocity[0] > 0){
+                cVelocity[0] = 0;
+            }
+        }
+    } else {
+
+        if (cPos[1] > sPos[1] + sSize[1]) {
+            if(cVelocity[1] < 0){
+                cVelocity[1] = 0;
+            }
+        } 
+        else {
+            if(cVelocity[1] > 0){
+                cVelocity[1] = 0;
+            }
+        }
+    }
+  }
+
+class PacMan{
+    constructor(pos) {
+        this.pos = pos;
+        this.velocity = [0,0];
+        this.mouthAngle = 0.22;
+        this.size = 20;
+        this.speed = 0.5;
+        this.rotation = -45;
+        this.mouthAnimationDirection = -1;
+        this.mouthAnimationSpeed = 0.0005;
+        this.eyeSide = 1;
+        this.stig = 0;
+        this.lif = 3;
+        this.invinsibility = 1000;
+        this.invinsCount = 0;
+        this.powerMode = false;
+        this.powerTime = 10000;
+        this.powerCount = 0;
+    }
+
+    move(){
+        this.pos[0] += this.velocity[0];
+        this.pos[1] += this.velocity[1];
+        this.pos = clampVector(this.pos, canvas.width, canvas.height);
+    }
+
+    draw(){
+        let now = Date.now();
+        let dt = now - lastUpdate;
+        lastUpdate = now;
+
+        if(this.invinsCount > 0){
+            this.invinsCount -= dt;
+        }        
+        
+        if(this.powerCount > 0){
+            this.powerCount -= dt;
+            if(this.powerCount < 0){
+                this.powerMode = false;
+            }
+        }
+
+        if(this.mouthAngle <= 0){
+            this.mouthAnimationDirection = 1;
+        }
+        else if(this.mouthAngle >= 0.22){
+            this.mouthAnimationDirection = -1;
+        }
+        this.mouthAngle += dt * this.mouthAnimationDirection * this.mouthAnimationSpeed;
+
+        ctx.translate(this.pos[0], this.pos[1]);
+        ctx.rotate(this.rotation);
+        ctx.translate(-this.pos[0], -this.pos[1]);
+
+        ctx.beginPath();
+        ctx.arc(this.pos[0], this.pos[1], this.size, this.mouthAngle * Math.PI , (1+this.mouthAngle) * Math.PI, false);
+        ctx.fillStyle = "rgb(255, 255, 0)";
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(this.pos[0], this.pos[1], this.size, (1-this.mouthAngle) * Math.PI, (2-this.mouthAngle) * Math.PI, false);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgb(50, 50, 50)";
+        ctx.beginPath();
+        ctx.moveTo(this.pos[0], this.pos[1]);
+        ctx.lineTo(this.pos[0] + (this.size * Math.cos(this.mouthAngle*Math.PI)), this.pos[1] + (this.size * Math.sin(this.mouthAngle*Math.PI)));
+        ctx.moveTo(this.pos[0], this.pos[1]);
+        ctx.lineTo(this.pos[0] + (this.size * Math.cos(this.mouthAngle*Math.PI)), this.pos[1] + (this.size * -Math.sin(this.mouthAngle*Math.PI)));
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(this.pos[0], this.pos[1]-(this.size/1.7)*this.eyeSide, this.size*0.13, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "rgb(50, 50, 50)";
+        ctx.fill();
+
+        ctx.translate(this.pos[0], this.pos[1]);
+        ctx.rotate(-this.rotation);
+        ctx.translate(-this.pos[0], -this.pos[1]);    
+    }
+
+    turn(){ 
+        this.velocity = [this.speed * dir[1], this.speed * dir[0]];
+        this.rotation = Math.atan2(dir[0], dir[1]);
+        this.eyeSide = Math.abs(this.rotation) > 2.2 ? -1 : 1;
+    }
+
+    touchTurn(){
+        this.velocity[0] = (endX - startX)/1000;
+        this.velocity[1] = (endY - startY)/1000;
+
+        this.rotation = -Math.atan2(this.velocity[0], this.velocity[1]);
+        this.eyeSide = Math.abs(this.rotation) > 2.2 ? -1 : 1;
+    }
+
+    eat(){
+        console.log("eat");
+        this.stig += 1;
+    }
+};
+
+
+
+class Goast{
+
+    constructor(pos){
+        this.pos = pos;
+        this.radius = 25;
+        this.velocity = [0,0];
+        this.rotation = 0;
+        this.speed = 0.3;
+    }
+
+    turn(){
+        this.velocity = normalize([-(this.pos[0] - player.pos[0]), -(this.pos[1] - player.pos[1])]);
+        this.rotation = -Math.atan2(this.pos[0] - player.pos[0], this.pos[1] - player.pos[1]);
+    }
+
+    move(){
+        this.pos[0] += this.velocity[0] * this.speed;
+        this.pos[1] += this.velocity[1] * this.speed;
+    }
+    
+
+    draw(){
+        ctx.translate(this.pos[0], this.pos[1]);
+        ctx.rotate(this.rotation);
+
+        let feet = 4;
+        let head_radius = this.radius * 0.8;
+        let foot_radius = head_radius / feet;
+        ctx.save();
+        ctx.strokeStyle = "white";
+        ctx.fillStyle = "red";
+        ctx.lineWidth = this.radius * 0.05;
+        ctx.beginPath();
+        for (let foot = 0; foot < feet; foot++) {
+            ctx.arc(
+                (2 * foot_radius * (feet - foot)) - head_radius - foot_radius,
+                this.radius - foot_radius,
+                foot_radius, 0, Math.PI
+            );
+        }
+        ctx.lineTo(-head_radius, this.radius - foot_radius);
+        ctx.arc(0, head_radius - this.radius, head_radius, Math.PI, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(-head_radius / 2.5, -head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(head_radius / 3.5, -head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        ctx.arc(-head_radius / 2.5, -head_radius / 1.5, head_radius / 8, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(head_radius / 3.8, -head_radius / 1.5, head_radius / 8, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.restore();
+        ctx.rotate(-this.rotation);
+        ctx.translate(-this.pos[0], -this.pos[1]);
+    }
+
+    checkHit(){
+        if(circlesOverlap(this.pos[0], this.pos[1], 20, player.pos[0], player.pos[1], 20)){
+            if(player.powerMode){
+                goasts.splice(goasts.indexOf(this), 1);
+            }else{
+                if(player.invinsCount <= 0){
+                    player.lif -= 1;
+                    player.invinsCount = player.invinsibility;
+                    if(player.lif <= 0){
+                        tap = true;
+                    }
+                }
+            }
+        }
+    }
+};
+
+
+
+
+
+
+function randColor(){
+    return [Math.random()*255,Math.random()*255,Math.random()*255];
+}
+
+
+class Obsticle{
+
+    constructor(pos, size, color){
+        this.pos = pos;
+        this.size = size;
+        this.color = color;  
+    }
+
+    draw(){
+        ctx.beginPath();
+        ctx.rect(this.pos[0], this.pos[1], this.size[0], this.size[1]);
+        ctx.fillStyle = `rgb(${this.color[0]}, ${this.color[1]}, ${this.color[2]})`;
+        ctx.fill();
+    }
+
+
+};
+
+class Pellet{
+    constructor(pos){
+        this.pos = pos;
+        this.isEnabled = true;
+    }
+
+    draw() {
+        if(this.isEnabled){
+            ctx.beginPath();
+            ctx.arc(this.pos[0], this.pos[1], 7, 0, 2*Math.PI);
+            ctx.fillStyle = "rgb(200,200,200)";
+            ctx.strokeStyle = "rgb(0,0,0)";
+            ctx.fill();
+            ctx.stroke();
+        }
+    }
+
+    collitionCheck(){
+        if(this.isEnabled){
+            const dx = player.pos[0] - this.pos[0];
+            const dy = player.pos[1] - this.pos[1];
+            if(Math.sqrt(dx * dx + dy * dy) < player.size){
+                player.eat();
+                this.isEnabled = false;
+            }
+        }
+    }
+};
+
+
+class PowerPellet{
+    constructor(pos){
+        this.pos = pos;
+        this.isEnabled = true;
+    }
+
+    draw() {
+        if(this.isEnabled){
+            const d = new Date();
+            let ms = d.getMilliseconds();
+
+            ctx.beginPath();
+            ctx.arc(this.pos[0], this.pos[1], 12, 0, 2*Math.PI);
+            ctx.fillStyle = `rgb(200,200,${ms})`;
+            ctx.strokeStyle = "rgb(0,0,0)";
+            ctx.fill();
+            ctx.stroke();
+        }
+    }
+
+    collitionCheck(){
+        if(this.isEnabled){
+            const dx = player.pos[0] - this.pos[0];
+            const dy = player.pos[1] - this.pos[1];
+            if(Math.sqrt(dx * dx + dy * dy) < player.size){
+                player.powerMode = true;
+                player.powerCount = player.powerTime;
+                player.stig += 3;
+                this.isEnabled = false;
+            }
+        }
+    }
+};
+
+let player;
+let goasts = [];
+let pellets = [];
+
+
+
+function init() {
+    goasts = [];
+    pellets = [];
+    obsticles = [];
+
+    let numberOfObstricles = 15;
+    for(let i = 0; i < numberOfObstricles; i++){
+        generateObsticles();
+    }
+
+    let numberOfGoasts = 5;
+    for(let i = 0; i < numberOfGoasts; i++){
+        goasts.push(new Goast(getValidEntityPlacement([50,80])));
+
+    }
+
+    let numberOfPellets = 10;
+    for(let i = 0; i < numberOfPellets; i++){
+        let pos = getValidEntityPlacement([50,50]);
+        if(pos != [0,0]){
+            pellets.push(new Pellet(pos));
+        }
+    }
+
+    let numberOfPowerPellets = 4;
+    for(let i = 0; i < numberOfPowerPellets; i++){
+        let pos = getValidEntityPlacement([50,50]);
+        if(pos != [0,0]){
+            pellets.push(new PowerPellet(pos));
+        }
+    }
+    player = new PacMan(getValidEntityPlacement([40,40], 5000));
+
+    window.requestAnimationFrame(draw);
+}
+
+function draw() {
+    ctx.clearRect(0, 0, window.innerWidth-50, window.innerHeight-50); // clear canvas
+
+
+    if(keyboardMode){
+        player.turn();
+    }
+
+
+    const time = new Date();
+    for(let i = 0; i < obsticles.length; i++){
+        CircleBoxCollition(player.velocity, player.pos, player.size, obsticles[i].pos, obsticles[i].size);
+    }
+
+    for(let i = 0; i < pellets.length; i++){
+        pellets[i].collitionCheck();
+    }
+
+
+    player.move();
+
+    for(let i = 0; i < goasts.length; i++){
+        goasts[i].turn();
+        goasts[i].move();
+
+        goasts[i].checkHit();
+    }
+
+
+   
+    for(let i = 0; i < obsticles.length; i++){
+        obsticles[i].draw();
+    }
+
+    for(let i = 0; i < goasts.length; i++){
+        goasts[i].draw();
+    }
+
+    for(let i = 0; i < pellets.length; i++){
+        pellets[i].draw();
+    }
+    
+    player.draw();
+
+
+    ctx.font = "48px sans-serif";
+    ctx.fillText(`Stig: ${player.stig}`, 80, 50);    
+    
+    ctx.font = "48px sans-serif";
+    ctx.fillText(`Lif: ${player.lif}`, 80, 100);
+
+    if(player.stig >= pellets.length-1){
+        tap = true;
+    }
+
+    if(tap){
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+        ctx.fillStyle = "white";
+        ctx.font = "48px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Leik Lokið", canvas.width / 2, canvas.height / 2 - 50);
+      
+        ctx.fillStyle = "black";
+        ctx.fillRect(canvas.width / 2 - 75, canvas.height / 2, 150, 50);
+      
+        ctx.fillStyle = "white";
+        ctx.font = "24px sans-serif";
+        ctx.fillText("Byrja Aftur", canvas.width / 2, canvas.height / 2 + 30);
+    }
+
+    if(!tap){
+        window.requestAnimationFrame(draw);
+    }
+}
+
+let dir = [0,0];
+document.addEventListener("keydown", function(event){
+    keyboardMode = true;
+
+    if(event.code === "KeyW"){
+        dir[0] = -1;
+    }
+    else if(event.code === "KeyS"){
+        dir[0] = 1;
+    }
+    else if(event.code === "KeyA"){
+        dir[1] = -1;
+    }
+    else if(event.code === "KeyD"){
+        dir[1] = 1;
+    }
+});
+
+document.addEventListener("keyup", function(event) {
+    if(event.code === "KeyW"){
+        dir[0] = 0;
+    }
+    else if(event.code === "KeyS"){
+        dir[0] = 0;
+    }
+    else if(event.code === "KeyA"){
+        dir[1] = 0;
+    }
+    else if(event.code === "KeyD"){
+        dir[1] = 0;
+    }
+
+});
+
+
+canvas.addEventListener("touchstart", function(event) {
+    keyboardMode = false;
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+});
+
+canvas.addEventListener("touchend", function(event) {
+  endX = event.changedTouches[0].clientX;
+  endY = event.changedTouches[0].clientY;
+  console.log(startX,endX);
+  player.touchTurn();
+});
+
+canvas.addEventListener("click", function(event) {
+    const x = event.clientX;
+    const y = event.clientY;
+    if(tap){
+        if (x >= canvas.width / 2 - 75 && x <= canvas.width / 2 + 75 &&
+        y >= canvas.height / 2 && y <= canvas.height / 2 + 50) {
+        tap = false;
+        init();
+        }
+    }
+
+  });
+  
+
+init();
+
+
+    </script>
+</body>
+</html>
