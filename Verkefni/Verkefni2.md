@@ -76,7 +76,7 @@ Notandi á að geta fundið viðburð með notkun leitarreits, sjá [sýnidæmi]
 
 * Skrifaðu athugasemdir í kóðaskrá eftir þörfum.
 * Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant. 
-* Skilaðu á Innu skrám.
+* Skilaðu á Innu HTML skrá með CSS og JavaScript.
 
 
 <!-- 
