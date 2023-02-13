@@ -2,19 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>fylki af objectum</title>
+<title>fylki af objectum</title>
 </head>
 <body>
-  <h1>Að búa til nýtt fylki</h1>
-
-  <p>Skooðaðu JS kóðasýnidæmi í html skránni og console til að sjá úttak </p>
-<script type="text/javascript">
-
-// búum til fylki sem mun geyma objects.
-let concertEvents = [];
+<p> Sjá console í vafra </p>
 	
-// Þarf https fyrir GitHub Pages 
-fetch('https://apis.is/concerts')  
+<script type="text/javascript">
+	
+let concertEvents = []; // búum til fylki sem mun geyma objects.
+	
+fetch('https://apis.is/concerts')   // ekki til lengur :(
   .then(
     function(response) {
       if (response.status !== 200) {
@@ -24,16 +21,12 @@ fetch('https://apis.is/concerts')
       // Examine the text in the response
       response.json().then(function(data) {
 	  for(let i = 0; i<data.results.length; i++){
-		concertEvents.push({
+		  concertEvents.push({
 			name:data.results[i].eventDateName,
 			where:data.results[i].eventHallName,
 			imageSrc:data.results[i].imageSource
-		});
-	   }
-      // Skoðum concertEvents fylkið
-      console.log(concertEvents);
-      // Jónas R og Bandið
-      console.log(concertEvents[0].name);  
+		  });
+	  }
       });
     }
   )
