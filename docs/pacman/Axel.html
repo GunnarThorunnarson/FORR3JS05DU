@@ -895,7 +895,7 @@ class Pacman extends Rigidbody {
         let dots = Game.level.findGameObjectsOfType(Dot);
 
         // If there are none left, then load the win level
-        if (dots.length + pellets.length === 0) {
+        if (dots.length === 0) {
             Game.loadLevel(WinLevel);
         }
     }
