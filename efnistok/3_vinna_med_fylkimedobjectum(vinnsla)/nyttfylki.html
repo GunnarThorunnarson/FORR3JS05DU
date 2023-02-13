@@ -21,24 +21,19 @@ fetch('https://apis.is/concerts')
         console.log('Looks like there was a problem. Status Code: ' + response.status);
         return;
       }
-
       // Examine the text in the response
       response.json().then(function(data) {
-    
-    
 	  for(let i = 0; i<data.results.length; i++){
-			concertEvents.push
-			({
-				name:data.results[i].eventDateName,
-				where:data.results[i].eventHallName,
-				imageSrc:data.results[i].imageSource
-			});
+		concertEvents.push({
+			name:data.results[i].eventDateName,
+			where:data.results[i].eventHallName,
+			imageSrc:data.results[i].imageSource
+		});
 	   }
-		// Skoðum concertEvents fylkið
-		console.log(concertEvents);
-
-		// Jónas R og Bandið
-		console.log(concertEvents[0].name);  
+      // Skoðum concertEvents fylkið
+      console.log(concertEvents);
+      // Jónas R og Bandið
+      console.log(concertEvents[0].name);  
       });
     }
   )
