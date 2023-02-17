@@ -74,9 +74,8 @@ Notandi á að geta fundið viðburð með notkun leitarreits, sjá [sýnidæmi]
 
 ### Námsmat og skil
 
-* Skrifaðu athugasemdir í kóðaskrá eftir þörfum.
 * Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant. 
-* Skilaðu á Innu HTML skrá með CSS og JavaScript.
+* Skilaðu á Innu HTML, CSS, JavaScript og JSON skrá.
 
 
 <!-- 
