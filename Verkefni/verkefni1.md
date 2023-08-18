@@ -7,7 +7,7 @@
 
 ### Gagnvirkar æfingar 
 Stofnaðu reikning (notaðu nafn + ártal sem notendanafn) í [freeCodeCamp](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/) og haltu utan um framvinduna þína. <br>
-Gerðu eftirfarandi **111** gagnvirkar æfingar úr **_Introduction to JavaScript (100 æfingar)_** og **_Introduction to the ES6 Challenges (11 æfingar)_**:
+Gerðu eftirfarandi **111** gagnvirkar æfingar úr **_Introduction to JavaScript_** (100 æfingar) og **_Introduction to the ES6 Challenges_** (11 æfingar):
 
 1. [Gagnategundir (35 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Gagnategundir) _Introduction to JavaScript_
 1. [Fylki (10 æfingar)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Fylki) 
