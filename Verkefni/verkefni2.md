@@ -25,7 +25,6 @@ Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area
    - [ ] Þegar Ghost rekst á annan Ghost þá breyta þeir um stefnu. 
    - [ ] Þegar PacMan nær Power Pellets þá fær hann auka líf.
    - [ ] Þegar PacMan rekst á Ghost þá á PacMan að missa líf og byrja aftur á sama stað.
-   - [ ] Þegar PacMan missir öll lífin sín þá er stopp (Game Over).
    - [ ] Hermun er lokið þegar Pac-Man hefur safnað öllum Pellets eða klárað lífin sín.
 1. Búðu fall (game loop) sem sér um að rendera PacMan, Power Pellets og Ghosts á skjá. **(10%)**
 
