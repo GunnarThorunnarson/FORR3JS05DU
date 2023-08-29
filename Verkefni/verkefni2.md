@@ -1,7 +1,9 @@
 ## Verkefni 2 
 - 10% af heildareinkunn
 - Class og Canvas
-  
+
+---
+
 ### Verkefnalýsing
 Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area/javascript/oojs/bouncing-balls/index-finished.html) og [kóði](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice) sem uppfyllir eftirfarandi:
 
