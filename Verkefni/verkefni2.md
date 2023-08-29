@@ -1,6 +1,7 @@
 ## Verkefni 2 
 - 10% af heildareinkunn
-- Class og Canvas
+- Vika 3.
+- Class og Canvas.
 
 ---
 
