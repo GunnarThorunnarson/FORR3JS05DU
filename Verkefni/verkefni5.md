@@ -15,10 +15,10 @@ Notaðu eftirfarandi object:
 ```javascript
 let shoppingList = {
 items: [
-    {name:"pizza", category:"food", price: 850},
-    {name:"t-shirt", category:"clothes", price: 3000},
-    {name:"bounty", category:"food", price: 150},
-    {name:"coke", category:"drinks", price: 250},
+    {name:"pizza", price: 850},
+    {name:"t-shirt", price: 3000},
+    {name:"bounty", price: 150},
+    {name:"coke", price: 250},
   ],
   total: 0
 }
