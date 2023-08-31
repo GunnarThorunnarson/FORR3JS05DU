@@ -18,7 +18,7 @@ items: [
     {name:"pizza", price: 850},
     {name:"t-shirt", price: 3000},
     {name:"bounty", price: 150},
-    {name:"coke", price: 250},
+    {name:"coke", price: 250}
   ],
   total: 0
 }
