@@ -31,7 +31,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (Single-
 #### 2. Viðmót og uppsetning (20%)
 1. [ ] Notaðu Dom manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
 1. [ ] Birtu alla viðburði; [myndir](https://softauthor.com/javascript-working-with-images/), heiti, verð, staðsetningu og dagsetningu í HTML með JavaScript. Notaðu `div` html stök. <br> Listar (`<ul>` og `<li>`) eru ekki leyfðir.
-1. [ ] Atburðir raðast eftir dagsetningum, nýjast fyrst/fremst.
+1. [ ] Viðburðir eru raðaðir eftir verði (lágt til hátt) eða eftir dagsetningu (nýjast fyrst).
 1. [ ] Notaðu CSS fyrir responsive uppsetningu (layout) og framsetningu t.d. Flexbox, CSS Grids eða CSS safn að eigin vali. 
 1. [ ] Hafðu íslenskt sniðmát á dagsetningum.
 
