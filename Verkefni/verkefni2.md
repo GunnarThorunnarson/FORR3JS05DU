@@ -12,7 +12,7 @@ Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area
 1. Búðu til klasa (class) fyrir Power Pellets. **(10%)**
    - [ ] Power Pellets eru hringlaga og gul á lit.
 1. Búðu til klasa (class) fyrir Pac-Man. **(20%)**
-   - [ ] PacMan er með hrinlaga form, lit, auga og munn.
+   - [ ] PacMan er með hrinlaga form, lit, auga og munn, [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs).
    - [ ] Pac-Man er með 3 líf. 
    - [ ] Láttu PacMan hreyfast á skjáborði.
    - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas.
