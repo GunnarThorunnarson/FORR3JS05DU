@@ -6,7 +6,7 @@
 ---
 
 ### Verkefnalýsing
-Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area/javascript/oojs/bouncing-balls/index-finished.html) og [kóði](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice) sem uppfyllir eftirfarandi:
+Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area/javascript/oojs/bouncing-balls/index-finished.html), útfrá [vefgrein](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice) og [kóðaskrárnar](https://github.com/mdn/learning-area/tree/main/javascript/oojs/bouncing-balls) sem uppfyllir eftirfarandi:
 
 
 1. Búðu til klasa (class) fyrir Power Pellets. **(10%)**
