@@ -15,7 +15,7 @@ Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area
    - [ ] PacMan er með hrinlaga form, gulan lit, auga og munn, [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs).
    - [ ] Pac-Man er með 3 líf. 
    - [ ] Láttu PacMan hreyfast á skjáborði.
-   - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas.
+   - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas heldur að skoppast af honum.
 1. Búðu til klasa (class) fyrir Ghost. **(20%)**
    - [ ] Ghost er með kúlulaga form og lit.
    - [ ] Ghost eru staðsettir random á skjá og fara í random áttir.
