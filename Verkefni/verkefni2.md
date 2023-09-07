@@ -28,7 +28,7 @@ Búðu til hermun (simulation), [sýnidæmi](https://mdn.github.io/learning-area
    - [ ] Þegar Ghost rekst á annan Ghost þá breyta þeir um stefnu. 
    - [ ] Þegar PacMan nær Power Pellets þá fær hann auka líf.
    - [ ] Þegar PacMan rekst á Ghost þá á PacMan að missa líf og byrja aftur á sama stað. Hermun er lokið þegar Pac-Man hefur klárað lífin sín.
-1. Búðu renderfall í Canvas. **(10%)**
+1. Búðu til renderfall í Canvas. **(10%)**
    - [ ] Teiknar PacMan, Power Pellets og Ghosts í Canvas með `window.requestAnimationFrame()`.
    - [ ] Canvas nýtur allan vafragluggan, sjá [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166). 
 
