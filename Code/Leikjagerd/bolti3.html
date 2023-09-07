@@ -37,18 +37,17 @@ function init() {
   ball.draw();
   ball.x += ball.vx;
   ball.y += ball.vy;
-  ball.vy *= .99;
-  ball.vy += .25;
-
-  if (ball.y + ball.vy > canvas.height ||
-      ball.y + ball.vy < 0) {
-    ball.vy = -ball.vy;
+  ball.vy *= .99;    // gravity 
+  ball.vy += .25;    // gravity
+    
+  // Einfalt árekstrarathugun (collision) við Canvas jaðar
+  if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+      ball.vy = -ball.vy;
   }
-  if (ball.x + ball.vx > canvas.width ||
-      ball.x + ball.vx < 0) {
-    ball.vx = -ball.vx;
+  if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+      ball.vx = -ball.vx;
   }
-
+    
   window.requestAnimationFrame(init);
 }
 init();
