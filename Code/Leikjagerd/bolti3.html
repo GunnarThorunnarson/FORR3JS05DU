@@ -40,7 +40,7 @@ function init() {
   ball.vy *= .99;    // gravity 
   ball.vy += .25;    // gravity
     
-  // Einfalt árekstrarathugun (collision) við Canvas jaðar
+  // Einföld árekstrarathugun (collision) við jaðarinn á Canvas.
   if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
       ball.vy = -ball.vy;
   }
