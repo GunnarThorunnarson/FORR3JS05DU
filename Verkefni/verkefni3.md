@@ -6,7 +6,7 @@
 ---
 
 ### Verkefnalýsing
-Búðu til einfalda útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) sem byggir á því sem þú gerðir í Verkefni 2 sem er spilanlegur í vafra (chrome) í **tölvu** og **síma**. 
+Búðu til einfalda útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) sem byggir á því sem þú gerðir í Verkefni 2 ( eða [bouncing ball II](https://mdn.github.io/learning-area/javascript/oojs/assessment/) ) sem er spilanlegur í vafra (chrome) í **tölvu** og **síma**. 
 
 Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](https://developer.chrome.com/docs/devtools/device-mode/#type) til að prófa leikjavirkni í tölvu. <br> Hægt er líka að láta Github hýsa kóðann (public) til að prófa leikinn í síma. Mundu samt að breyta aftur í private þegar þú ert hættur að testa leikinn.
 
