@@ -25,5 +25,5 @@ c
 
 **a** er framkvæmt fyrst svo **c**. Þegar **a** er búið (einhvern tímann síðar) þá er **b** framkvæmt. <br>
 
-**b** köllum við hér callback fall, þ.e. fall sem er keyrt þegar annað fall hefur klárað. Á meðan gæti vafri verið að keyra önnur föll og að gera ýmislegt.
+**b** köllum við hér callback fall, þ.e. fall sem er keyrt þegar annað fall hefur klárast. Á meðan gæti vafri verið að keyra önnur föll og að gera ýmislegt.
 af stað og stendur yfir í 10 sekúndur. Vafrinn mun ekki hinkra í 10 sekúnudur með að lesa inn næstu JavaScript kóða  heldur mun hún keyra næstu skipun eða línu 2 um leið og hún hefur klárað að lesa inn línu 1.  Þannig í raun þá er lína 1 og lína 2 keyrð nánast samtímis.  
