@@ -81,7 +81,7 @@ Notandi á að geta fundið viðburð með notkun leitarreits, sjá [sýnidæmi]
 ### Námsmat og skil
 
 * Gefið er fullt fyrir fullnægjandi útfærslu á lið, hálft ef ábótavant. 
-* Vinsamlegast fjarlægðu allt sem á ekki við áður en þú skilar t.d. kóði sem er ekki notaður eða aukaleg virkni.
+* Fjarlægðu allan kóða sem er ekki notaður í lausn sem og aukaleg virkni sem samræmist ekki verkefnalýsingu.
 * Skilaðu á Innu HTML skrá með CSS og JavaScript.
 
 
