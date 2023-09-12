@@ -8,7 +8,7 @@
 ### Verkefnalýsing
 
 Búðu til vefapp ([sýnidæmi](https://javascriptbook.com/code/c06/mutation.html)) í síma sem heldur utan um vörur sem þú þarft að versla inn.  
-Skoðaðu vel [Todo App From Start To Finish](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/) (5 myndbönd).
+Skoðaðu vel [Simple Todo List](https://courses.webdevsimplified.com/view/courses/javascript-simplified-beginner/521736-Basic-DOM/1510717-43-Simple-Todo-List) og [Todo App From Start To Finish](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/) (5 myndbönd).
 
 Notaðu eftirfarandi object:
 
