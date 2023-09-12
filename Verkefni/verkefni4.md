@@ -6,7 +6,7 @@
 ---
 
 ### Verkefnalýsing
-Bættu við [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) leikinn sem þú gerðir í Verkefni 3. Það er líka í boði að nota einfalda útfærslu með boltum eða [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations) í stað Pac-Man leik.
+Bættu við [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) leikinn sem þú gerðir í Verkefni 3. Það er líka í boði að nota einfalda útfærslu með boltum í stað Pac-Man leik.
 
 - [ ] Leikur fyllir skjáinn í símanum. Sjá [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786). **20%**
 - [ ] leikur er eingöngu stilltur fyrir landslagsstillingu (landscape) í síma. Sjá [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation). **20%**
