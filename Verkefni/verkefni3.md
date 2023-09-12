@@ -25,7 +25,7 @@ Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](http
 
 ### Námsmat og skil	
 * Gefið er fullt fyrir lið sem er vel útfærður, hálft ef hann er ábótavant. 
-* Vinsamlegast fjarlægðu allt sem á ekki við áður en þú skilar t.d. kóði sem er ekki notaður eða aukaleg virkni.
+* Fjarlægðu allan kóða sem er ekki notaður í lausn sem og aukaleg virkni sem samræmist ekki verkefnalýsingu.
 * Skilaðu á Innu html skrá með JavaScript kóðalausn.
 
 
