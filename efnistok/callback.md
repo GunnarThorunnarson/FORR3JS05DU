@@ -27,7 +27,6 @@ c
 1. Þegar a er búið (einhvern tímann síðar) þá er b framkvæmt (b kallast callback fal)
 1. b fer þá í röð og er hleypt á callstack (til að framkvæma) þegar hann er tómur, t.d þegar c er búið að framkvæmast.
 
----
 
 ### Callback 
 Callback er fall sem er sent inn sem e. parameter (færibreyta) til annars falls og er keyrt eftir að ytra fall (e. parent function) hefur lokið.. Callbacks  eru sérstök að því leyti að þau bíða með keyrslu þar til ytra fall hefur klárað. Á meðan gæti vafri veri að keyra önnur föll og að gera ýmislegt.
