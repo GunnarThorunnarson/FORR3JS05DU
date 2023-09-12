@@ -8,7 +8,7 @@
 ### Verkefnalýsing
 Búðu til einfalda útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) sem byggir á því sem þú gerðir í Verkefni 2 ( eða [bouncing ball II](https://mdn.github.io/learning-area/javascript/oojs/assessment/) ) sem er spilanlegur í vafra (chrome) í **tölvu** og **síma** sem uppfyllir eftirfarandi:
 
-- [ ] Notaðu [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) fyrir upphafskeyrslu `init()` í leiknum t.d. fyrir Ghost [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations). **(10%)**
+- [ ] Notaðu [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) til að [preload](https://www.youtube.com/watch?v=aXwgGj7G7mE&ab_channel=DavidReid) Ghost [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations) (assets) sem þú notar fyrir leikinn. Sjá einnig [Loading JS and CSS assets](https://wttech.blog/blog/2019/loading-js-and-css-assets/) **(10%)**
 - [ ] leikur fyllir skjá í vafra (landscape og portrait) í síma. Sjá [resize event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event) og [sýnidæmi](https://youtu.be/vxljFhP2krI?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=1272).  **(10%)**
 - [ ] Hægt er að stýra Pac-Man í (N, S, V, A) með lyklaborði þegar þú spilar í tölvu. **(10%)**
 - [ ] Hægt er að stýra Pac-Man einnig í (NA, NV, SV, SA) með lyklaborði þegar þú spilar í tölvu. **(10%)**
