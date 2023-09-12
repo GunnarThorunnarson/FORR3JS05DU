@@ -5,6 +5,7 @@ Kóðinn er kallaður e. **blocked** þegar við skilyrðum kóðann þannig að
 
 ```javascript
 // Dæmi um blocking-style kóða:
+
 a()
 b()
 
@@ -19,13 +20,13 @@ JavaScript er synchronous (línu fyrir línu) og e. **non-block** sem þýðir a
 
 ```javascript
 // Dæmi um non- blocking-style kóða:
+
 a(b)
 c
 ```
 
-1.  **a** er framkvæmt fyrst svo **c** 
-1. Þegar a er búið (einhvern tímann síðar) þá er b framkvæmt (b kallast callback fal)
-1. b fer þá í röð og er hleypt á callstack (til að framkvæma) þegar hann er tómur, t.d þegar c er búið að framkvæmast.
+**a** er framkvæmt fyrst svo **c**. Þegar **a** er búið (einhvern tímann síðar) þá er **b** framkvæmt. <br>
+**b** kallast callback fall. b fer þá í röð og er hleypt á callstack (til að framkvæma) þegar hann er tómur, t.d þegar c er búið að framkvæmast.
 
 
 ### Callback 
