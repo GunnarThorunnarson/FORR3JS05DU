@@ -8,7 +8,7 @@
 ### Verkefnalýsing
 Búðu til einfalda útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) sem byggir á því sem þú gerðir í Verkefni 2 sem er spilanlegur í vafra (chrome) í **tölvu** og **síma**. 
 
-Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](https://developer.chrome.com/docs/devtools/device-mode/#type) til að prófa leikjavirkni í tölvu. <br> Hægt er að láta Github hýsa kóðann (public) til að prófa leikinn einnig í síma. Mundu samt að breyta aftur í private þegar þú ert hættur að testa leikinn.
+Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](https://developer.chrome.com/docs/devtools/device-mode/#type) til að prófa leikjavirkni í tölvu. <br> Hægt er líka að láta Github hýsa kóðann (public) til að prófa leikinn í síma. Mundu samt að breyta aftur í private þegar þú ert hættur að testa leikinn.
 
 - [ ] Notaðu [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) fyrir upphafskeyrslu `init()` í leiknum. **(10%)**
 - [ ] leikur fyllir skjá í vafra (landscape og portrait) í síma. Sjá [resize event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event) og [sýnidæmi](https://youtu.be/vxljFhP2krI?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=1272).  **(10%)**
