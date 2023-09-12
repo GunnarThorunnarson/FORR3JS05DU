@@ -19,7 +19,7 @@ Notaðu Developer tól í vafra. [Simulate mobile devices with Device Mode](http
 - [ ] Power Pellet eiga að blikka stöðugt, sjá Timing events t.d `setInterval()`.  **(10%)**
 - [ ] Þegar Pac-Man nær Power Pellet þá breyta Ghosts um lit (eða blikka) í 5 sekúndur, á þeim tíma getur Pac-Man drepið Ghosts. **(10%)**
 - [ ] Bættu við 50 PacMan dots um skjáinn sem gefa stig. Leik er lokið þegar Pac-Man hefur safnað öllum PacMan dots eða klárað lífin sín. **(10%)** 
-- [ ] Bættu við skor- og lífteljara fyrir Pac-Man. **(10%)**
+- [ ] Bættu við skor- og lífteljara í Canvas fyrir Pac-Man. **(10%)**
       
 ---
 
