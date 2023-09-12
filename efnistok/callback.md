@@ -1,4 +1,3 @@
-### Synchronus vs asynchronous (async)
 
 Hér er dæmi um e. synchronous kóða þar sem lína 1 er keyrð og svo þar á eftir lína 2.
 Kóðinn er kallaður e. **blocked** þegar við skilyrðum kóðann þannig að skipunin í lína 1 þarf að klárast alveg áður en skipun í línu 2 er framkvæmd.
