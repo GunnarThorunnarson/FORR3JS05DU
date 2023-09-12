@@ -24,5 +24,4 @@ c
 ```
 
 **a** er framkvæmt fyrst svo **c**. Þegar **a** er búið (einhvern tímann síðar) þá er **b** framkvæmt. <br>
-
 **b** köllum við hér callback fall, þ.e. fall sem er keyrt þegar annað fall hefur klárast. Á meðan gæti vafri verið að keyra önnur föll og að gera ýmislegt.
