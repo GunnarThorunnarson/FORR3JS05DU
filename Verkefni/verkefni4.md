@@ -14,6 +14,8 @@ Bættu við [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) leikinn sem þú ge
 - [ ] Bættu við [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) í leikinn, [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384) **20%**
 - [ ] Notaðu [Device orientation and motion](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events) og [sýnidæmi](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) til að stýra Pac-Man í stað touch. **30%**
 
+**Ath** Til að devicemotion virki þá þarf vefsíðan að vera hýst á server með **https** td. Github.
+
 ---
 
 ### Námsmat og skil	
