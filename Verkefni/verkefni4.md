@@ -12,7 +12,7 @@ Bættu við [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) leikinn sem þú ge
 - [ ] leikur er eingöngu stilltur fyrir landslagsstillingu (landscape) í síma. Sjá [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation). **20%**
 - [ ] Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar Pac-Man (eða bolti) rekst á Ghost (eða bolta). _vibration virkar ekki í Iphone_ **10%**
 - [ ] Bættu við [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) í leikinn, [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384) **20%**
-- [ ] Notaðu [Device orientation and motion](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events) og [sýnidæmi](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html) til að stýra Pac-Man í stað touch. **30%**
+- [ ] Notaðu [Device motion](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events) til að stýra Pac-Man í stað touch, [sýnidæmi](https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html). **30%**
 
 **Ath** Til að devicemotion virki þá þarf vefsíðan að vera hýst á server með **https** td. Github, það er líka hægt að nota localhost með [ngrok](https://ngrok.com/).
 
