@@ -21,5 +21,5 @@ Bættu við [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) leikinn sem þú ge
 ### Námsmat og skil	
 * Gefið er fullt fyrir lið sem er vel útfærður, hálft ef hann er ábótavant. 
 * Fjarlægðu allan kóða sem er ekki notaður í lausn sem og aukaleg virkni sem samræmist ekki verkefnalýsingu.
-* Skilaðu á Innu html skrá með JavaScript kóðalausn.
+* Skilaðu á Innu html skrá og JavaScript kóðalausn.
 
