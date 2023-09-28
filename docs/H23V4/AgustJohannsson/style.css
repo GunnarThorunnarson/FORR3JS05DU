@@ -1,0 +1,42 @@
+canvas {
+    border: 2px solid black;
+    align-content: center;
+    text-align: center;
+
+    
+    
+}
+html, body {
+margin: 0;
+}
+
+html {
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+height: 100%;
+}
+
+body {
+overflow: hidden;
+height: inherit;
+}
+
+h1 {
+font-size: 2rem;
+letter-spacing: -1px;
+position: absolute;
+margin: 0;
+top: -4px;
+right: 5px;
+
+color: transparent;
+text-shadow: 0 0 4px white;
+}
+
+.mid{
+    align-content: center;
+    text-align: center;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    margin: 0 auto;
+}

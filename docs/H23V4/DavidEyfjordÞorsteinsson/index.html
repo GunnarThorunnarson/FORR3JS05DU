@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pac-Man - David</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        background-color: black;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+      window.addEventListener('load', (event) => {
+});
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      
+      resizeCanvas();
+
+      
+const pacMan = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: 20,
+  mouthOpen: false,
+  angle: 0,
+  speed: 8, 
+  dx: 0,
+  dy: 0,
+  lives: 3,
+};
+
+class PowerPellet {
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.visible = true; 
+  }
+
+  toggleVisibility() {
+    this.visible = !this.visible;
+  }
+
+  draw() {
+    if (this.visible) { 
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+    }
+  }
+}
+class PacManDot {
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.visible = true; 
+  }
+
+  toggleVisibility() {
+    this.visible = !this.visible;
+  }
+
+  draw() {
+    if (this.visible) { 
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+    }
+  }
+}
+
+
+const dotRadius = 5; 
+const numDots = 50;
+let remainingDots = numDots; 
+let score = 0;
+
+
+
+function createPacManDots() {
+  for (let i = 0; i < numDots; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const dot = new PacManDot(x, y, dotRadius);
+    pacManDots.push(dot);
+  }
+}
+
+
+const pacManDots = [];
+createPacManDots();
+function drawPacManDots() {
+  for (const dot of pacManDots) {
+    dot.draw();
+  }
+}
+
+
+     
+      const powerPellets = [];
+
+      
+      function createPowerPellets() {
+        const cornerPositions = [
+          { x: 30, y: 30 },
+          { x: canvas.width - 30, y: 30 },
+          { x: 30, y: canvas.height - 30 },
+          { x: canvas.width - 30, y: canvas.height - 30 },
+        ];
+
+        for (const position of cornerPositions) {
+          const powerPellet = new PowerPellet(position.x, position.y, 10);
+          powerPellets.push(powerPellet);
+        }
+      }
+
+      createPowerPellets();
+
+      
+      function updatePacMan() {
+        if (pacMan.mouthOpen) {
+          pacMan.angle += 0.1;
+          if (pacMan.angle >= 0.2) {
+            pacMan.mouthOpen = false;
+          }
+        } else {
+          pacMan.angle -= 0.1;
+          if (pacMan.angle <= 0) {
+            pacMan.mouthOpen = true;
+          }
+        }
+      }
+
+      
+      function updatePosition() {
+        pacMan.x += pacMan.dx;
+        pacMan.y += pacMan.dy;
+
+        
+        if (pacMan.x - pacMan.radius < 0 || pacMan.x + pacMan.radius > canvas.width) {
+          pacMan.dx *= -1; 
+        }
+        if (pacMan.y - pacMan.radius < 0 || pacMan.y + pacMan.radius > canvas.height) {
+          pacMan.dy *= -1; 
+        }
+      }
+
+      
+      function drawPacMan() {
+        ctx.beginPath();
+        ctx.arc(
+          pacMan.x,
+          pacMan.y,
+          pacMan.radius,
+          pacMan.angle,
+          2 * Math.PI - pacMan.angle
+        );
+        ctx.lineTo(pacMan.x, pacMan.y);
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+
+        
+        ctx.beginPath();
+        ctx.arc(pacMan.x + 10, pacMan.y - 10, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+      }
+
+      
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      
+      function drawPowerPellets() {
+  for (const pellet of powerPellets) {
+    pellet.draw();
+  }
+}
+
+
+setInterval(() => {
+  for (const pellet of powerPellets) {
+    pellet.toggleVisibility();
+  }
+}, 250); 
+
+
+      
+      class Ghost {
+        constructor(x, y, radius, color, speed) {
+          this.x = x;
+          this.y = y;
+          this.radius = radius;
+          this.color = color;
+          this.speed = speed;
+          this.direction = Math.random() * Math.PI * 2;
+          this.isBlinking = false; 
+          this.blinkDuration = 5000; 
+          this.isVulnerable = false; 
+      this.vulnerableDuration = 5000; 
+      this.vulnerableTimer = null; 
+        }
+
+        startVulnerable() {
+    this.isVulnerable = true;
+    this.vulnerableTimer = setTimeout(() => {
+      this.stopVulnerable();
+    }, this.vulnerableDuration);
+  }
+
+  stopVulnerable() {
+    this.isVulnerable = false;
+    clearTimeout(this.vulnerableTimer);
+    this.vulnerableTimer = null;
+  }
+
+
+        startBlinking() {
+    this.isBlinking = true;
+    setTimeout(() => {
+      this.stopBlinking();
+    }, this.blinkDuration);
+  }
+
+  stopBlinking() {
+    this.isBlinking = false;
+  }
+        draw() {
+          
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y - this.radius);
+          ctx.arc(this.x, this.y, this.radius, Math.PI, 0);
+          ctx.lineTo(this.x + this.radius, this.y - this.radius);
+          ctx.lineTo(this.x + this.radius / 2, this.y - this.radius * 2);
+          ctx.lineTo(this.x, this.y - this.radius);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+
+          
+          ctx.beginPath();
+          ctx.arc(this.x - this.radius / 3, this.y - this.radius / 2, 4, 0, Math.PI * 2);
+          ctx.arc(this.x + this.radius / 3, this.y - this.radius / 2, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "white";
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(this.x - this.radius / 3, this.y - this.radius / 2, 2, 0, Math.PI * 2);
+          ctx.arc(this.x + this.radius / 3, this.y - this.radius / 2, 2, 0, Math.PI * 2);
+          ctx.fillStyle = "black";
+          ctx.fill();
+        }
+
+        update() {
+          
+          this.x += Math.cos(this.direction) * this.speed;
+          this.y += Math.sin(this.direction) * this.speed;
+
+         
+          if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+            this.direction = Math.PI - this.direction; 
+          }
+          if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
+            this.direction = -this.direction; 
+          }
+
+         
+          for (const ghost of ghosts) {
+            if (ghost !== this) {
+              const dx = this.x - ghost.x;
+              const dy = this.y - ghost.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance < this.radius + ghost.radius) {
+                
+                const angle = Math.atan2(dy, dx);
+                this.direction = 2 * angle - this.direction;
+              }
+            }
+          }
+        }
+      }
+
+      
+      const ghosts = [];
+
+      
+      function createGhosts() {
+        
+        const ghostData = [
+          { name: "Blinky", color: "red" },
+          { name: "Pinky", color: "pink" },
+          { name: "Inky", color: "cyan" },
+          { name: "Clyde", color: "orange" },
+        ];
+
+        for (const data of ghostData) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const radius = 15;
+          const ghost = new Ghost(x, y, radius, data.color, 1.5);
+          ghost.name = data.name;
+          ghosts.push(ghost);
+        }
+      }
+
+      createGhosts();
+
+      
+      function drawGhosts() {
+        for (const ghost of ghosts) {
+          ghost.draw();
+        }
+      }
+
+      
+      function drawLives() {
+  ctx.font = "24px Arial";
+  ctx.fillStyle = "white";
+  ctx.textAlign = "left";
+
+  
+  ctx.fillText(`Lives: ${pacMan.lives} Score: ${score}`, 20, canvas.height - 20);
+}
+
+
+let upPressed = false;
+let downPressed = false;
+let leftPressed = false;
+let rightPressed = false;
+
+
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
+
+function keyDownHandler(event) {
+  if (event.key === "W" || event.key === "w") {
+    upPressed = true;
+  } else if (event.key === "S" || event.key === "s") {
+    downPressed = true;
+  } else if (event.key === "A" || event.key === "a") {
+    leftPressed = true;
+  } else if (event.key === "D" || event.key === "d") {
+    rightPressed = true;
+  }
+}
+
+function keyUpHandler(event) {
+  if (event.key === "W" || event.key === "w") {
+    upPressed = false;
+  } else if (event.key === "S" || event.key === "s") {
+    downPressed = false;
+  } else if (event.key === "A" || event.key === "a") {
+    leftPressed = false;
+  } else if (event.key === "D" || event.key === "d") {
+    rightPressed = false;
+  }
+}
+
+
+canvas.addEventListener("click", (event) => {
+  const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+  const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+
+  movePacManTo(mouseX, mouseY);
+});
+
+function movePacManTo(targetX, targetY) {
+
+  const dx = targetX - pacMan.x;
+  const dy = targetY - pacMan.y;
+
+
+  const angle = Math.atan2(dy, dx);
+
+
+  pacMan.dx = Math.cos(angle) * pacMan.speed;
+  pacMan.dy = Math.sin(angle) * pacMan.speed;
+}
+
+
+function updatePacManDirection() {
+  let dx = 0;
+  let dy = 0;
+
+  if (upPressed) {
+    dy = -pacMan.speed;
+  }
+  if (downPressed) {
+    dy = pacMan.speed;
+  }
+  if (leftPressed) {
+    dx = -pacMan.speed;
+  }
+  if (rightPressed) {
+    dx = pacMan.speed;
+  }
+
+  
+  if (dx !== 0 && dy !== 0) {
+    const diagonalSpeed = pacMan.speed / Math.sqrt(2);
+    pacMan.dx = diagonalSpeed * (dx / Math.abs(dx));
+    pacMan.dy = diagonalSpeed * (dy / Math.abs(dy));
+  } else {
+    pacMan.dx = dx;
+    pacMan.dy = dy;
+  }
+}
+
+
+      
+      let animationID;
+
+      function gameLoop() {
+        resizeCanvas(); 
+        clearCanvas(); 
+        updatePacMan();
+        updatePosition();
+        drawPowerPellets();
+        drawPacManDots();
+        drawGhosts();
+        drawPacMan();
+        drawLives(); 
+        checkCollisions();
+        updatePacManDirection();
+        
+        gameOver();
+        
+
+        
+        for (const ghost of ghosts) {
+          ghost.update();
+        }
+
+        animationID = requestAnimationFrame(gameLoop);
+      }
+
+
+      gameLoop();
+      
+      
+      
+
+
+      window.addEventListener("resize", resizeCanvas);
+
+
+      function checkCollisions() {
+  for (let i = 0; i < powerPellets.length; i++) {
+    const pellet = powerPellets[i];
+    const dx = pacMan.x - pellet.x;
+    const dy = pacMan.y - pellet.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < pacMan.radius + pellet.radius) {
+      
+      powerPellets.splice(i, 1);
+      pacMan.lives += 1;
+    }
+  }
+
+  for (let i = 0; i < ghosts.length; i++) {
+    const ghost = ghosts[i];
+    const dx = pacMan.x - ghost.x;
+    const dy = pacMan.y - ghost.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < pacMan.radius + ghost.radius) {
+      
+      if (pacMan.lives > 0) {
+        pacMan.lives -= 1;
+        pacMan.x = canvas.width / 2; 
+        pacMan.y = canvas.height / 2;
+        pacMan.dx = 0; 
+        pacMan.dy = 0;
+      }
+    }
+    for (let i = 0; i < pacManDots.length; i++) {
+    const dot = pacManDots[i];
+    const dx = pacMan.x - dot.x;
+    const dy = pacMan.y - dot.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < pacMan.radius + dot.radius) {
+     
+      pacManDots.splice(i, 1); 
+      remainingDots -= 1; 
+      score += 1; 
+
+      if (remainingDots === 0) {
+        
+        gameOver();
+      }
+      
+  }}}
+}
+
+
+
+
+      
+function gameOver() {
+  if (pacMan.lives <= 0 || remainingDots === 0) {
+    ctx.font = "48px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Game Over", canvas.width / 2 - 100, canvas.height / 2);
+    cancelAnimationFrame(animationID);
+  }
+}
+
+    </script>
+  </body>
+</html>

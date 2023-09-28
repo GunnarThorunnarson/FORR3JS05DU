@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+    <style>
+        body {
+    margin: 0;
+    overflow: hidden;
+}
+
+    #Pac-Man-Canvas {
+        background-color: black;
+        display: block;
+        margin: 0 auto;
+    }
+
+    #fullScreenButton {
+        position: absolute;
+        font-size: 20px;
+        padding: 10px;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    </style>
+</head>
+<body>
+    <canvas id="Pac-Man-Canvas"></canvas>
+    <script src="main.js"></script>
+    <button id="fullScreenButton">Toggle Fullscreen</button>
+</body>
+</html>

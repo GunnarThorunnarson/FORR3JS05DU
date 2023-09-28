@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Animation</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style type="text/css">
+    /* rammi utan um canvas */
+   /* canvas {
+      border: 1px solid red;
+    }
+    */
+    #fullScreenButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 5px solid white;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Add this HTML code inside the body element -->
+
+  <div id="victory-text" style="display: none;">You Win!</div>
+  <div id="life-count" style="color: white;">Lives: 3</div>
+  <canvas id="canvas" width="500" height="500"></canvas>
+  <button id="fullScreenButton">Toggle Fullscreen</button>
+
+  <script>
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+    var myScreenOrientation = window.screen.orientation;
+
+// Add these variables for orientation tracking
+let currentOrientation = "portrait-primary";
+
+window.addEventListener("devicemotion", (e) => {
+    const accelerationX = e.accelerationIncludingGravity.x;
+    const accelerationY = e.accelerationIncludingGravity.y;
+
+    // Calculate the angle of the device's tilt
+    const angle = Math.atan2(accelerationY, accelerationX);
+    
+    // Define a sensitivity factor
+    const sensitivity = 1;
+
+    // Adjust Pac-Man's position based on the device's orientation
+    if (currentOrientation === "portrait-primary" || currentOrientation === "portrait-secondary") {
+        // Portrait mode
+        pacman.x += accelerationX * sensitivity;
+        pacman.y += accelerationY * sensitivity;
+    } else {
+        // Landscape mode
+        pacman.x += accelerationY * sensitivity;
+        pacman.y -= accelerationX * sensitivity;
+    }
+
+    // Ensure Pac-Man stays within the canvas bounds
+    pacman.x = Math.max(pacman.size, Math.min(pacman.x, width - pacman.size));
+    pacman.y = Math.max(pacman.size, Math.min(pacman.y, height - pacman.size));
+});
+
+// Add an event listener to track screen orientation changes
+window.screen.orientation.onchange = () => {
+    currentOrientation = window.screen.orientation.type;
+};
+
+// Add an initial orientation check
+currentOrientation = window.screen.orientation.type;
+
+
+    function toggleFullScreen() {
+      console.log(document.fullscreenElement); // Use document.fullscreenElement with a lowercase 'd'
+      if (!document.fullscreenElement) {
+        canvas.requestFullscreen().then(() => {
+          lockLandscapeOrientation(); // Lock orientation when entering fullscreen
+        }).catch();
+      }
+    }
+
+    function lockLandscapeOrientation() {
+      if ('screen' in window && 'orientation' in window.screen) {
+        // Check if screen.orientation.lock is supported
+        if (screen.orientation.lock) {
+          // Lock the screen orientation to landscape-primary
+          screen.orientation.lock('landscape-primary').then(() => {
+            console.log('Screen orientation locked to landscape-primary');
+          }).catch((error) => {
+            console.error('Could not lock screen orientation: ', error);
+          });
+        }
+      }
+    }
+
+    // Add an event listener for screen orientation changes
+    window.screen.orientation.onchange = () => {
+      if (window.screen.orientation.type !== 'landscape-primary') {
+        // If the orientation changes, attempt to lock it back to landscape
+        lockLandscapeOrientation();
+      }
+    }
+
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomRGB() {
+      return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
+    }
+
+    const fullScreenButton = document.getElementById('fullScreenButton');
+    fullScreenButton.addEventListener('click', toggleFullScreen);
+    let width, height;
+
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    resizeCanvas();
+
+    function toggleFullScreen() {
+      console.log(document.fullscreenElement); // Use document.fullscreenElement with a lowercase 'd'
+      if (!document.fullscreenElement) {
+        canvas.requestFullscreen().then(() => {
+          lockLandscapeOrientation(); // Lock orientation when entering fullscreen
+        }).catch();
+      }
+    }
+
+    let vibrateInterval;
+
+    // Starts vibration at the passed-in level
+    function startVibrate(duration) {
+      navigator.vibrate(duration);
+    }
+
+    // Stops vibration
+    function stopVibrate() {
+      // Clear interval and stop persistent vibrating
+      if (vibrateInterval) clearInterval(vibrateInterval);
+      navigator.vibrate(0);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    let powerPelletVisible = true;
+
+    // Function to toggle the visibility of power pellets
+    function togglePowerPelletVisibility() {
+      powerPelletVisible = !powerPelletVisible;
+    }
+
+    // Use setInterval to toggle the visibility at regular intervals
+    setInterval(togglePowerPelletVisibility, 500);
+
+    class Pellet {
+      constructor(corner, color, size) {
+        this.corner = corner; // Corner information (e.g., "top-left")
+        this.color = color;
+        this.size = size;
+        this.x = this.calculateX();
+        this.y = this.calculateY();
+      }
+
+      calculateX() {
+        if (this.corner.includes("left")) {
+          return 30;
+        } else { // Right corner
+          return width - 30;
+        }
+      }
+
+      calculateY() {
+        if (this.corner.includes("top")) {
+          return 30;
+        } else { // Bottom corner
+          return height - 30;
+        }
+      }
+
+      draw() {
+        if (powerPelletVisible) {
+          ctx.beginPath();
+          ctx.fillStyle = this.color;
+          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      }
+    }
+
+    const initialPacmanX = 400;
+    const initialPacmanY = 400;
+
+    // Function to reset Pacman's position to the initial position
+    function resetPacmanPosition() {
+      pacman.x = initialPacmanX;
+      pacman.y = initialPacmanY;
+    }
+
+    class Pacman {
+      constructor(x, y, velX, velY, color, size) {
+        this.x = x;
+        this.y = y;
+        this.velX = velX;
+        this.velY = velY;
+        this.color = color;
+        this.size = size;
+        this.lives = 3;
+        this.speed = 3;
+        this.poweredUp = false; // New variable to track power-up state
+        this.powerUpTime = 0;   // New variable to track power-up time
+        this.direction = "right"; // Initial direction
+        this.sound = new Audio();
+        this.sound.src = 'laser1.wav';
+        this.pelletsound = new Audio();
+        this.pelletsound.src = 'pelletsound.wav';
+      }
+
+      draw() {
+        if (this.direction === "right") {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 50, 0.25 * Math.PI, 1.75 * Math.PI, false);
+          ctx.lineTo(this.x, this.y); // Connect to the center to close the shape
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        } else if (this.direction === "left") {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 50, 1.25 * Math.PI, 2.75 * Math.PI, false);
+          ctx.lineTo(this.x, this.y); // Connect to the center to close the shape
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        } else if (this.direction === "up") {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 50, 1.75 * Math.PI, 3.25 * Math.PI, false);
+          ctx.lineTo(this.x, this.y); // Connect to the center to close the shape
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        } else if (this.direction === "down") {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 50, 0.75 * Math.PI, 2.25 * Math.PI, false);
+          ctx.lineTo(this.x, this.y); // Connect to the center to close the shape
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+
+      update() {
+        if (keys.ArrowLeft) {
+          this.x -= this.speed;
+          this.direction = "left";
+        }
+        if (keys.ArrowRight) {
+          this.x += this.speed;
+          this.direction = "right";
+        }
+        if (keys.ArrowUp) {
+          this.y -= this.speed;
+          this.direction = "up";
+        }
+        if (keys.ArrowDown) {
+          this.y += this.speed;
+          this.direction = "down";
+        }
+        // Ensure Pacman stays within the canvas bounds
+        this.x = Math.max(this.size, Math.min(this.x, width - this.size));
+        this.y = Math.max(this.size, Math.min(this.y, height - this.size));
+      }
+
+      collisionDetect() {
+        for (const ghost of ghosts) {
+          const dx = this.x - ghost.x;
+          const dy = this.y - ghost.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (this.poweredUp && distance < this.size + ghost.size) {
+            // Pacman is powered up, so eat the ghost
+            const ghostIndex = ghosts.indexOf(ghost);
+            if (ghostIndex !== -1) {
+              startVibrate(100);
+              this.sound.play();
+              ghosts.splice(ghostIndex, 1);
+            }
+          } else if (!this.poweredUp && distance < this.size + ghost.size) {
+            startVibrate(100);
+            this.sound.play();
+            this.lives--;
+            resetPacmanPosition();
+            if (this.lives <= 0) {
+              alert('Game Over');
+            }
+          }
+        }
+        for (let i = 0; i < pellets.length; i++) {
+          const pellet = pellets[i];
+          const dx = this.x - pellet.x;
+          const dy = this.y - pellet.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < this.size + pellet.size) {
+            this.pelletsound.play();
+            pellets.splice(i, 1);
+            this.lives++;
+            // Activate power-up when eating a power pellet
+            if (pellet.size === 10) {
+              this.activatePowerUp();
+            }
+          }
+        }
+      }
+
+      // New method to activate power-up when eating a power pellet
+      activatePowerUp() {
+        this.poweredUp = true;
+        this.powerUpTime = 5000; // 5 seconds
+      }
+
+      // New method to update power-up time
+      updatePowerUpTime(deltaTime) {
+        if (this.poweredUp) {
+          this.powerUpTime -= deltaTime;
+          if (this.powerUpTime <= 0) {
+            this.poweredUp = false; // Power-up expires
+          }
+        }
+      }
+    }
+
+    const keys = {
+      ArrowLeft: false,
+      ArrowRight: false,
+      ArrowUp: false,
+      ArrowDown: false
+    };
+    document.addEventListener("keydown", (event) => {
+      if (event.key in keys) {
+        keys[event.key] = true;
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      if (event.key in keys) {
+        keys[event.key] = false;
+      }
+    });
+
+    class Ghost {
+      constructor(x, y, velX, velY, color, size) {
+        this.x = x;
+        this.y = y;
+        this.velX = velX;
+        this.velY = velY;
+        this.color = color;
+        this.size = size;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      update() {
+        if ((this.x + this.size) >= width) {
+          this.velX = -(this.velX);
+        }
+
+        if ((this.x - this.size) <= 0) {
+          this.velX = -(this.velX);
+        }
+
+        if ((this.y + this.size) >= height) {
+          this.velY = -(this.velY);
+        }
+
+        if ((this.y - this.size) <= 0) {
+          this.velY = -(this.velY);
+        }
+
+        this.x += this.velX;
+        this.y += this.velY;
+      }
+      collisionDetect() {
+        for (const ghost of ghosts) {
+          if (this !== ghost) {
+            const dx = this.x - ghost.x;
+            const dy = this.y - ghost.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.size + ghost.size) {
+              // Change the direction of this ghost
+              const tempVelX = this.velX;
+              const tempVelY = this.velY;
+              this.velX = ghost.velX;
+              this.velY = ghost.velY;
+              ghost.velX = tempVelX;
+              ghost.velY = tempVelY;
+            }
+          }
+        }
+      }
+    }
+
+    const ghosts = [];
+    const pellets = [];
+
+    while (ghosts.length < 5) {
+      const size = random(10, 20);
+      const ball = new Ghost(
+        // ball position always drawn at least one ball width
+        // away from the edge of the canvas, to avoid drawing errors
+        random(0 + size, width - size),
+        random(0 + size, height - size),
+        random(-7, 7),
+        random(-7, 7),
+        randomRGB(),
+        size,
+      );
+
+      ghosts.push(ball);
+    }
+
+    // Pac-Man Dot Class
+    class PacDot {
+      constructor(x, y, size) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.collected = false; // Whether the dot has been collected
+        this.sound = new Audio();
+        this.sound.src = 'dotsound.wav';
+      }
+
+      draw() {
+        if (!this.collected) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+          ctx.fillStyle = "white";
+          ctx.fill();
+        }
+      }
+
+      collisionDetect() {
+        if (!this.collected) {
+          const dx = pacman.x - this.x;
+          const dy = pacman.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < pacman.size + this.size) {
+            this.collected = true;
+            this.sound.play();
+            score += 10; // Increase the score
+          }
+        }
+      }
+    }
+
+    const pacDots = [];
+
+    // Create 50 Pac-Man dots at random positions
+    for (let i = 0; i < 50; i++) {
+      const dot = new PacDot(random(0, width), random(0, height), 5);
+      pacDots.push(dot);
+    }
+
+    const pellet1 = new Pellet("top-left", "Yellow", 10);
+    const pellet2 = new Pellet("bottom-left", "Yellow", 10);
+    const pellet3 = new Pellet("top-right", "Yellow", 10);
+    const pellet4 = new Pellet("bottom-right", "Yellow", 10);
+    pellets.push(pellet1);
+    pellets.push(pellet2);
+    pellets.push(pellet3);
+    pellets.push(pellet4);
+
+    const pacman = new Pacman(400, 400, random(-7, 7), random(-7, 7), "Yellow", 20);
+
+    let lastTime = 0;
+
+    let score = 0; // Initialize the score
+
+    function drawScore() {
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "white";
+      ctx.fillText("Score: " + score, 20, 40);
+      ctx.fillText("Lives: " + pacman.lives, 20, 80); // Display lives count
+    }
+
+    function checkForVictory() {
+      const allDotsCollected = pacDots.every((dot) => dot.collected);
+      if (allDotsCollected) {
+        // All dots are collected, display victory text
+        const victoryText = document.getElementById("victory-text");
+        victoryText.style.display = "block";
+      }
+    }
+
+    function loop(timestamp) {
+      const deltaTime = timestamp - lastTime;
+      lastTime = timestamp;
+
+      ctx.fillStyle = "rgba(0, 0, 50, 0.25)";
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw and detect collisions for Pac-Man dots
+      for (const dot of pacDots) {
+        dot.draw();
+        dot.collisionDetect();
+      }
+
+      for (const pellet of pellets) {
+        pellet.draw();
+      }
+
+      pacman.draw();
+      pacman.update();
+      pacman.collisionDetect(ghosts);
+      pacman.updatePowerUpTime(deltaTime);
+
+      if (powerPelletVisible && pacman.poweredUp) {
+        for (const ghost of ghosts) {
+          ghost.color = "Blue";
+        }
+      } else {
+        for (const ghost of ghosts) {
+          ghost.color = randomRGB();
+        }
+      }
+
+      for (const ghost of ghosts) {
+        ghost.draw();
+        ghost.collisionDetect();
+        ghost.update();
+      }
+
+      drawScore();
+      checkForVictory(); // Check for victory conditions
+
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener("load", (event) => {
+      loop(0);
+    });
+  </script>
+</body>
+
+</html>

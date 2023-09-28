@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-us" data-lt-installed="true">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <meta name="screen-orientation" content="landscape" />
+  <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
+  <title>Verkefni-4</title>
+</head>
+<style>
+  html,
+  body {
+    font-family: 'VT323';
+    margin: 0;
+  }
+
+  html {
+    font-family: 'VT323';
+    height: 100%;
+  }
+
+  /* Body style */
+  body {
+    font-family: 'VT323';
+    overflow: hidden;
+    height: inherit;
+    margin: 0;
+    background-color: rgb(0, 0, 0);
+    /* Set the background color to black */
+  }
+
+  /*Pacman title text*/
+  h1 {
+    font-family: 'VT323';
+    font-size: 50px;
+    letter-spacing: -1px;
+    position: absolute;
+    margin: 0;
+    top: -8px;
+    right: 5px;
+    color: white;
+  }
+
+  /* score and life display style */
+  p {
+    font-family: 'VT323';
+    font-size: 20px;
+    position: absolute;
+    margin: 0;
+    top: 35px;
+    right: 5px;
+    color: #aaa;
+  }
+
+  /* Style the button */
+  #fullscreenButton {
+    font-family: 'VT323';
+    font-size: 20px;
+    position: absolute;
+    top: 58px;
+    right: 0px;
+    padding: 3px;
+    display: block;
+    background-color: rgb(255, 54, 54);
+  }
+
+  #mobileControlToggle {
+    font-family: 'VT323';
+    font-size: 20px;
+    position: absolute;
+    top: 58px;
+    right: 0px;
+    padding: 3px;
+    display: block;
+    background-color: rgb(255, 255, 255);
+  }
+
+  /*--------Canvas style--------*/
+  /* Set canvas width and height to auto for all screens */
+  canvas {
+    font-family: 'VT323';
+    font-size: 20px;
+    width: auto;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  #startScreen {
+    font-family: 'VT323';
+    font-size: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+    width: 200px;
+    height: 200px;
+    min-height: 100%;
+    color: white;
+    background-color: #000000b3;
+  }
+
+  /* Media query for smaller screens */
+  @media screen and (max-width: 768px) {
+    body {
+      overflow: auto;
+      /* Allow scrolling on smaller screens */
+    }
+
+    canvas {
+      width: auto;
+      /* Make the canvas width adjust automatically */
+      height: auto;
+      /* Make the canvas height adjust automatically */
+    }
+  }
+</style>
+
+<body>
+  <h1>Pacman</h1>
+  <p>Score: 0 Lives: 3</p>
+  <!-- <button id="fullscreenButton" onclick="toggleFullscreen();">Toggle Fullscreen</button> -->
+  <button id="mobileControlToggle" onclick="toggleMobileControl();">Toggle mobile controls</button>
+  <div id="startScreen">
+    Press spacebar key or touch screen to start!
+  </div>
+  <canvas id="gameScreen"></canvas>
+  <script src="verkefni-4.js"></script>
+</body>
+
+</html>

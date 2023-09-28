@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css_síða.css">
+    <title>poggi</title>
+    </head>
+<body>
+    <canvas ></canvas>
+<!--cript src="testapp.js"></script-->
+<script>const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth-4;
+    let height = canvas.height = window.innerHeight-5;
+    let score = 0;
+    let up = false;
+    let down = false;
+    let left = false;
+    let right = false;
+    let starte = false;
+    function allIdoIsPlay(sound){
+      let audioClone = sound.cloneNode();
+      audioClone.play();
+    }
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;}
+    
+    function pink() {
+        return `rgb(${255},${192},${203})`
+    }
+    function cyan() {
+        return `rgb(${0},${152},${122})`
+    }
+    function red() {
+        return `rgb(${255},${0},${0})`
+    }
+    function orange() {
+        return `rgb(${255},${165},${0})`
+    }
+    function blue() {
+       return `rgb(${0},${0},${255})`
+    }
+    
+    class Pellet {
+       constructor(x,y,size){
+          this.x = x;
+          this.y = y;
+          this.size = size;
+          this.ate = false
+          this.isInvincible = false
+          this.invincibilityTimer= 1;
+          this.isVisible = true;
+          this.flashInterval = 500;
+          this.flashTimer = setInterval(() => {
+             this.togglePowerPelletVisibility();
+          }, this.flashInterval);
+       }
+       draw() {
+          ctx.beginPath();
+          ctx.fillStyle = "yellow";
+          ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
+          ctx.fill()  
+          ctx.closePath();
+       }
+       pelletInvincibility() {
+        if (!this.isInvincible) {
+          this.isInvincible = true;
+          clearTimeout(this.invincibilityTimer);
+          this.invincibilityTimer = setTimeout(() => {
+            this.isInvincible = false;
+          }, 1000);}
+        }
+        togglePowerPelletVisibility() {
+          this.isVisible = !this.isVisible;
+       }
+       clearFlashInterval() {
+          clearInterval(this.flashTimer);
+       }
+        
+    }
+    
+    class Pacdude {
+       constructor(x,y,velX,velY,size){
+          this.x = x;
+          this.y = y;
+          this.velX = velX;
+          this.velY = velY;
+          this.size = size;
+          this.rotation = 0
+          this.lives = 3;
+          this.killmonger = false;
+          this.killTimer = 0;
+          this.isinvincible = false;
+          this.invincibilityTimer = 0; 
+          this.boom = new Audio();
+          this.boom.src = 'deltarune-explosion.mp3';
+          this.megaFart = new Audio();
+          this.megaFart.src = 'i-have-the-power.mp3';
+          this.chomp = new Audio();
+          this.chomp.src = 'chomp-1.mp3'
+          this.hurt = new Audio();
+          this.hurt.src = 'hurt.mp3'
+          this.audio = new Audio();
+       }
+       draw(){
+         
+          const ang = Math.PI / 180;
+          ctx.save();
+            ctx.translate(this.x,this.y);
+            ctx.rotate(this.rotation)
+            ctx.translate(-this.x,-this.y);
+            ctx.beginPath();
+            ctx.fillStyle = "#fffb00";
+            ctx.arc(this.x, this.y, this.size,ang*30,ang*330,false);
+            ctx.lineTo(this.x,this.y);
+            ctx.fill();
+            ctx.closePath();
+            ctx.restore()
+       }
+
+       update() {
+          if ((this.x + this.size) >= width) {
+             this.x=width-60;
+          }
+          if ((this.x - this.size) <= 0) {
+             this.x = 60;
+          }
+          if ((this.y + this.size) >= height) {
+             this.y = height-60;
+          }
+          if ((this.y - this.size) <= 0) {
+             this.y = 60
+          }
+          if(up == true){
+             pacdude.rotation = (270 * Math.PI / 180);
+             pacdude.y -= pacdude.velY;
+         }
+         else if(down == true){
+             pacdude.rotation = (90 * Math.PI / 180)
+             pacdude.y += pacdude.velY;
+         }
+         if(left == true){
+             pacdude.rotation = (180 * Math.PI / 180)
+             pacdude.x -= pacdude.velX;
+         }
+         if(right == true){
+             pacdude.rotation = 0
+             pacdude.x += pacdude.velX;
+         }
+       }
+        activateInvincibility() {
+            if (!this.isInvincible) {
+              this.isInvincible = true;
+              clearTimeout(this.invincibilityTimer);
+              this.invincibilityTimer = setTimeout(() => {
+                this.isInvincible = false;
+              }, 2000);
+            }
+        }
+        activatePowerMode() {
+          if (!this.killmonger) {
+            this.killmonger = true;
+            clearTimeout(this.killTimer);
+            this.killTimer = setTimeout(() => {
+              this.killmonger = false;
+            }, 5000);
+          }
+       }
+       collisionDetectPellets(pellets) {
+          for (const pellet of pellets) {
+             if (pellet.ate == false) {
+                const dx = this.x - pellet.x;
+                const dy = this.y - pellet.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+    
+                if (distance < this.size + pellet.size) {
+                   pellet.ate = true;
+                   allIdoIsPlay(this.megaFart);
+                   this.activatePowerMode();
+                   pellet.isVisible = false;
+                }
+             }
+          }
+       }
+       collisionDetectGhosts(ghosts) {
+          for (const ghost of ghosts) {
+             if (ghost.ate == false) {
+             if (!(this == ghost)) {
+                const dx = this.x - ghost.x;
+                const dy = this.y - ghost.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+    
+                if (distance < this.size + ghost.size) {
+                   if (!pacdude.killmonger) {
+                      if (!pacdude.isInvincible) {
+                        window.navigator.vibrate(200);
+                        window.navigator.vibrate([200]);
+                        allIdoIsPlay(this.hurt);
+                        pacdude.lives--;
+                         pacdude.activateInvincibility();
+                      }
+                      if (pacdude.lives == 0) {
+                        alert("misstir öll lífin")
+                         location.reload();
+                      }
+                   } else {
+                     allIdoIsPlay(this.boom);
+                     ghost.ate = true;
+                   }
+                }
+             }
+          }
+       }}
+       collisionDetectDots(normalPills) {
+          for (const dot of normalPills) {
+             if (!dot.ate) {
+                const dx = this.x - dot.x;
+                const dy = this.y - dot.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < this.size + dot.size) {
+                  allIdoIsPlay(this.chomp)
+                   dot.ate = true;
+                   score++;
+                }
+                if (score === 50){
+                  
+                  alert("vannst");
+                  location.reload();
+                }
+             }
+          }
+       }
+       collisionDetect() {
+          this.collisionDetectPellets(pellets);
+          this.collisionDetectGhosts(ghosts);
+          this.collisionDetectDots(normalPills);
+       }
+       
+    }
+    class Ghosts {
+       constructor(x, y, velX, velY, color, size) {
+          this.x = x;
+          this.y = y;
+          this.velX = velX;
+          this.velY = velY;
+          this.color = color;
+          this.size = size;
+          this.ate = false;
+       }
+       draw() {
+          ctx.beginPath();
+          if (!pacdude.killmonger){
+          ctx.fillStyle = this.color;}
+          else {ctx.fillStyle = blue()}
+          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.closePath();
+       }
+       update() {
+        console.log(pacdude.lives)
+          if ((this.x + this.size) >= width) {
+             this.velX = -(Math.abs(this.velX));
+          }
+    
+          if ((this.x - this.size) <= 0) {
+             this.velX = Math.abs(this.velX);
+          }
+    
+          if ((this.y + this.size) >= height) {
+             this.velY = -(Math.abs(this.velY));
+          }
+    
+          if ((this.y - this.size) <= 0) {
+             this.velY = Math.abs(this.velY);
+          }
+    
+          this.x += this.velX;
+          this.y += this.velY;
+       }
+    }
+    const pacdude = new Pacdude(30,80,4,4,40);
+    let ghosts = [];
+    let pellets = [];
+    let normalPills = [];
+    function init(){
+      if (starte){
+      score = 0
+      pacdude.lives=3
+       normalPills = [];
+       ghosts = [];
+       pellets = []; 
+       function createSmallDots(numdots) {
+          for (let i = 0; i < numdots; i++) {
+             const x = random(10, width-10);
+             const y = random(10, height-10);
+             const size = 2;
+             let ate = false;
+             normalPills.push({x, y, size, ate}); 
+          }
+       }
+       createSmallDots(50);
+
+       const size = random(20,30);
+      const inky = new Ghosts(
+        random(0 + size,width - size),
+          random(0 + size,height - size),
+          5,
+          5,
+          cyan(),
+          25
+    )
+    ghosts.push(inky)
+    const blinky = new Ghosts(
+        random(0 + size,width - size),
+          random(0 + size,height - size),
+          5,
+          5,
+          red(),
+          25
+    )
+    
+    ghosts.push(blinky)
+    const pinky = new Ghosts(
+        random(0 + size,width - size),
+          random(0 + size,height - size),
+          5,
+          5,
+          pink(),
+          25
+    )
+    ghosts.push(pinky)
+    const clyde = new Ghosts(
+        random(0 + size,width - size),
+        random(0 + size,height - size),
+          5,
+          5,
+          orange(),
+          25
+    )
+    ghosts.push(clyde)
+    const pellet1 = new Pellet(
+        width-30,
+       height-30,
+       15,
+    );
+    pellets.push(pellet1);
+    const pellet2 = new Pellet(
+       width-30,
+       height-(height-30),
+       15,
+    );
+    pellets.push(pellet2)
+    const pellet3 = new Pellet(
+        30,
+        30, 
+        15,
+    );
+    pellets.push(pellet3);
+    const pellet4 = new Pellet(
+       30,
+       height-30,
+       15,
+    );
+    pellets.push(pellet4);
+    }
+   }
+    function loop() {
+       ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+       ctx.fillRect(0, 0,  width, height);
+       for (const ghost of ghosts) {
+          if (!ghost.ate){
+             ghost.draw();
+             ghost.update();
+          }
+    }
+       for (const pellet of pellets) {
+           if (pellet.ate == false){
+                if(pellet.isVisible){
+                   pellet.draw();}
+            } else {
+                ctx.clearRect(this.x,this.y,this.size,0,2*Math.PI) 
+            }
+       }
+       for (const dot of normalPills) {
+          if (!dot.ate){
+             ctx.beginPath();
+             ctx.fillStyle = "yellow";
+             ctx.arc(dot.x, dot.y, dot.size, 0, 2 * Math.PI);
+             ctx.fill();
+             ctx.closePath();}
+       }
+       if (starte){
+       pacdude.draw();
+      } else {
+         ctx.fillStyle = 'white'; 
+       ctx.font = '29px Arial'; 
+       ctx.fillText("ýttu á skjáinn til að spila", 6,height/2)
+      }
+       pacdude.update();
+       pacdude.collisionDetect();
+       ctx.fillStyle = 'white'; 
+       ctx.font = '24px Arial'; 
+       ctx.fillText('stig: ' + score, 80, 30); 
+       ctx.fillText('líf: ' + pacdude.lives, 80, 50)
+       requestAnimationFrame(loop);
+    };
+    window.addEventListener("load", loop);
+    window.addEventListener('keydown', (e) => {
+       let key = e.key
+       switch(key) {
+           case 'W':
+           case 'w':
+               up = true;
+               break;
+           case 's':
+           case 'S':
+               down = true;
+               break;
+           case 'a':
+           case 'A':
+               left = true;
+               break;
+           case 'd':
+           case 'D':
+               right = true;
+               break;
+    }})
+    window.addEventListener('keyup', (e) => {
+    let key = e.key
+    switch(key) {
+          case 'W':
+          case 'w':
+             up = false;
+             break;
+          case 's':
+          case 'S':
+             down = false;
+             break;
+          case 'a':
+          case 'A':
+             left = false;
+             break;
+          case 'd':
+          case 'D':
+             right = false;
+             break;
+    }});
+    function fullscren() {
+      starte = true;
+        if(!document.fullscreenElement){
+            canvas.requestFullscreen().catch(err =>{
+                alert(`haha lol, ímynda sér að ekki geta opnað fullscreen vega ${err.message}`)
+            });
+        } 
+    }
+    window.addEventListener('click',fullscren)
+    window.addEventListener('fullscreenchange',()=>{
+      screen.orientation.lock('landscape-primary')
+    })
+    window.addEventListener('devicemotion', (e) => {
+      let bonkersX = e.acceleration.z
+      let bonkersY = e.acceleration.y
+      switch (true) {
+         case bonkersX > 0:
+            right=true;
+            break;
+         case bonkersX < 0:
+            left=true;
+            break;
+         case bonkersY > 0:
+            up = true;
+            break;
+         case bonkersY < 0:
+            down = true;
+            break;
+            //pogger
+      }
+      
+    })
+    window.addEventListener('resize', function(){
+       width = canvas.width = window.innerWidth-4;
+       height = canvas.height = window.innerHeight-5;
+       init();
+    })
+    init();
+    </script>
+</body>
+</html>
