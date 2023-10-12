@@ -25,6 +25,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (Single-
 
 > **Note**
 > hlutir í fylkinu mega ekki vera forraðaðir eftir dagsetningu eða verði. 
+> Fetch sækir ekki JSON skrá  nema þú notar `local server` eins og [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (extension í VSCode)
 
 ---
 
