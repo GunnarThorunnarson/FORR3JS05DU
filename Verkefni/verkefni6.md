@@ -20,11 +20,11 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (Single-
     - dagsetning viðburðar
     - staðsetning viðburðar
     - vefslóð á ljósmynd fyrir viðburð
-1. [ ] Gögnin (JSON) eru sótt með [fetch eða await/async](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch).
+1. [ ] Gögnin (JSON) eru sótt með [fetch eða await/async](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/JSON-og-Fetch). 
 1. [ ] Gögn eru yfirfærð í viðeigandi gagnaskipan (fylki með objects) í JavaScript.
 
 > **Note**
-> hlutir í fylkinu mega ekki vera forraðaðir eftir dagsetningu eða verði. 
+> hlutir í fylkinu mega ekki vera forraðaðir eftir dagsetningu eða verði. <br>
 > Fetch sækir ekki JSON skrá  nema þú notar `local server` eins og [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (extension í VSCode)
 
 ---
