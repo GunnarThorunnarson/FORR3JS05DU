@@ -1,2 +1,3 @@
-#### Verkefni Vor 2024
-Væntanlegt
+#### Verkefni 
+Vor 2024
+
