@@ -1,3 +1,2 @@
-#### Verkefni 
-Vor 2024
+#### Verkefni Vor 2024
 
