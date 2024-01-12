@@ -1,6 +1,5 @@
 ## Verkefni 2 
 - 15% af heildareinkunn
-- Class og Canvas.
 
 ---
 
