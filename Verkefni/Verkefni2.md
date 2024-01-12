@@ -10,7 +10,7 @@ Búðu til einfaldan PacMan leik fyrir **tölvu** sem uppfyllir eftirfarandi:
 1. Búðu til object fyrir Pac-Man: **(20%)**
    - [ ] Pac-Man er gerður úr [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations) með hrinlaga form, gulan lit, auga og munn (sem opnast og lokast).
    - [ ] Pac-Man er með 3 líf.
-   - [ ] Láttu PacMan byrja í miðjum skjá og hreyfast með [lyklaborði](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Events) (N, S, V, A) á skjáborði.
+   - [ ] Láttu PacMan byrja í miðjum skjá og hreyfast með [lyklaborði (Keyboard Events)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Events) (N, S, V, A) á skjáborði.
    - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas.
 1. Búðu til klasa (class) fyrir dots: **(10%)**
    - [ ] Pac-Man dots eru lítil hringlaga og gul á lit.
