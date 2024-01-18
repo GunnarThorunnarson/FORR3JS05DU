@@ -31,15 +31,14 @@ Búðu til einfaldan PacMan leik fyrir **tölvu** sem uppfyllir eftirfarandi:
    - [ ] "Game Over!" texti birtist í Canvas þegar Pac-Man hefur safnað öllum PacMan dots eða klárað lífin sín. **(5%)**
 
 <br>
-
-**Ath.** Það er **ekki** í boði að vera með aukalega virkni (t.d. tilemap) eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu.
+**Ath.** Það er **ekki** í boði að vera með aukalega virkni (t.d. tilemap) eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu. Ég fer ekki yfir þau verkefnaskil og það jafngildir **núll** í einkunn.
 
 ---
 
 ### Námsmat og skil	
+* Skilaðu á Innu html skrá með JavaScript kóðalausn og sprites.
 * Gefið er fullt fyrir lið sem er vel útfærður, hálft ef hann er ábótavant. 
-* Skilaðu á Innu html skrá með JavaScript kóðalausn.
-
+* Það er **ekki** í boði að vera með aukalega virkni (t.d. tilemap) eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu. Ég fer ekki yfir þau verkefnaskil og það jafngildir **núll** í einkunn.
 
 <!--
 - [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs).
