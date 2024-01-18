@@ -1,7 +1,6 @@
 ## Verkefni 1
 
 - 15% af heildareinkunn.
-- Vika 1, 2 og 3
 
 ---
 
