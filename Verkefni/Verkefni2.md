@@ -32,7 +32,7 @@ Búðu til einfaldan PacMan leik fyrir **tölvu** sem uppfyllir eftirfarandi:
 
 <br>
 
-**Ath**. Það er **ekki** í boði að vera með aukalega virkni (t.d. tiles) eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu.
+**Ath.** Það er **ekki** í boði að vera með aukalega virkni (t.d. tilemap) eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu.
 
 ---
 
