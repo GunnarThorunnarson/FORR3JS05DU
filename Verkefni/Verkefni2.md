@@ -8,7 +8,7 @@
 Búðu til einfaldan PacMan leik fyrir **tölvu** sem uppfyllir eftirfarandi:
 
 1. Búðu til object fyrir Pac-Man: **(20%)**
-   - [ ] Pac-Man er með hrinlaga form, gulur á lit með auga og munn (sem opnast og lokast), [sýnidæmi](https://www.youtube.com/watch?v=ysG37V_j1Xs).
+   - [ ] Pac-Man er með hrinlaga form, gulur á lit með auga og munn, [sýnidæmi](https://www.youtube.com/watch?v=ysG37V_j1Xs).
    - [ ] Pac-Man er með 3 líf.
    - [ ] Láttu PacMan byrja í miðjum skjá og hreyfast með lyklaborði [(Keyboard Events)](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Events) (N, S, V, A) á skjáborði.
    - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas.
