@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+
+let message = "";
+
+window.addEventListener('devicemotion', event => {
+    message = event.acceleration.x + ' m/s2' + "<br>";
+    // document.body.innerHTML = message; 
+}, true);
+
+window.addEventListener('deviceorientation', event => {
+    event.alpha     // rotation along the z axis
+    event.beta      // rotation along the x axis
+    event.gamma     // rotation along the y axis
+    message = "alpha: " + event.alpha + "beta: " + event.beta + "gamma: " + event.gamma + "<br>";
+    //document.body.innerHTML = message; 
+}, true);
+
+window.addEventListener('devicemotion', event => {
+    event.accelerationIncludingGravity.x
+    event.accelerationIncludingGravity.y
+    message = "x: " +  event.accelerationIncludingGravity.x + "<br> y: " + event.accelerationIncludingGravity.y + "<br>";
+    document.body.innerHTML = message; 
+}, true);
+
+
+</script>
