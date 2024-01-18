@@ -1,7 +1,6 @@
 ## Verkefni 2 
 - 15% af heildareinkunn
-- Vika 4
-  
+
 ---
 
 ### Verkefnalýsing
