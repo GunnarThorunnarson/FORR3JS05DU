@@ -16,7 +16,7 @@ Búðu til einfaldan PacMan leik fyrir **tölvu** sem uppfyllir eftirfarandi:
    - [ ] Pac-Man dots eru dreifð random á skjá og gefa 1 stig.
    - [ ] Búðu til 50 Pac-Man dots objecta, notaðu fylki.
 1. Búðu til klasa (class) fyrir Ghost: **(20%)**  
-   - [ ] Ghost eru gerðir úr kúlum eða [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations).
+   - [ ] Ghosts eru er með hrinlaga form og eru mismunandi á lit (red, pink, cyan, orange). Það má líka nota [sprites](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations) í staðinn.
    - [ ] Ghost eru staðsettir random á skjá og fara í random áttir.
    - [ ] Ghost á ekki að komast út fyrir jaðarinn á Canvas heldur að skoppast af honum. Ghost fer í gegnum annan Ghost (ekki e. collision).
    - [ ] Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange). 
