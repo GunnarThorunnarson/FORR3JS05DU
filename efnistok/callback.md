@@ -1,25 +1,12 @@
+Kóðinn er kallaður e. **blocked** þegar við skilyrðum kóðann þannig að skipunin í lína 1 þarf að klárast alveg áður en skipun í línu 2 er framkvæmd. Blocked kóði þýðir að við getum ekkert gert á meðan (t.d notendaaðgerðir; mús, scroll osfrv.), `alert()` er dæmi um fall sem er blockerandi. Blocked kóða bera að forðast, sérstakleg þar sem við getum framkvæmt amk. 8.5 milljón skipanir á 1 sekúndu.
 
-Hér er dæmi um e. synchronous kóða þar sem lína 1 er keyrð og svo þar á eftir lína 2.
-Kóðinn er kallaður e. **blocked** þegar við skilyrðum kóðann þannig að skipunin í lína 1 þarf að klárast alveg áður en skipun í línu 2 er framkvæmd.
+JavaScript er e. synchronous (línu fyrir línu) og e. **non-block** sem þýðir að JavaScript þýðandinn klárar skipunina en hinkrar ekki eftir að aðgerð er kláruð. JS þýðandinn fer strax í næstu línu og framkvæmir næstu skipun. Þetta getur skapað vanda fyrir I/O aðgerðir eins og niðurhal eða HTTP request. <br>
 
-Dæmi um blocking-style kóða:
-```javascript
-a()
-b()
-
-let photo = download('http://foo-chan.com/images/sp.jpg')
-uploadPhotoTweet(photo, '@maxogden')
-```
-
-Blocked kóði þýðir að við getum ekkert gert á meðan (t.d notendaaðgerðir; mús, scroll osfrv.). Blocked kóða bera að forðast, sérstakleg þar sem við getum framkvæmt amk. 8.5 milljón skipanir á 1 sekúndu.
-
-JavaScript er e. synchronous (línu fyrir línu) og e. **non-block** sem þýðir að hún klárar skipunina en hinkrar ekki eftir að aðgerð er kláruð (bíður t.d. ekki eftir download). JS þýðandinn fer strax í næstu línu og framkvæmir næstu skipun.
-
-Dæmi um non- blocking-style kóða:
+Ef við viljum tryggja að **a** klári áður en **b** er framkævmt án þessa að stöðva allt forritið á meðan þá þurfum við nota **callback**: 
 
 ```javascript
-a(b)
-c
+a(b);
+c();
 ```
 
 **a** er framkvæmt fyrst svo **c**. Þegar **a** er búið (einhvern tímann síðar) þá er **b** framkvæmt. <br>
