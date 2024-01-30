@@ -1,6 +1,5 @@
 ## Verkefni 3 
 - 15% af heildareinkunn
-- Vika 5
 
 ---
 
