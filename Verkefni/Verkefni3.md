@@ -26,8 +26,8 @@ Búðu til **símatölvuleik** í vafra þar sem þú leiðir kúlu framhjá ho
 ### Námsmat og skil	
 * Skilaðu á Innu möppu sem inniheldur html skrá sem inniheldur JavaScript kóða og hljóðskrá.
 * Gefið er fullt fyrir lið sem er vel útfærður, hálft ef hann er ábótavant. 
-* Það er **ekki** í boði að vera með aukalega virkni eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu. Ég fer ekki yfir þau verkefnaskil.
-
+* Það er **ekki** í boði að vera með aukalega virkni eða kóðalausnir sem samræmist ekki það sem beðið er um í verkefnalýsingu.
+  
 <!--
 - [ ] Reiknaðu með þyngd kúlu, átt og hraða (velocity) þegar kúlan rekst á vegg, sjá t.d. [React to collisions with physics](https://spicyyoghurt.com/tutorials/html5-javascript-game-development/collision-detection-physics) og [Math, Physics, and Animation](https://www.oreilly.com/library/view/html5-canvas/9781449308032/ch05.html). **(10%)**.
 - [ ] Búðu til [völundarhús](https://marmelab.com/static/0b88f91f752f8f98764843ffc431cc19/66318/marble-maze.webp) með [Tilemap](https://www.youtube.com/watch?v=5IMXpp3rohQ). 
