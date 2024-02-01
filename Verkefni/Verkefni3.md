@@ -12,7 +12,7 @@ Búðu til **símatölvuleik** í vafra þar sem þú leiðir kúlu framhjá ho
 - [ ] Það er marmarakúla, jaðar, hringlaga byrjunar- og endareitur og nokkrar holur á milli. **(20%)**
 - [ ] Útfærðu _swipe_ virkni til að byrja leik, láttu marmarakúlu birtast á byrjunarreit, sjá nánar [Touch Events](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Events#st%C3%BDringar). **(15%)**
 - [ ] Notaðu `devicemotion event` til að stýra kúlunni í þá átt sem síminn hallar (N, S, V, A, SV, NV, NA, SA), sjá [Device Orientation Events](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Events#st%C3%BDringar). **(10%)**
-- [ ] Marmarakúlan á að hreyfast "eðlilega"  m.t.t. hraðaaukningu (acceleration & Easing) útaf halla. Kúlan á ekki að skoppast af jaðrinum heldur stoppa.  **(10%)**
+- [ ] Marmarakúlan á að hreyfast "eðlilega"  m.t.t. hraðaaukningu (acceleration & Easing) útaf halla. Kúlan á ekki að skoppast af jaðrinum.  **(10%)**
 - [ ] Kúlan fer aftur á byrjunarreit ef hún fer í holu. Notaðu [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) og [sýnidæmi](https://googlechrome.github.io/samples/vibration/) (_virkar ekki í Iphone_) þegar það gerist **(15%)**. 
 - [ ] Bættu við "Leik lokið!" texta og [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) þegar kúla kemst á leiðarenda, [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384).  **(10%)**
 
