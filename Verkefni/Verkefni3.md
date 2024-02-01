@@ -17,7 +17,7 @@ Búðu til **símatölvuleik** í vafra þar sem þú leiðir kúlu framhjá ho
 - [ ] Bættu við "Leik lokið!" texta og [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) þegar kúla kemst á leiðarenda, [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384).  **(10%)**
 
 **Athugaðu:**
-- Hægt er að prófa touch virkni með [Developer tól](https://developer.chrome.com/docs/devtools/device-mode/#type) í vafra eða [með síma tengdan við tölvu með VSCode](https://youtu.be/TaPdgj8mucI?t=213).
+- Hægt er að prófa touch virkni með [Developer tól](https://developer.chrome.com/docs/devtools/device-mode/#type) í vafra eða [með síma (android) tengdan við tölvu með VSCode](https://youtu.be/TaPdgj8mucI?t=213).
 - Til að nota `devicemotion event` þá þarf vefsíðan að vera hýst á **https** server td. á Github.com eða localhost t.d. _Live Server extension_ í VSCode, sjá [Enabling HTTPS for Live Server](https://graceydev.hashnode.dev/enabling-https-for-live-server-visual-studio-code-extension) eða [myndband](https://www.youtube.com/watch?v=v4jgr0ppw8Q).
 
 ---
