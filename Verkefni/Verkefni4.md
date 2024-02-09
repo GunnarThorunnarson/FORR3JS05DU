@@ -5,7 +5,7 @@
 
 ### Verkefnalýsing
 
-Búðu til vefapp í **síma** sem heldur utan um vörur og verð. Skoðaðu [Simple Todo List](https://courses.webdevsimplified.com/view/courses/javascript-simplified-beginner/521736-Basic-DOM/1510717-43-Simple-Todo-List) og [Todo App From Start To Finish](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/) (5 myndbönd).
+Búðu til vefapp í **síma** sem heldur utan um vörulista (vörur og verð). Skoðaðu [Simple Todo List](https://courses.webdevsimplified.com/view/courses/javascript-simplified-beginner/521736-Basic-DOM/1510717-43-Simple-Todo-List) og [Todo App From Start To Finish](https://codingthesmartway.com/building-a-vanilla-javascript-todo-app-from-start-to-finish-ep-1-introduction-project-setup/) (5 myndbönd).
 
 1. [ ] Búðu til 5 vörur að eigin vali (heiti og verð) með JavaScript og birtu þær í html. **20%**
 1. [ ] Búðu til fall sem reikna út heildartölu allra vara úr vörulista, heildartalan birtist í html. **10%**
