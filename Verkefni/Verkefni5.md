@@ -88,4 +88,4 @@ Notaðu [flatpickr](https://flatpickr.js.org/) (JS safn) fyrir dagatal.
     - 2/4 lausn er ábótavant, helmingur er vel útfærður.
     - 1/4 lausn er stórlega ábótavant, en einhver virkni og kóði.
     - 0/4 lausn vantar eða óunnin.
-
+* Sein skil eru ekki í boði.
