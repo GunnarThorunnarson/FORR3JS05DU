@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballin'</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        canvas {
+            border: 5px solid white;
+            display:block;
+            margin: 0;
+        }
+
+        #fullScreenButton {
+            position: absolute;
+            font-size: 20px;
+            padding: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: none;
+            color: white;
+            background-color: red;
+        }
+
+        #startButton {
+            position: absolute;
+            font-size: 30px;
+            padding: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <button id="fullScreenButton">Fullscreen</button>
+    <audio id="victory" src="pointbell.wav"></audio>
+    <div id="startButton">Swipe To Start</div>
+
+    <script>
+        var canvas = document.querySelector('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        let lastTime;
+        let gameOver = false;
+        let gameStarted = false;
+        let targetBeta = 0;
+        let targetGamma = 0;
+
+        const fullScreenButton = document.getElementById("fullScreenButton");
+        const victorySound = document.getElementById('victory')
+        const startButton = document.getElementById('startButton');
+        const restartButton = document.getElementById('restartButton');
+
+        fullScreenButton.addEventListener('click', function() {
+            toggleFullScreen();
+            playVictorySound();
+        });
+
+        function playVictorySound() {
+            if (victorySound) {
+                victorySound.play().catch(error => {
+                    console.error("Error playing audio:", error.message);
+                });
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                canvas.requestFullscreen().catch(err => {
+                    alert(`Error, can't enable fullscreen mode: ${err.message}`)
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        const ball = {
+            x: 50,
+            y: canvas.height / 2,
+            radius: 20,
+            speed: 1,
+            acceleration: 1,
+            directionX: 0,
+            directionY: 0,
+
+            draw: function() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 2)
+                ctx.fillStyle = 'white';
+                ctx.fill();
+
+                ctx.restore();
+            },
+
+            move: function(dx, dy) {
+                this.directionX += (dx - this.directionX) * this.acceleration;
+                this.directionY += (dy - this.directionY) * this.acceleration;
+            },
+
+            update: function() {
+                this.x += this.directionX * this.speed;
+                this.y += this.directionY * this.speed;
+
+                if (this.x - this.radius < 0) {
+                    this.x = this.radius;
+                }
+                if (this.x + this.radius > canvas.width) {
+                    this.x = canvas.width - this.radius;
+                }
+                if (this.y - this.radius < 0) {
+                    this.y = this.radius;
+                }
+                if (this.y + this.radius > canvas.height) {
+                    this.y = canvas.height - this.radius;
+                }
+            }
+        }
+
+        const holes = Array.from({ length: 8 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: 25
+        }));
+
+        function drawHole(hole) {
+            ctx.save();
+            ctx.translate(hole.x, hole.y);
+            
+            ctx.beginPath();
+            ctx.arc(0, 0, hole.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function isInHole(ball, hole) {
+            const distance = Math.sqrt((ball.x - hole.x) ** 2 + (ball.y - hole.y) ** 2);
+            return distance < ball.radius + hole.radius; 
+        }
+
+        function vibrateDevice() {
+            if (navigator.vibrate) {
+                navigator.vibrate(500);
+            } else {
+                console.warn("Vibration not supported.")
+            }
+        }
+
+        const goal = {
+            x: canvas.width - 30,
+            y: 0,
+            width: 30,
+            height: canvas.height,
+
+            draw: function() {
+                ctx.fillStyle = 'red';
+                ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
+            }
+        };
+
+        function checkGoalCollision(ball, goal) {
+            return (
+                ball.x + ball.radius > goal.x &&
+                ball.y - ball.radius < goal.y + goal.height &&
+                ball.y + ball.radius > goal.y
+            );
+        }
+
+        function handleDeviceOrientation(e) {
+            if (gameStarted) {
+                const easingFactor = 0.1;
+                targetBeta += (e.beta - targetBeta) * easingFactor;
+                targetGamma += (e.gamma - targetGamma) * easingFactor;
+
+                const threshold = 5;
+                ball.move(targetBeta / threshold, -targetGamma / threshold);
+            }
+        }
+
+        class InputHandler {
+            constructor() {
+                this.touchStartX = 0;
+                this.touchStartY = 0;
+                this.touchThreshold = 30;
+                this.swipeThreshold = 10;
+
+                window.addEventListener('touchstart', e => {
+                    this.touchStartX = e.changedTouches[0].pageX;
+                    this.touchStartY = e.changedTouches[0].pageY;
+                });
+
+                window.addEventListener('touchend', () => {
+                    if (!gameStarted) {
+                        startGame();
+                    }
+                });
+
+                window.addEventListener('deviceorientation', handleDeviceOrientation);
+
+            }
+        }
+
+        const inputHandler = new InputHandler;
+
+
+        function updateGame() {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ball.update();
+            ball.draw();
+
+            for (const hole of holes) {
+                drawHole(hole);
+                if (isInHole(ball, hole)) {
+                    restartGame();
+                    vibrateDevice();
+                }
+            }
+
+            goal.draw();
+            if (checkGoalCollision(ball, goal)) {
+                document.getElementById('victory').play();
+                endGame();
+            }
+
+            if (!gameStarted) {
+                startButton.style.display = 'block';
+            } else {
+                startButton.style.display = 'none';
+            }
+        }
+        
+        function startGame() {
+            if (!gameStarted) {
+                gameStarted = true;
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function restartGame() {
+            gameStarted = false;
+            ball.x = 50;
+            ball.y = canvas.height / 2;
+            ball.directionX = 0;
+            ball.directionY = 0;
+        }
+
+        function endGame() {
+            gameOver = true;
+            window.cancelAnimationFrame(updateGame);
+            ctx.font = '30px Times New Roman';
+            ctx.fillStyle = 'white';
+            ctx.fillText('Leik lokið!', canvas.width / 2 - 80, canvas.height / 2);
+        }
+
+        function gameLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const deltaTime = timestamp - lastTime
+
+            updateGame(deltaTime);
+            lastTime = timestamp;
+
+            if (!gameOver) {
+                window.requestAnimationFrame(gameLoop);
+            }
+        }
+
+        if ('orientation' in screen && 'lock' in screen.orientation) {
+            screen.orientation.lock('landscape').catch(err => {
+                console.error(`Error locking screen orientation: ${err.message}`);
+            });
+        } else {
+            console.warn("Screen orientation lock not supported on this device.");
+        }
+        
+        gameLoop();
+    </script>
+</body>
+</html>

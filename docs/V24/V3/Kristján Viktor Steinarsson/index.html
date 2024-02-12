@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verkefni 3 - KVS</title>
+</head>
+<body>
+    
+    <div class="fullscreen" id="fullScreen" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; font-weight: bold; display: none; background-color: rgb(0, 0, 0); padding: 2%; border-radius: 20px; border: black 4px solid; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; text-align: center;">
+        <button>Tap<br>to<br>Enter</button>
+    </div>
+
+    <div id="rotateMessage" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; font-weight: bold; display: none; background-color: white; padding: 2%; border-radius: 20px;">
+        Rotate your device
+    </div>
+
+    <div id="startScreen" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; font-weight: bold; display: block; background-color: white; padding: 2%; border-radius: 20px; border: black 4px solid; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; text-align: center;">
+        Swipe to Start
+    </div>
+
+    <div id="canvasContainer" >
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Canvas sýnidæmi</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>  
+</head>
+<body>
+    <style>
+        * { margin:0; padding:0; } /* to remove the top and left whitespace */
+
+        html, body,div { width:100%; height:100%; background-color: white;} /* just to be sure these are full screen*/
+
+        canvas {
+              /* to show the canvas bounds */
+            display:block;     /* to remove the scrollbars */
+        }
+    </style>
+
+    <canvas id="canvas" ></canvas>
+    
+<script>
+"use strict";
+
+function toggleFullscreen(evt) {
+    
+    if (!document.fullscreenElement) {
+        canvas.requestFullscreen().catch((err) => {
+            alert(
+                `Íttu á skjáin fljótt án þess að hreifa hann`,
+            );
+        });
+        myScreenOrientation.lock("landscape-primary");
+        raf = window.requestAnimationFrame(draw);
+    };
+}
+
+
+
+let gameon=false;
+
+var canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
+
+function playAudio() { 
+    log("audio played");
+    var audio = new Audio("victory.mp3");
+    audio.play();
+};
+var myScreenOrientation = window.screen.orientation;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.onresize = function(event) {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+};
+let raf;
+let balls=[];
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.rect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";;
+ctx.fill();
+
+
+class playermaker {
+
+    constructor (x,y,vx,vy,r,c,l) {
+        
+        this.x=x;
+        this.y=y;
+        this.vx=vx;
+        this.vy=vy;
+        this.radius=r;
+        this.color=c;
+        this.isColliding=false;
+        this.what="player";
+        this.life=l;
+    };
+    draw() {
+        const angle=Math.PI / 180;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0,Math.PI*2, false);
+        ctx.lineTo(this.x,this.y)
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        };
+    
+    ballup() {
+        this.vy= -1;
+        this.vx= 0;
+    };
+    balldown() {
+        this.vy=  1;
+        this.vx=0;
+    };
+    ballright() {
+        this.vx=1;
+        this.vy=0;
+    };
+    ballleft() {
+        this.vx=-1;
+        this.vy=0;
+    };
+
+    
+};
+
+const player = new playermaker(100,100,0,0,20,"yellow",3);
+balls.push(player);
+
+class ghostmaker {
+    
+    constructor (x,y,vx,vy,r,c) {
+        this.x=x;
+        this.y=y;
+        this.vx=vx;
+        this.vy=vy;
+        this.radius=r;
+        this.color=c;
+        this.isColliding=false;
+        this.what="ghost";
+
+        this.delay=100;
+        
+    };
+
+    draw() {
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        };
+
+}
+let r1;
+let r2;
+let obj1=[];
+let obj2=[];
+for (var i=0;i<=3;i++){
+    function randint(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
+    r1=randint(10,canvas.width-10);
+    r2=randint(10,canvas.height-10);
+    const ghost = new ghostmaker(r1,r2,0,0,15,"black");
+    balls.push(ghost);
+};
+
+let startplace={
+    x:100,
+    y:100,
+    vx:0,
+    vy:0,
+    radius:40,
+    color:"lightgreen",
+    isColliding:false,
+    what:"start",
+    draw() {
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+balls.unshift(startplace);
+
+let endplace={
+    x:canvas.width-100,
+    y:canvas.height-100,
+    vx:0,
+    vy:0,
+    radius:40,
+    color:"red",
+    isColliding:false,
+    what:"end",
+    draw() {
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+balls.unshift(endplace);
+
+
+
+var arrayLength = balls.length;
+
+for (var i = 0; i < arrayLength; i++) {
+
+
+}
+
+function log(t){
+    console.log(t);
+};
+
+function reset(){
+    player.x=100;
+    player.y=100;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.rect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="white";
+    ctx.fill();
+    player.life=3;;
+    gameon=true;
+};
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.rect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="white";
+    ctx.fill();
+    
+    if(player.life===0){
+        ctx.font= "25px Arial";
+        ctx.fillStyle="black";
+        ctx.fillText("Leik lokið swipe til að birja aftur",canvas.width/2-20,canvas.height/2);
+        gameon=false;
+
+    };
+    if(gameon==true){
+
+        
+        for (var i = 0; i < arrayLength; i++) {
+            
+            balls[i].draw();
+            balls[i].x += balls[i].vx;
+            balls[i].y += balls[i].vy;
+            
+            
+            if (balls[i].y+ + balls[i].vy > canvas.height || balls[i].y + balls[i].vy < 0) {
+                balls[i].vy = 0;
+            };
+            if (balls[i].x + balls[i].vx > canvas.width || balls[i].x + balls[i].vx < 0) {
+                balls[i].vx = 0;
+            };
+
+            if (balls[i].x+balls[i].radius>canvas.width || balls[i].x-balls[i].radius<0){
+                balls[i].vx= 0;
+            };
+            if (balls[i].y+balls[i].radius>canvas.height || balls[i].y-balls[i].radius<0){
+                balls[i].vy= 0;
+            };
+            
+            if (balls[i].vx>1){
+                balls[i].vx=1;
+            };
+            if (balls[i].vy>1){
+                balls[i].vy=1;
+            };
+            if (balls[i].vx<-1){
+                balls[i].vx=-1;
+            };
+            if (balls[i].vy<-1){
+                balls[i].vy=-1;
+            };
+
+            
+            ctx.font= "25px Arial";
+            if(player.life===0){
+                ctx.fillText("Leik lokið swipe til að birja aftur",canvas.width/2-20,canvas.height/2);
+                gameon=false;
+
+            };
+            
+            
+
+            
+            if (balls[i].what==="ghost"){
+
+                if(balls[i].delay>0){
+                    balls[i].delay =-1;
+                };
+            };
+            
+            
+        };
+
+
+        function circleIntersect (x1, y1, r1, x2, y2, r2) {
+            let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+            return squareDistance <= ((r1 + r2) * (r1 + r2));
+        };
+
+
+        for (let i = 0; i < arrayLength; i++)
+        {
+            obj1 = balls[i];
+            for (let j = i + 1; j < arrayLength; j++)
+            {
+                obj2 = balls[j];
+
+                if (circleIntersect(obj1.x, obj1.y, obj1.radius, obj2.x, obj2.y, obj2.radius)){
+                    obj1.isColliding = true;
+                    obj2.isColliding = true;
+                    
+                
+                    if (obj1.what ==="ghost" && obj2.what==="ghost"){}
+                    else if (obj1.what ==="end" && obj2.what==="player"){
+                        playAudio();
+                        player.life=player.life-3;
+                        
+                        ctx.font= "25px Arial";
+                        ctx.fillStyle="black";
+                        ctx.fillText("Leik lokið swipe til að birja aftur",canvas.width/2-20,canvas.height/2);
+                        gameon=false;
+                        
+                    }
+
+                    else if (obj1.what ==="ghost" && obj2.what==="end"){}
+                    else if (obj1.what ==="end" && obj2.what==="ghost"){}
+
+                    else if (obj2.what ==="player" && obj1.what==="end"){
+                        playAudio();
+                        ctx.font= "25px Arial";
+                        ctx.fillStyle="black";
+                        ctx.fillText("Leik lokið swipe til að birja aftur",canvas.width/2-20,canvas.height/2);
+                        gameon=false;
+                    
+                    }
+
+                    else if (obj1.what ==="dot" && obj2.what==="ghost"|| obj1.what ==="ghost" && obj2.what==="dot"){}
+                    else if (obj1.what ==="start" && obj2.what==="ghost"){
+                        obj2.x+=100;
+                    }
+                    else if (obj1.what ==="start" && obj2.what==="ghost"){
+                        obj2.x-=100;
+                    }
+                    
+                    else if (obj1.what ==="start" && obj2.what==="player"){}
+                    else if (obj1.what ==="player" && obj2.what==="start"){}
+
+                    
+                    else if(obj1.what ==="ghost" && obj1.delay===0||obj1.delay<0){
+
+                        player.x=100;
+                        player.y=100;
+                        obj1.delay=100;
+                        navigator.vibrate([500]);
+                    }
+                    else if(obj2.what ==="ghost" && obj2.delay===0||obj2.delay<0){
+
+                        player.x=100;
+                        player.y=100;
+                        obj2.delay=100;;
+                        navigator.vibrate([500]);
+                    };
+                    
+                }
+                else{
+                    obj1.isColliding = false;
+                    obj2.isColliding = false;
+                };
+            };
+        };
+        
+        raf = window.requestAnimationFrame(draw);
+    };
+};
+
+document.addEventListener("keydown", (event) => {
+    console.log("key pressed");
+    if (event.key === "ArrowUp"){
+        if (gameon===false) {
+            gameon=true;
+            reset();
+            window.requestAnimationFrame(draw);
+        };
+        toggleFullscreen();
+        player.ballup();
+        
+    }
+    if (event.key === "ArrowDown"){
+        if (gameon===false) {
+            gameon=true;
+            reset();
+            window.requestAnimationFrame(draw);
+        };
+        toggleFullscreen();
+        player.balldown();
+        
+    };
+    if (event.key === "ArrowLeft"){
+        if (gameon===false) {
+            gameon=true;
+            reset();
+            window.requestAnimationFrame(draw);
+        }
+        toggleFullscreen();
+        player.ballleft();
+        
+    }
+    if (event.key === "ArrowRight"){
+        if (gameon===false) {
+            gameon=true;
+            reset();
+            window.requestAnimationFrame(draw);
+        };
+        toggleFullscreen();
+        player.ballright();
+        
+    }
+
+    
+});
+
+
+
+
+
+
+
+window.mobileCheck = function() {
+    let check = false;
+    (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+    return check;
+};
+
+
+
+
+if(window.mobileCheck()){
+    
+    window.addEventListener('deviceorientation', event => {
+        // rotation along the z axis
+        player.vx +=  event.beta/2 // rotation along the x axis
+        player.vy += -event.gamma/2 // rotation along the y axis
+        if (player.x+player.radius>canvas.width || player.x-player.radius<0){
+            player.vx= 0;
+            };
+        if (player.y+player.radius>canvas.height || player.y-player.radius<0){
+            player.vy= 0;
+        };
+        if (player.x+player.radius>canvas.width){
+            player.vx= 0;
+            player.x= player.x-1;
+        };
+        if (player.x-player.radius<0){
+            player.vx= 0;
+            player.x= player.x+1;
+        };
+        if (player.y+player.radius>canvas.height){
+            player.vy= 0;
+            player.y=player.y-2;
+        };
+        if (player.y-player.radius<0){
+            player.vy= 0;
+            player.y=player.y+1;
+        };
+    
+
+    }, true);
+
+}
+
+
+
+var xDown = null;                                                        
+var yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}                                                     
+                                                                         
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];                                      
+    xDown = firstTouch.clientX;                                      
+    yDown = firstTouch.clientY;                                      
+};                                                
+                                                                         
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+
+    var xUp = evt.touches[0].clientX;                                    
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+                                                                         
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+        if ( xDiff > 0 ) {
+            /* right swipe */ 
+            log("left")
+            if (gameon===false) {
+                gameon=true
+
+                
+                reset()
+                window.requestAnimationFrame(draw)
+            }
+            raf = window.requestAnimationFrame(draw);
+
+
+        } 
+        else {
+            /* left swipe */
+            log("right")
+            if (gameon===false) {
+                gameon=true
+
+                reset()
+                window.requestAnimationFrame(draw)
+            }
+            raf = window.requestAnimationFrame(draw);
+
+
+        }                       
+    } else {
+        if ( yDiff > 0 ) {
+            /* down swipe */ 
+            log("up")
+            if (gameon===false) {
+                gameon=true
+                reset()
+                window.requestAnimationFrame(draw)
+            }
+            raf = window.requestAnimationFrame(draw);
+           
+        } 
+        else { 
+            /* up swipe */
+            log("down")
+            if (gameon===false) {
+                gameon=true
+
+
+                reset()
+                window.requestAnimationFrame(draw)
+            }
+            raf = window.requestAnimationFrame(draw);
+            
+        }                                                                 
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;                                             
+};
+
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchend', toggleFullscreen, false);      
+document.addEventListener('click', toggleFullscreen, false);   
+document.addEventListener('touchmove', handleTouchMove, false);
+
+for (var i = 0; i < arrayLength; i++) {
+    balls[i].draw();
+}
+
+
+if(gameon===true){
+    window.requestAnimationFrame(draw)
+}
+
+</script>
+</body>
+</html>

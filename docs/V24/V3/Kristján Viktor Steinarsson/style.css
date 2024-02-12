@@ -1,0 +1,16 @@
+html{
+    background-color: black;
+}
+
+button{
+    padding: 10%;
+    width: 80%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+
+.fullscreen{
+    width: 20%;
+}

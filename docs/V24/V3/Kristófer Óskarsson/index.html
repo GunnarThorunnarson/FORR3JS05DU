@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #marble {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.1s;
+        }
+
+        .hole {
+            width: 40px;
+            height: 40px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        #goal {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(0, -50%);
+        }
+
+        #victoryPopup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 2px solid green;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #playButton {
+            position: absolute;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1;
+        }
+        #gameContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 5px solid yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="marble"></div>
+        <div id="goal"></div>
+        <div id="victoryPopup">Congratulations! You Won!</div>
+        <div id="playButton" onclick="enableFullScreen()">Play</div>
+    </div>
+
+    <script>
+        const marble = document.getElementById('marble');
+        const holeContainer = document.getElementById('gameContainer');
+        const goal = document.getElementById('goal');
+        const victoryPopup = document.getElementById('victoryPopup');
+        const playButton = document.getElementById('playButton');
+
+        playButton.addEventListener('click', enableFullScreen);
+
+        holeContainer.addEventListener('click', startGame);
+
+        //create a random hole
+        function createHole() {
+            const hole = document.createElement('div');
+            hole.className = 'hole';
+            hole.style.top = Math.random() * window.innerHeight + 'px';
+            hole.style.left = Math.random() * window.innerWidth + 'px';
+            holeContainer.appendChild(hole);
+        }
+
+        // Create 30 random holes
+        for (let i = 0; i < 30; i++) {
+            createHole();
+        }
+
+        function startGame() {
+            marble.style.left = '0px';
+            marble.style.top = window.innerHeight / 2 - marble.offsetHeight / 2 + 'px';
+
+            marble.style.display = 'block';
+            playButton.style.display = 'none';
+
+            victoryPopup.style.display = 'none';
+
+            // either mouse or gyro controls
+            // window.addEventListener('devicemotion', handleOrientation);
+            window.addEventListener('mousemove', moveWithMouse);
+
+            // Check for collisions
+            setInterval(checkCollision, 100);
+        }
+
+        // Commented out gyro controls because they would not work on my phone
+       function handleOrientation(event) {
+         // Use gyroscopet
+          event.beta; // x-axis
+            event.gamma; // y-axis
+
+            marble.style.left = `${marble.offsetLeft + event.beta}px`;
+            marble.style.top = `${marble.offsetTop - event.gamma}px`;
+
+            checkCollision();
+        }
+        // alternative mouse control since gyro did not work
+       /* function moveWithMouse(event) {
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            // Smoothl movement
+            const speed = 0.1; // Adjust the speed of interpolation
+            const deltaX = mouseX - (marble.offsetLeft + marble.offsetWidth / 2);
+            const deltaY = mouseY - (marble.offsetTop + marble.offsetHeight / 2);
+
+            marble.style.left = `${marble.offsetLeft + speed * deltaX}px`;
+            marble.style.top = `${marble.offsetTop + speed * deltaY}px`;
+
+            checkCollision();
+        }
+*/
+        function checkCollision() {
+            const holes = document.querySelectorAll('.hole');
+
+            holes.forEach(hole => {
+                const holeX = hole.offsetLeft + hole.offsetWidth / 2;
+                const holeY = hole.offsetTop + hole.offsetHeight / 2;
+
+                const marbleX = marble.offsetLeft + marble.offsetWidth / 2;
+                const marbleY = marble.offsetTop + marble.offsetHeight / 2;
+
+                const distance = Math.sqrt(Math.pow(holeX - marbleX, 2) + Math.pow(holeY - marbleY, 2));
+
+                if (distance < (hole.offsetWidth / 2) + (marble.offsetWidth / 2)) {
+                    resetMarble();
+                }
+            });
+
+            // Check if the marble reaches the goal
+            const goalX = goal.offsetLeft + goal.offsetWidth / 2;
+            const goalY = goal.offsetTop + goal.offsetHeight / 2;
+
+            const marbleX = marble.offsetLeft + marble.offsetWidth / 2;
+            const marbleY = marble.offsetTop + marble.offsetHeight / 2;
+
+            const goalDistance = Math.sqrt(Math.pow(goalX - marbleX, 2) + Math.pow(goalY - marbleY, 2));
+
+            if (goalDistance < (goal.offsetWidth / 2) + (marble.offsetWidth / 2)) {
+                showVictoryPopup();
+            }
+        }
+
+        function resetMarble() {
+            const screenWidth = window.innerWidth;
+
+            marble.style.left = '0px';
+            marble.style.top = window.innerHeight / 2 - marble.offsetHeight / 2 + 'px';
+            
+        }
+
+        function showVictoryPopup() {
+            victoryPopup.style.display = 'block';
+        }
+
+        function enableFullScreen() {
+            const docEl = document.documentElement;
+
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen();
+            } else if (docEl.mozRequestFullScreen) {
+                docEl.mozRequestFullScreen();
+            } else if (docEl.webkitRequestFullscreen) {
+                docEl.webkitRequestFullscreen();
+            } else if (docEl.msRequestFullscreen) {
+                docEl.msRequestFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
