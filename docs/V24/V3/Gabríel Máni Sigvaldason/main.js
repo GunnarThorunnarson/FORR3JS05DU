@@ -1,6 +1,6 @@
-import { player, checkForCollision,gameOver } from "./player.js";
-import { ClearCanvas,platform, displayText, DisplayRules} from "./connect.js";
-import { CreateTraps, DisplayTraps } from "./holes.js";
+import { player, checkForCollision,gameOver } from "player.js";
+import { ClearCanvas,platform, displayText, DisplayRules} from "connect.js";
+import { CreateTraps, DisplayTraps } from "holes.js";
 
 //Stores pos of the holes
 const holesarr = CreateTraps();
