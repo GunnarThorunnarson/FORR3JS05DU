@@ -1,7 +1,7 @@
-#### Verkefni Vor 2024
+#### Verkefni Haust 2024
 
-- Verkefni 1 15% Gagnvirkar málfræðiæfingar
-- Verkefni 2 15% Tölvuleikur
-- Verkefni 3 15% Símaleikur
-- Verkefni 4 15% Vefapp 
-- Verkefni 5 25% Vefapp 
+- Verkefni 1 15% Málfræði
+- Verkefni 2 20% Tölvuleikur
+- Verkefni 3 20% Vefapp I
+- Verkefni 4 30% Vefapp II
+
