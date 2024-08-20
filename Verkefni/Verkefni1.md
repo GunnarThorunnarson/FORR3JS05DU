@@ -12,7 +12,6 @@ Gerðu eftirfarandi **121** gagnvirkar æfingar:
 
 <!-- Hér eru [skýringarmyndbönd](https://scrimba.com/course/ges6). --> 
 
-> _gagnlegt [myndband](https://www.youtube.com/watch?v=W6NZfCO5SIk) fyrir fyrstu skrefin í JavaScript._
 
 ---
 
