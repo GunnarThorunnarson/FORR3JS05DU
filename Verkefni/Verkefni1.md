@@ -10,6 +10,7 @@ Gerðu eftirfarandi **121** gagnvirkar æfingar:
 1. [Basic JavaScript](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/) allar 113 æfingarnar. 
 1. [ES6](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/es6/) fyrstu 8 æfingarnar (sleppa frá og með _`Use Destructuring Assignment to Extract Values from Objects`)_.
 
+> [youtube](https://www.youtube.com/watch?v=PkZNo7MFNFg)
 <!-- Hér eru [skýringarmyndbönd](https://scrimba.com/course/ges6). --> 
 
 
