@@ -7,16 +7,14 @@
 
 ### Verkefnalýsing
 
-Búðu til eftirfarandi 2d útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í tölvu. Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu. 
-
-Leikurinn þarf að uppfylla eftirfarandi verkþætti:
+Búðu til eftirfarandi 2d útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í tölvu. Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 
 1. Umhverfi: **(20%)**  
    - [ ] Canvas nýtur allan vafragluggan, sjá [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166) og fyllir allan skjáinn í símanum. Sjá [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786).
-   - [ ] Bættu við lífteljara í Canvas með bakgrunnslit (ekki hvítur). 
+   - [ ] Bættu við líf- og skorteljara í Canvas með bakgrunnslit (ekki hvítur). 
 1. Power Pellets (powerup item) **(10%)**
-   - [ ] Búðu til 4 Power Pellets objecta með að nota [constructor fall](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#using_a_constructor_function), notaðu fylki til að geyma objectana.
-   - [ ] Power Pellets eru hringlaga og staðsett í hornunum á skjánum.
+   - [ ] Búðu til amk. 4 Power Pellets objecta með að nota [constructor fall](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#using_a_constructor_function), notaðu fylki til að geyma objectana.
+   - [ ] Power Pellets eru hringlaga og staðsett í hornunum eða random á skjánum.
 1. Pac-Man (player) **(20%)**
    - [ ] Búðu til object fyrir Pac-Man. 
    - [ ] PacMan er með hrinlaga form, gulur á lit með auga og munn, [sýnidæmi](https://www.youtube.com/watch?v=ysG37V_j1Xs). Pac-Man er með 3 líf.
@@ -30,7 +28,7 @@ Leikurinn þarf að uppfylla eftirfarandi verkþætti:
    - [ ] Ghost á ekki að komast út fyrir jaðarinn á Canvas heldur að breyta um átt. Ghost fer í gegnum annan Ghost (ekki e. collision).
    - [ ] Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange). 
 1. Árekstur (collision) **(30%)**  
-   - [ ] Þegar PacMan nær Power Pellet þá fær PacMan auka líf, lífteljari hækkar og Power pellet hverfur af skjá.
+   - [ ] Þegar PacMan nær Power Pellet þá hækkar skorteljari um 1 og það gerist eitthvað annað skemmtilegt (frjáls útfærsla).
    - [ ] Þegar PacMan rekst á Ghost þá á PacMan að missa líf, lífteljari lækkar og PacMan byrja aftur á upphafsreit. 
    - [ ] "Game Over!" texti birtist í Canvas þegar Pac-Man hefur klárað öll lífin sín. 
    - [ ] Bættu við [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) í leikinn þegar það verður árekstur (frjáls útfærsla), [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384).
@@ -49,6 +47,9 @@ Einkunn fyrir hvern verkþátt sem er útfærður:
 
 Skilaðu á Innu möppu með skrám.
 
+<!-- 
+Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu. 
+-->
 
 
 
