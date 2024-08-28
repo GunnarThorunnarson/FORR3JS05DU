@@ -1,4 +1,4 @@
-## Verkefni 2
+## Verkefni 2 _drög_
 
 - 25% af heildareinkunn
 - Einstaklingsverkefni. 
