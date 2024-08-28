@@ -14,7 +14,7 @@ Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 1. Umhverfi: **(20%)**  
    - [ ] Canvas nýtur allan vafragluggan, sjá [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166) og fyllir allan skjáinn í símanum. Sjá [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786).
    - [ ] Bættu við lífteljara í Canvas með bakgrunnslit (ekki hvítur). 
-1. Power Pellets (pickup item) **(10%)**
+1. Power Pellets (powerup item) **(10%)**
    - [ ] Búðu til 4 Power Pellets objecta með að nota [constructor fall](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#using_a_constructor_function), notaðu fylki til að geyma objectana.
    - [ ] Power Pellets eru hringlaga og staðsett í hornunum á skjánum.
 1. Pac-Man (player) **(20%)**
