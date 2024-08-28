@@ -7,7 +7,7 @@
 
 ### Verkefnalýsing
 
-Búðu til 2d útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í tölvu. Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu. 
+Búðu til eftirfarandi 2d útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í tölvu. Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu. 
 
 Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 
