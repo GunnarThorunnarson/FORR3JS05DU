@@ -13,8 +13,8 @@ Búðu til eftirfarandi 2d útgáfu af [Pac-Man](https://en.wikipedia.org/wiki/
    - [ ] Canvas nýtur allan vafragluggan, sjá [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166) og fyllir allan skjáinn í símanum. Sjá [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786).
    - [ ] Bættu við líf- og skorteljara í Canvas með bakgrunnslit (ekki hvítur). 
 1. Power Pellets (powerup item) **(10%)**
-   - [ ] Búðu til 4 Power Pellets objecta.
-   - [ ] Power Pellets eru hringlaga með einhvern lit og staðsett í hornunum á skjánum.
+   - [ ] Búðu til 4 Power Pellets objecta, þeir eru hringlaga með einhvern lit.
+   - [ ] Power Pellets eru staðsett í hornunum á skjánum.
 1. Pac-Man dot (pickup item) **(10%)** 
    - [ ] Búðu til 10 Pac-Man dots objecta með að nota [constructor fall](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#using_a_constructor_function), notaðu fylki til að geyma objectana.  
    - [ ] Pac-Man dots eru lítil hringlaga, með einhvern lit og gefa 1 stig.
