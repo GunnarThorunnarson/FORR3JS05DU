@@ -45,7 +45,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (Single-
 Skoðaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range). Búðu til síu (e. filter) sem með notkun [noUiSlider](https://refreshless.com/nouislider/) (JS safn) sem síar út viðburði eftir verði. 
 
 1. [ ] Slider sýnir hraða með þrepum (steps) við notkun á slider sjá td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
-1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta verð útfrá gögnum sem eru sýnileg (passa að slider handföng séu rétt stillt í upphafi).
+1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta hraða útfrá gögnum sem eru sýnileg (passa að slider handföng séu rétt stillt í upphafi).
 1. [ ] Búðu til síu (e. filter) sem tengir rússibana (objecta) við slider gildi, sjá [Síun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun) 
 1. [ ] Notandi á að geta stýrt slider (tvö handföng) sem síar út rússibana eftir hraða.
 
