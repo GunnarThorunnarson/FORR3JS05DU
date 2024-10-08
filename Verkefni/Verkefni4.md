@@ -25,7 +25,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (Single-
     - staðsetning; staðarheiti, land, lengdar- og breiddargráður. Notaðu Google Maps til að finna hnitin.
 1. [ ] Gögnin (JSON) eru sótt með [fetch](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Fetch).
 1. [ ] Gögn eru yfirfærð í fylki með objects þar sem hvert object geymir upplýsingar um ákveðinn viðburð.
-1. [ ] Raðaðu gögnunum í fylki eftir hraða með JavaScript.
+1. [ ] Raðaðu gögnunum í fylki eftir hæð með JavaScript.
    
 > [!NOTE]
 > Fetch sækir ekki JSON skrá nema þú notar `local server` eins og [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (extension í VSCode)
