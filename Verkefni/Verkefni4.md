@@ -79,8 +79,8 @@ Notaðu [flatpickr](https://flatpickr.js.org/) (JS safn) fyrir dagatal.
 
 * Skilaðu á Innu HTML, CSS , JavaScript og JSON skrá.
 * Einkunn fyrir hvern lið: 
-    - 4/4 lausn er vel útfærð.
-    - 3/4 lausn er smávægilega ábótavant (vantar smá upp á).
-    - 2/4 lausn er ábótavant, helmingur er vel útfærður.
-    - 1/4 lausn er stórlega ábótavant, en einhver virkni og kóði.
-    - 0/4 lausn vantar eða óunnin.
+    - 10 lausn er vel útfærð.
+    - 7.5 lausn er smávægilega ábótavant (vantar smá upp á).
+    - 5 lausn er ábótavant, helmingur er vel útfærður.
+    - 2.5 lausn er stórlega ábótavant, en einhver virkni og kóði.
+    - 0 lausn vantar eða óunnin.
