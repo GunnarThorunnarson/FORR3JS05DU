@@ -19,5 +19,5 @@ Gerðu svo eftirfarandi **121** gagnvirkar æfingar:
 ### Námsmat og skil
 
 - Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar.
-- Skilaðu [skjámynd](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/v1_freecodecamp.PNG) af árangri á Innu. 
+- Skilaðu [skjámynd](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/v1_freecodecamp.PNG) af árangri á Innu. Kennari mun einnig skoðar yfirlit yfir árangur í kennslustund. 
 - Sein skil eru ekki í boði.
