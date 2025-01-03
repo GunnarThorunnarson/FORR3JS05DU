@@ -19,5 +19,5 @@ Gerðu svo eftirfarandi **121** gagnvirkar æfingar:
 ### Námsmat og skil
 
 - Gefin er einkunn í hlutfalli fyrir þær æfingar sem eru kláraðar.
-- Skilaðu [skjámynd](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/v1_freecodecamp.PNG) af árangri, [vefslóð](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/). 
+- Skilaðu [skjámynd](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Myndir/v1_freecodecamp.PNG) af árangri á Innu. 
 - Sein skil eru ekki í boði.
