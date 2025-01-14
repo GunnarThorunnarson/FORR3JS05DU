@@ -18,10 +18,10 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] PacMan dots eru dreifð random á skjá.
    - [ ] Notaðu fylki til að geyma objectana.
 1. PacMan (player) **(20%)**
-   - [ ] Búðu til **object** fyrir PacMan (**ekki class**). PacMan er með hrinlaga form, gulur með auga og munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). PacMan er með 3 líf.
+   - [ ] Búðu til **object** fyrir PacMan (ekki class). PacMan er með hrinlaga form, gulur með auga og munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). PacMan er með 3 líf.
    - [ ] PacMan hreyfast í fjórar áttir (N, S, V, A) með lyklaborði.
 1. Ghosts (npc) **(20%)**  
-   - [ ] Búðu til klasa (class) fyrir Ghosts. Ghosts eru er með hrinlaga form og eru mismunandi á lit (red, pink, cyan, orange). Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange). 
+   - [ ] Búðu til **klasa** (class) fyrir Ghosts. Ghosts eru er með hrinlaga form og eru mismunandi á lit (red, pink, cyan, orange). Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange). 
    - [ ] Ghost eru staðsettir á mismunandi stöðum á skjá og elta PacMan.
 1. Árekstur (collision) **(30%)**
    - [ ] PacMan á ekki að komast út fyrir jaðar á Canvas.
