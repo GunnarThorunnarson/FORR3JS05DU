@@ -3,8 +3,6 @@
 - 20% af heildareinkunn
 - Einstaklingsverkefni. 
 
-https://www.codeguage.com/courses/js/events-keyboard-events
-
 ---
 
 ### Verkefnalýsing
