@@ -16,7 +16,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] Búðu til 10 PacMan dots objecta.  
    - [ ] PacMan dots eru lítil hringlaga, með einhvern lit og gefa 1 stig.
    - [ ] PacMan dots eru dreifð random á skjá.
-   - [ ] Notaðu fylki til að geyma objectana.
+   - [ ] Notaðu array til að geyma objectana.
 1. PacMan (player) **(20%)**
    - [ ] Búðu til **object** fyrir PacMan (ekki class). PacMan er með hrinlaga form, gulur með auga og munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). PacMan er með 3 líf.
    - [ ] PacMan hreyfast í fjórar áttir (N, S, V, A) með lyklaborði.
