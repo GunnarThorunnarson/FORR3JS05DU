@@ -37,8 +37,9 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    
 <summary>Hints</summary>
 
-- Til að losna við scrollbarinn: `body { margin: 0; overflow: hidden; }`
-  
+- Til að losna við scrollbarinn (css): `body { margin: 0; overflow: hidden; }`
+- Til að láta border vaxa innávið (css): `canvas { box-sizing: border-box; }`
+
 <br>
 
 </details>
