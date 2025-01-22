@@ -10,7 +10,7 @@
 Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í tölvu. Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 
 1. Umhverfi: **(10%)**
-   - [ ] Canvas fyllir vefsíðu [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166).
+   - [ ] Canvas fyllir vefsíðu [myndband](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166).
    - [ ] Bættu við líf- og skorteljara í Canvas (teikna) og hafðu svartan bakgrunnslit. 
 1. PacMan dot (pickup item) **(10%)** 
    - [ ] Búðu til 10 PacMan dots objecta.  
