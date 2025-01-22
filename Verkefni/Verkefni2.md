@@ -39,7 +39,16 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
 
 - Til að losna við scrollbarinn (css): `body { margin: 0; overflow: hidden; }`
 - Til að láta border vaxa innávið (css): `canvas { box-sizing: border-box; }`
-
+- til að resize virki dýnamískt þá þarf að **hlusta** á resize atburð (setja neðst í JavaScript skrá)
+  ```JavaScript
+   window.addEventListener('resize', function(){
+       width = canvas.width = window.innerWidth;
+       height = canvas.height = window.innerHeight;
+       init();  // stillingar 
+    })
+    init();
+  ```
+  
 <br>
 
 </details>
