@@ -40,8 +40,8 @@ function update() {
   // window.requestAnimationFrame(update);  // endurkvæmt (recursive) 
 }
 
-// Hlustum á lyklaborð
-// event.code virkar fyrir öll keyboad layout, gott fyrir WASD leikjastjórnun.
+// Hlustum á lyklaborð, keydown.
+// event.code, value is the same for small letters(a) and capital
 document.addEventListener('keydown', (event) => {
     // til vinstri 
     if (event.code === "KeyA") {
@@ -52,7 +52,7 @@ document.addEventListener('keydown', (event) => {
     update();
 });
     
-// event.key er heppilegra fyrir arrow keys.    
+// event.key er með mesta vafrastuðningin en útfæra þarf bæði hástafi og lástafi.   
 window.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "ArrowDown":
