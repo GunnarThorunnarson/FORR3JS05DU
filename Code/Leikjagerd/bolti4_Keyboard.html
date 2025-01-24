@@ -13,6 +13,7 @@
 <canvas id="canvas" width="400" height="400"></canvas> 
 
 <script>
+
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -20,8 +21,8 @@ let ctx = canvas.getContext('2d');
 let ball = {
   x: 100,
   y: 100,
-  vx: 10,      // velocity x
-  vy: 10,      // velocity y
+  vx: 10,      
+  vy: 10,      
   radius: 25,
   color: 'blue',
   draw: function() {
@@ -33,33 +34,38 @@ let ball = {
   }
 };
 
-// Game loop 
-function update() {
+
+function gameLoop() {
   ctx.clearRect(0,0, canvas.width, canvas.height);
   ball.draw();
-  // window.requestAnimationFrame(update);  // endurkvæmt (recursive) 
+  window.requestAnimationFrame(gameLoop);  // endurkvæmt (recursive) 
 }
 
-// Hlustum á lyklaborð, keydown.
-// event.code, value is the same for small letters(a) and capital
+// Lyklaborð:
+// https://developer.mozilla.org/en-US/docs/Games/Techniques/Control_mechanisms/Desktop_with_mouse_and_keyboard#pure_javascript_approach
+// Hægt er að hlusta stöðugt á keydown og keyup á lyklaborði og bregðast við með kóða.
+// við notum event.key eða event.code til að vita hver takkinn er á lyklaborði
+    
 document.addEventListener('keydown', (event) => {
     // til vinstri 
+    // event.code, value is the same for small letters(a) and capital
     if (event.code === "KeyA") {
-        ball.x -= ball.vx;
+        ball.x -= ball.vx;  // update
     } else if (event.code === "KeyD") { 
-        ball.x += ball.vx;
+        ball.x += ball.vx; // update
     }
-    update();
+    gameLoop();
 });
     
-// event.key er með mesta vafrastuðningin en útfæra þarf bæði hástafi og lástafi.   
+ 
 window.addEventListener("keydown", (event) => {
+    // event.key er með mesta vafrastuðningin en útfæra þarf bæði hástafi og lástafi.  
     switch (event.key) {
       case "ArrowDown":
-        ball.y += ball.vy;
+        ball.y += ball.vy;  // update
         break;
       case "ArrowUp":
-        ball.y -= ball.vy;
+        ball.y -= ball.vy;  // update
         break;
       case "ArrowLeft":
         // Do something for "left arrow" key press.
@@ -71,12 +77,13 @@ window.addEventListener("keydown", (event) => {
         return; // Quit when this doesn't handle the key event.
     }
     console.log(event.key);  // við getum prófað mism. takka á lyklaborði til að sjá key
-    update();
+    gameLoop();
 });
-    
-ball.draw();
+
+gameLoop();
 
 /* 
+note!
 Most real games would watch for keydown events, start motion when that happens, and stop the motion when the corresponding keyup occurs, instead of relying on key repeats. 
 That would allow both smoother and faster movement, but would also allow the player to be moving and steering at the same time. 
 Transitions or animations could be used to make the movement smoother, too.
