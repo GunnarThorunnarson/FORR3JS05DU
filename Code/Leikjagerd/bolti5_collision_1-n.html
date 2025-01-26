@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collision 1-n</title>
+    <style>
+        canvas { border: 1px solid black; }   
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="350" height="200"></canvas> 
+
+<script>
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+
+class GameObject {
+    constructor (ctx, color, x, y, radius, vx, vy){
+        this.ctx = ctx;
+        this.color = color;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.vx = vx;
+        this.vy = vy;
+        this.isColliding = false;  
+    }
+    draw(){
+        // Draw circle
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);  
+        ctx.closePath();
+        // Change color if object is colliding
+        this.isColliding ? ctx.fillStyle = "black" : ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+
+    update(){
+        // Move with set velocity
+        this.x += this.vx;
+        this.y += this.vy;
+    }
+}
+
+let player = new GameObject(ctx, "yellow", 170, 100, 20, 0, 0);
+
+let gameObjects = [
+        new GameObject(ctx, "red", 90, 100, 10, 2, 0),
+        new GameObject(ctx, "green", 20, 60, 10, 2, 0),
+        new GameObject(ctx, "blue", 20, 100, 10, 2, 0),
+        new GameObject(ctx, "purple", 20, 140, 10, 2, 0),
+];
+
+function detectCollisions(){
+    // Check for collision between player and all game objects
+    let obj1 = player;
+    let obj2;
+
+    // Reset collision state of all objects
+    obj1.isColliding = false;
+    for (let i = 0; i < gameObjects.length; i++) {
+        gameObjects[i].isColliding = false;
+    }
+
+    // Start checking for collisions
+    for (let i = 0; i < gameObjects.length; i++){
+        obj2 = gameObjects[i];
+        // Compare object1 with object2
+        if (circleIntersect(obj1.x, obj1.y, obj1.radius, obj2.x, obj2.y, obj2.radius))
+        {
+            obj1.isColliding = true;
+            obj2.isColliding = true;
+        }
+    }
+}
+
+function circleIntersect(x1, y1, r1, x2, y2, r2) {
+    // Calculate the distance between the two circles
+    let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+    // When the distance is smaller or equal to the sum of the two radius, the circles touch or overlap
+    return squareDistance <= ((r1 + r2) * (r1 + r2))
+}
+
+function gameLoop(){
+
+    // update
+    player.update();
+    for (let i = 0; i < gameObjects.length; i++){
+        gameObjects[i].update();
+    }
+   
+    // detect collisions
+    detectCollisions();
+   
+    // clear
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+   
+    // render
+    player.draw();
+    for (let i = 0; i < gameObjects.length; i++){  
+        gameObjects[i].draw();
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+gameLoop();
+
+</script>
+</body>
+</html>
