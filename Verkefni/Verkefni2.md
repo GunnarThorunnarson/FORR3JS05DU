@@ -28,7 +28,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] Þegar PacMan nær PacMan dots þá fær hann stig, skorteljari hækkar og PacMan dot hverfur af skjá. 
    - [ ] Þegar PacMan rekst á Ghost þá missir PacMan eitt líf, lífteljari lækkar og PacMan fer aftur á upphafsreit. 
 1. Game Over **(10%)**
-   - [ ] "Game Over!" texti birtist í Canvas þegar PacMan hefur klárað öll lífin sín. **Ekki** nota _alert()_.
+   - [ ] "Game Over!" texti birtist í Canvas þegar PacMan hefur klárað öll lífin sín eða náð að borða öll PacMan dots. **Ekki** nota _alert()_.
    - [ ] Bættu við völdu [hljóði](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio) þegar leikur endar, [sýnidæmi](https://youtu.be/Eg_zUEy_lDE?t=1384). 
 
 <br>
