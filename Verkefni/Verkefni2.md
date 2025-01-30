@@ -70,6 +70,6 @@ Einkunn fyrir hvern verkþátt sem er útfærður:
    - 2,5 lítil virkni.
    - 0   vantar eða allt stórlega ábótavant.
 
-Skilaðu á Innu html skrá sem inniheldur CSS og JavaScript ásamt hljóðskrá. <br>
+Skilaðu á Innu möppu (zip) með html skrá sem inniheldur CSS og JavaScript ásamt hljóðskrá . <br>
 Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu, það jafngildir 0 í einkunn. 
 
