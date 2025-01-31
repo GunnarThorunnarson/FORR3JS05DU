@@ -1,4 +1,4 @@
-## Verkefni 3 _(drög)_
+## Verkefni 3 (drög)
 
 - 35% af heildareinkunn
 - Einstaklingsverkefni
@@ -7,7 +7,7 @@
 
 ### Verkefnalýsing
 
-Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir bæjar- og útihátíðir sem inniheldur eftirfarandi síur; leitarreit, dagatal, kort og slider. Vefappið  (e. responsive) þarf að virka með síma og tölvu. Heimildir: [bæjar- og útihátíðir](https://attavitinn.is/stadir/baejar-og-utihatidir/) og [Hátíðir um allt land](https://hatidirumalltland.weebly.com/).
+Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir bæjar- og útihátíðir sem inniheldur eftirfarandi; leitarreitur, takki, dagatal, kort, slider og card. Vefappið  (e. responsive) þarf að virka með síma og tölvu. Heimildir: [bæjar- og útihátíðir](https://attavitinn.is/stadir/baejar-og-utihatidir/) og [Hátíðir um allt land](https://hatidirumalltland.weebly.com/).
 
 <br>
 
@@ -17,14 +17,13 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir b�
 ---
 
 #### 1. Gögn og fetch (10%)
-1. [ ] Búðu til JSON skránna `hatidir.json` fyrir bæjar- og útihátíðir á Íslandi sem innihalda eftirfarandi: 
+1. [ ] Búðu til JSON skránna `hatidir.json` fyrir bæjar- og útihátíðir á Íslandi sem innihalda eftirfarandi (lágmark 10 hátíðir): 
     - nafn á hátíð (titill).
     - stutt lýsing (setning eða málsgrein).
     - viðburðir á hátíðinni (t.d. götugrill, tónleikar, sýningar osfrv.).
     - vefslóð á ljósmynd.
     - dagsetning hátíðar.
     - staðsetning; t.d. bæjarheiti, lengdar- og breiddargráður. Notaðu Google Maps til að finna hnitin.
-    - verð 
     - vefslóð á hátíð.
 1. [ ] Gögnin (JSON) eru sótt með [fetch](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Fetch).
 1. [ ] Gögn eru yfirfærð í array með objects þar sem hvert object geymir upplýsingar um ákveðna hátíð.
@@ -35,8 +34,8 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir b�
 ---
 
 #### 2. Card (20%)
-1. [ ] Búðu til [`Card`](https://www.w3schools.com/howto/howto_css_cards.asp) fyrir hátíð sem inniheldur [mynd](https://softauthor.com/javascript-working-with-images/), heiti á hátíð (titill), staðsetning og [dagsetningu](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). Notaðu DOM manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
-1. [ ] Birtu allar hátíðir í upphafi raðaðar eftir dagsetningu. Gögn í JSON mega ekki vera forröðuð.
+1. [ ] Búðu til [`Card`](https://www.w3schools.com/howto/howto_css_cards.asp) fyrir hátíð sem inniheldur [mynd](https://softauthor.com/javascript-working-with-images/), heiti á hátíð (titill), staðsetning,  [dagsetningu](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) og fjarlægð (km). Notaðu DOM manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
+1. [ ] Birtu allar hátíðir í upphafi raðaðar eftir fjarlægð frá Reykjavík í km (styðsta fjarlægð kemur fyrst/efst). Gögn í JSON mega ekki vera forröðuð.
 1. [ ] Notaðu CSS fyrir vefuppsetningu (layout) og framsetningu t.d. Flexbox, CSS Grids eða CSS safn að eigin vali. 
 1. [ ] Notaðu íslenskt sniðmát á dagsetningum (t.d. 1.maí 2025), notaðu [day.js](https://day.js.org/) safnið.
 
@@ -57,7 +56,7 @@ Skoðaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/
 1. [ ] Slider sýnir hraða með þrepum (steps) við notkun á slider sjá td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
 1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta tala útfrá gögnum sem eru sýnileg (passa að slider handföng séu rétt stillt í upphafi).
 1. [ ] Búðu til síu (e. filter) sem tengir hátíð (objecta) við slider gildi, sjá [Síun](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/S%C3%ADun) 
-1. [ ] Notandi á að geta stýrt slider (tvö handföng) sem síar út hátíð eftir verði.
+1. [ ] Notandi á að geta stýrt slider (tvö handföng) sem síar út hátíð eftir fjarlægð.
 
 > nouislider: `https://cdnjs.com/libraries/noUiSlider`
 
@@ -74,13 +73,11 @@ Notaðu [flatpickr](https://flatpickr.js.org/) (JS safn) fyrir dagatal.
 
 ---
 
-#### 6. Geolocation API (20%)
-Hægt er að finna hátíð út frá fjarlægð frá þér (sími).
+#### 6. Kort (20%)
 
-- [ ] Kort sýnir staðsetningu (lengdar- og breiddargráður) hátíðar með merki (e. marker). Notaðu [Leaflet](https://leafletjs.com/examples/quick-start/) (JS safn).
-- [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að finna hátíðir sem eru nálægt þér.
-- [ ] Sýndu á korti hátíðirnar og fjarlægðir (km).
-- [ ] Hægt er að stilla radíus (km).
+- [ ] Kort sýnir staðsetningu (lengdar- og breiddargráður) allra hátíðar með merki (e. marker). Notaðu [Leaflet](https://leafletjs.com/examples/quick-start/) (JS safn).
+- [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að finna hátíðir sem eru nálægt þér þegar þú notar síma (í staðinn fyrir Reykjavík).
+- [ ] Hægt er að stilla fjarlægð frá þér þ.e. radíus (km).
 
 ---
 
