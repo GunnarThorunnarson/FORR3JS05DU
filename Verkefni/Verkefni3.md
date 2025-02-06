@@ -1,4 +1,4 @@
-## Verkefni 3 (drög)
+## Verkefni 3 
 
 - 35% af heildareinkunn
 - Einstaklingsverkefni
