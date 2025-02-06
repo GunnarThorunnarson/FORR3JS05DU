@@ -91,6 +91,7 @@ Notaðu [flatpickr](https://flatpickr.js.org/) (JS safn) fyrir dagatal.
     - 2.5 lausn er stórlega ábótavant, en einhver virkni og kóði til staðar.
     - 0 lausn vantar eða er óunnin.
 
+> **Ath:** Nemandi þarf að geta gert grein fyrir öllum kóða og lausn munnlega til að fá einkunn fyrir verkefni (ef kennari óskar eftir því).
 
 <!--
 > **Valkvæmt:** Tengdu allar síur þannig að þær virka saman.
