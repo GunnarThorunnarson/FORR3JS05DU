@@ -51,7 +51,7 @@ Notandi á að geta fundið hátíðar með notkun leitarreits útfrá viðburð
 
 #### 4. Dynamic Range Slider (20%)
 
-Skoðaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range). Búðu til síu (e. filter) sem með notkun [noUiSlider](https://refreshless.com/nouislider/) sem síar út hátíð eftir verði . 
+Skoðaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range). Búðu til síu (e. filter) sem með notkun [noUiSlider](https://refreshless.com/nouislider/) sem síar út hátíð eftir fjarlægð. 
 
 1. [ ] Slider sýnir hraða með þrepum (steps) við notkun á slider sjá td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
 1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta tala útfrá gögnum sem eru sýnileg (passa að slider handföng séu rétt stillt í upphafi).
