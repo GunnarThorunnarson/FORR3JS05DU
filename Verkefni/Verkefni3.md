@@ -37,7 +37,9 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir b�
 1. [ ] Búðu til [`Card`](https://www.w3schools.com/howto/howto_css_cards.asp) fyrir hátíð sem inniheldur [mynd](https://softauthor.com/javascript-working-with-images/), heiti á hátíð (titill), staðsetning,  [dagsetningu](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) og fjarlægð (km). Notaðu DOM manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
 1. [ ] Birtu allar hátíðir í upphafi raðaðar eftir fjarlægð frá Reykjavík í km (styðsta fjarlægð kemur fyrst/efst). Gögn í JSON mega ekki vera forröðuð.
 1. [ ] Notaðu CSS fyrir vefuppsetningu (layout) og framsetningu t.d. Flexbox, CSS Grids eða CSS safn að eigin vali. 
-1. [ ] Notaðu íslenskt sniðmát á dagsetningum (t.d. 1.maí 2025), notaðu [day.js](https://day.js.org/) safnið. _(ítarefni [The Definitive Guide to JavaScript Date and Time](https://bugfender.com/blog/javascript-date-and-time/))_.
+1. [ ] Notaðu íslenskt sniðmát á dagsetningum (t.d. 1.maí 2025), notaðu [day.js](https://day.js.org/) safnið.
+
+> _ítarefni: [The Definitive Guide to JavaScript Date and Time](https://bugfender.com/blog/javascript-date-and-time/)_
 
 ---
 
