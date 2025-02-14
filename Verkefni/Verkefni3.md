@@ -81,6 +81,8 @@ Notaðu [flatpickr](https://flatpickr.js.org/) (JS safn) fyrir dagatal.
 - [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að finna hátíðir sem eru nálægt þér þegar þú notar síma (í staðinn fyrir Reykjavík).
 - [ ] Hægt er að stilla fjarlægð frá þér þ.e. radíus (km).
 
+> Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub) þegar þú vinnur með Geolocation.
+
 ---
 
 ### Námsmat og skil
