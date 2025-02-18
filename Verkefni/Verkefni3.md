@@ -44,9 +44,9 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir b�
 ---
 
 #### 3. Leit (15%) 
-Notandi á að geta fundið hátíðar með notkun leitarreits útfrá viðburðum á þeim, sjá [sýnidæmi](http://javascriptbook.com/code/c12/filter-search.html). Aðrar hátíðir eiga að hverfa af skjá.
+Notandi á að geta fundið hátíð með notkun leitarreits útfrá viðburðum á þeim, sjá [sýnidæmi](http://javascriptbook.com/code/c12/filter-search.html). Aðrar hátíðir eiga að hverfa af skjá.
 
-1. [ ] Leitað er eftir heiti viðburðs (ekki case sensitive).
+1. [ ] Leitað er eftir heiti viðburðs (ekki case sensitive) á bæjarhátíðum.
 1. [ ] Leit hefst um leið og notandi slær inn bókstaf.
 
 ---
