@@ -9,6 +9,8 @@
 
 Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir bæjar- og útihátíðir sem inniheldur eftirfarandi; leitarreitur, takki, dagatal, kort, slider og card. Vefappið  (e. responsive) þarf að virka með síma og tölvu. Heimildir: [bæjar- og útihátíðir](https://attavitinn.is/stadir/baejar-og-utihatidir/) og [Hátíðir um allt land](https://hatidirumalltland.weebly.com/).
 
+> Valkvæmt: [JavaScript Modules](https://www.freecodecamp.org/news/difference-between-default-and-named-exports-in-javascript/) fyrir kóðaskipulag.
+
 <br>
 
 ![Wireframe SPA](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/spa.webp)
