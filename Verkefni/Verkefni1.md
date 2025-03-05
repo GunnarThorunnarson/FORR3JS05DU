@@ -1,4 +1,4 @@
-## Verkefni 1 _(spönn 2)_
+## Verkefni 1
 
 - 15% af heildareinkunn.
 
