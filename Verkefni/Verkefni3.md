@@ -19,7 +19,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir ja
 
 Jarðskjálftar þurfa að vera að lágmarki 20, með mismunandi stærð (1, 2, 3+), víðsvegar um landið, dreift yfir tímabil (síðustu 30 daga) 
 
-1. [ ] Búðu til JSON skránna `jardskjalftar.json` sem inniheldur eftirfarandi upplýsingar:
+1. [ ] Búðu til JSON sem inniheldur eftirfarandi upplýsingar:
     - Staður (t.d. Askja).
     - Dagsetning og tími.
     - Staðsetning (lengdar- og breiddargráður).
