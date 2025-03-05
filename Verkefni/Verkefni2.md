@@ -8,6 +8,7 @@
 ### Verkefnalýsing
 
 Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/Pac-Man) tölvuleik með JavaScript og Canvas API sem er spilanlegur í vafra (chrome) í **síma**. Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub) þegar þú vinnur með símann. <br>
+
 Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 
 1. Umhverfi og skjár **(20%)**
