@@ -11,7 +11,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
 
 Leikurinn þarf að uppfylla eftirfarandi verkþætti:
 
-1. Umhverfi og skjár **(20%)**
+1. Umhverfi **(20%)**
    - [ ] Canvas fyllir vefsíðu [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166), [resizing event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_even).
    - [ ] Canvas fyllir allan skjáinn í landscape (glugga), sjá [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API) og [sýnidæmi](https://youtu.be/D74Z_0I0CUk?t=786).
    - [ ] Hafðu ramma utan um leikinn og bakgrunnslit.
