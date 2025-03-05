@@ -11,7 +11,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir ja
 
 <br>
 
-![Wireframe]()
+![Wireframe](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/v3_mynd.webp)
 
 ---
 
