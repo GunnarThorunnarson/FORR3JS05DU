@@ -1,4 +1,4 @@
-## Verkefni 3 
+## Verkefni 3 _(spönn 1)_
 
 - 35% af heildareinkunn
 - Einstaklingsverkefni
