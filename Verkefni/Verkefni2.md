@@ -80,5 +80,5 @@ Einkunn fyrir hvern verkþátt sem er útfærður:
 Skilaðu á Innu html skrá sem inniheldur CSS og JavaScript ásamt hljóðskrá. <br>
 
 **Athugaðu!**
-> Passaðu að þú getir útskýrt fyrir kennara allan kóða sem þú skilar, getir þú það ekki verður gefið 0 (núll) fyrir verkefnið (þ.e. ef kennari óskar eftir því).
+> Passaðu að þú getir útskýrt fyrir kennara allan kóða sem þú skilar, getir þú það ekki verður gefið 0 (núll) fyrir verkefnið (þ.e. ef kennari óskar eftir því). <br>
 > Það er **ekki** í boði að vera með lausnir eða útfærslur (t.d. tilemaps) sem samræmist ekki verkefnalýsingu, það jafngildir 0 í einkunn (nema það sé með fyrirfram gefnu leyfi frá kennara). 
