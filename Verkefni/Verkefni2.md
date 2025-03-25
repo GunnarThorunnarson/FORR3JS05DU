@@ -79,7 +79,7 @@ Einkunn fyrir hvern verkþátt sem er útfærður:
    - 2,5 lítil virkni.
    - 0   vantar eða allt stórlega ábótavant.
 
-Skilaðu á Innu html skrá sem inniheldur CSS og JavaScript.<br>
+Skilaðu á Innu html skrá (index.html) sem inniheldur CSS og JavaScript.<br>
 
 **Athugaðu!**
 > Passaðu að þú getir útskýrt fyrir kennara allan kóða sem þú skilar, getir þú það ekki verður gefið 0 (núll) fyrir verkefnið (þ.e. ef kennari óskar eftir því). <br>
