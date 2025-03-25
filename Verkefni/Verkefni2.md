@@ -29,7 +29,7 @@ Leikurinn þarf að uppfylla eftirfarandi verkþætti:
    - [ ] Þegar PacMan rekst á Ghost þá; missir PacMan eitt líf, lífteljari lækkar og PacMan fer aftur á upphafsreit (athugaðu tilfellið ef draugur er í upphafreit).
    - [ ] Bættu við [tritringi](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API) þegar PacMan rekst á draug. 
 1. Ghosts (npc) **(20%)**  
-   - [ ] Búðu til klasa (class) fyrir Ghosts. Ghosts eru er með hrinlaga form, augu og eru mismunandi á lit (red, pink, cyan, orange), hraða og stærð. Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange).
+   - [ ] Búðu til klasa (class) fyrir Ghosts. Ghosts eru er með hrinlaga form, augu og eru mismunandi á lit (red, pink, cyan, orange) og hraða. Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange).
    - [ ] Ghosts class inniheldur aðferðir sem þarf t.d. `draw()`, `update()`, `handleEvent()`.
    - [ ] Ghost eru staðsettir á mismunandi stöðum á skjá og elta PacMan með mismunandi hætti (t.d. hraða).
 1. Stjórnun á PacMan **(20%)**
