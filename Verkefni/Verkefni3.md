@@ -26,7 +26,7 @@ Jarðskjálftar þurfa að vera að lágmarki 20, með mismunandi stærð (1, 2,
     - Dýpi.
     - Stærð.
 1. [ ] Gögnin (JSON) eru sótt með [fetch](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Asynchronous).
-1. [ ] Notaðu [Skjálftalísa API](https://api.vedur.is/?urls.primaryName=Skj%C3%A1lftal%C3%ADsa)  til að sækja eða vinna með upplýsingar um jarðskálfta.
+1. [ ] Notaðu [Skjálftalísa API](https://api.vedur.is/?urls.primaryName=Skj%C3%A1lftal%C3%ADsa)  til að sækja eða vinna með upplýsingar um jarðskjálfta.
 1. [ ] Gögn eru yfirfærð í array með objects þar sem hvert object geymir upplýsingar um ákveðinn jarðskjálfta.
 
 
