@@ -48,7 +48,7 @@ Reverse geocoding:
 
 #### 2. Kort (20%)
 - [ ] Kort sýnir staðsetningu (lengdar- og breiddargráður) allra jarðskjálfta (e. marker). Notaðu [Leaflet](https://leafletjs.com/examples/quick-start/) safnið.
-- [ ] Notaðu mismunandi stærð og lit á hring á staðsetningu jarðskjálfta á korti eftir stærð; Stærð minni en 1, Stærð 1 til 2, Stærð 2 til 3,Stærri en 3.
+- [ ] Notaðu mismunandi stærð og lit á hring á staðsetningu jarðskjálfta á korti; stærð minni en 1, stærð 1 til 2, stærð 2 til 3, stærri en 3.
 - [ ] Notaðu [MarkerCluster](https://github.com/leaflet/Leaflet.markercluster) til að sameina jarðskálfta sem eru á sama svæði. 
 
 ---
