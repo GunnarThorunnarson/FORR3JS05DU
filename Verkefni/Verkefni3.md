@@ -32,7 +32,7 @@ Jarðskjálftar þurfa að vera að lágmarki 20, með mismunandi stærð (1, 2,
 
 > [!NOTE]
 > - Fetch sækir ekki JSON skrá nema þú notar `local server` eins og [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (extension í VSCode) <br>
-> - Ef það vantar staðarheiti þá er hægt að nota lengdar- og breiddargráður með Reverse Geocoding API, [dæmi](https://www.geoapify.com/tutorial/reverse-geocoding-javascript-tutorial/) og [dæmi með leaflet](https://jsfiddle.net/edbuk7tq/1/) <br>
+> - Ef það vantar staðarheiti þá er hægt að nota lengdar- og breiddargráður með [Reverse Geocoding API](https://www.geoapify.com/tutorial/reverse-geocoding-javascript-tutorial/), [sýnidæmi með leaflet](https://jsfiddle.net/edbuk7tq/1/) <br>
 > - [The Definitive Guide to JavaScript Date and Time](https://bugfender.com/blog/javascript-date-and-time/)
 
 <!--
