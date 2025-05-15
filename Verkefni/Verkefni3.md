@@ -56,7 +56,7 @@ Reverse geocoding:
 #### 3. Modal (20%) 
 1. [ ] Ef þú smellur á hring (marker) á korti þá opnast [modal](https://www.freecodecamp.org/news/how-to-build-a-modal-with-javascript/) með nánari upplýsingar um viðkomandi jarðskjálfta. Það er takki (x) til að loka modal.
 2. [ ] Modal inniheldur; stað, dýpi, stærð, dagsetningu og tíma. Notaðu DOM manipulation aðferðir eða InnerHTML og template literal til að flétta saman html/css og gögn. 
-1. [ ] Notaðu íslenskt sniðmát á dagsetningum og tíma (dæmi: 1.maí 2025 kl: 12:06:03), notaðu [day.js](https://day.js.org/) safnið.
+1. [ ] Notaðu íslenskt sniðmát á dagsetningum og tíma (dæmi: 1.maí 2025 kl: 12:06:03), notaðu [day.js](https://day.js.org/) safnið, sjá einnig þar [i18n](https://day.js.org/docs/en/i18n/i18n) fyrir íslensku.
 
 ---
 
