@@ -10,8 +10,9 @@
 Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) fyrir jarðskjálfta á Íslandi sem inniheldur eftirfarandi viðmót; kort, module, slider og dagatal. Hér er sýnidæmi [Skjálfta Lísa](https://skjalftalisa.vedur.is/index.html#/page/map). Vefappið er sveigjanlegt (e. responsive) og á að virka í tölvu og síma.
 
 <br>
-
+<!--
 ![Wireframe](https://github.com/GunnarThorunnarson/FORR3JS05DU/blob/master/Verkefni/v3_mynd.webp)
+-->
 
 ---
 
