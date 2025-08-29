@@ -13,7 +13,6 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] Canvas fyllir vefsíðu [Resizing your Canvas](https://youtu.be/EO6OkltgudE?list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&t=166), [resizing event](https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_even).
    - [ ] Hafðu ramma utan um leikinn og bakgrunnslit.
    - [ ] Bættu við líf- og skorteljara í Canvas (teikna).
-   - [ ] Þegar PacMan nær PacMan dots þá fær hann stig, skorteljari hækkar og PacMan dot hverfur af skjá. 
    - [ ] "Game Over!" texti birtist í Canvas þegar PacMan hefur klárað öll lífin sín eða náð að borða öll PacMan dots. **Ekki** nota _alert()_.
 1. PacMan dot (pickup item) **(15%)** 
    - [ ] Búðu til amk 20 PacMan dots.
@@ -24,6 +23,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] Búðu til klasa (class) fyrir PacMan. PacMan er með 3 líf, hringlaga form, gulur og með munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). Valkvæmt: Munnur á opnast og lokast.
    - [ ] PacMan object inniheldur aðferðir sem þarf t.d. `draw()`, `update()`, `handleEvent()`
    - [ ] Þegar PacMan rekst á Ghost þá; missir PacMan eitt líf, lífteljari lækkar og PacMan fer aftur á upphafsreit (athugaðu tilfellið ef draugur er í upphafreit).
+   - [ ] Þegar PacMan nær PacMan dots þá fær hann stig, skorteljari hækkar og PacMan dot hverfur af skjá. 
 1. Ghosts (npc) **(25%)**  
    - [ ] Búðu til klasa (class) fyrir Ghosts. Ghosts eru er með völdu formi, augu og eru mismunandi á lit (red, pink, cyan, orange), hraða og stærð. Búðu til eftirfarandi objecta; Blinky (red), Pinky (pink), Inky (cyan) og Clyde (orange).
    - [ ] Ghosts class inniheldur aðferðir sem þarf t.d. `draw()`, `update()`, `handleEvent()`.
