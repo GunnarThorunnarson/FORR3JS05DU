@@ -20,7 +20,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    - [ ] PacMan dots eru röðuð með handahófi (random) á skjá.
    - [ ] Notaðu fylki til að geyma PacMan dots.
 1. PacMan (player) **(25%)**
-   - [ ] Búðu til klasa (class) fyrir PacMan. PacMan er með 3 líf, hringlaga form, gulur og með munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). Valkvæmt: Munnur á opnast og lokast.
+   - [ ] Búðu til object eða klasa (class) fyrir PacMan. PacMan er með 3 líf, hringlaga form, gulur og með munn, sýnidæmi [myndband](https://www.youtube.com/watch?v=ysG37V_j1Xs). Valkvæmt: Munnur á opnast og lokast.
    - [ ] PacMan object inniheldur aðferðir sem þarf t.d. `draw()`, `update()`, `handleEvent()`
    - [ ] Þegar PacMan rekst á Ghost þá; missir PacMan eitt líf, lífteljari lækkar og PacMan fer aftur á upphafsreit (athugaðu tilfellið ef draugur er í upphafreit).
    - [ ] Þegar PacMan nær PacMan dots þá fær hann stig, skorteljari hækkar og PacMan dot hverfur af skjá. 
