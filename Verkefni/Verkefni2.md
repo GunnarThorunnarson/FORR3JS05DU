@@ -43,6 +43,7 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
    
 <summary>Punktar</summary>
 
+- Til að losna við scrollbarinn (css): `body { margin: 0; overflow: hidden; }`
 - til að resize virki dýnamískt þá þarf að **hlusta** á resize atburð 
   ```JavaScript
    window.addEventListener('resize', function(){
@@ -52,8 +53,6 @@ Búðu til eftirfarandi 2d útgáfu af [PacMan](https://en.wikipedia.org/wiki/P
     })
     init();
   ``` 
-- Til að losna við scrollbarinn (css): `body { margin: 0; overflow: hidden; }`
-- Til að láta border vaxa innávið (css): `canvas { box-sizing: border-box; }`
 
 <br>
 
