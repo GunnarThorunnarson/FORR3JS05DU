@@ -42,13 +42,11 @@ function gameLoop() {
 }
 
 // Lyklaborð:
-// https://developer.mozilla.org/en-US/docs/Games/Techniques/Control_mechanisms/Desktop_with_mouse_and_keyboard#pure_javascript_approach
 // Hægt er að hlusta stöðugt á keydown og keyup á lyklaborði og bregðast við með kóða.
 // við notum event.key eða event.code til að vita hver takkinn er á lyklaborði
     
 document.addEventListener('keydown', (event) => {
-    // til vinstri 
-    // event.code, value is the same for small letters(a) and capital
+    // value is the same for small letters(a) and capital
     if (event.code === "KeyA") {
         ball.x -= ball.vx;  // update
     } else if (event.code === "KeyD") { 
@@ -57,7 +55,6 @@ document.addEventListener('keydown', (event) => {
     gameLoop();
 });
     
- 
 window.addEventListener("keydown", (event) => {
     // event.key er með mesta vafrastuðningin en útfæra þarf bæði hástafi og lástafi.  
     switch (event.key) {
