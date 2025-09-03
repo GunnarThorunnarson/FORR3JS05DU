@@ -22,11 +22,11 @@
         canvas.height = window.innerHeight;
 
         let isDrawing = false;
-
+        // e vísar í Event Object sem geymir upplýsingar einsog hnit (x,y) á mús, stylus eða fingri (á skjá).
         canvas.addEventListener('pointerdown', (e) => {
         isDrawing = true;
         context.beginPath();
-        context.moveTo(e.offsetX, e.offsetY);
+        context.moveTo(e.offsetX, e.offsetY);  // The target Element (parent element), pointer’s position relative to the element that you interacted with.
         });
 
         canvas.addEventListener('pointermove', (e) => {
