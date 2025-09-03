@@ -32,9 +32,9 @@ const ball = {
   }
 };
 
-function init() {
-  ctx.clearRect(0,0, canvas.width, canvas.height);
-  ball.draw();
+function gameLoop() {
+  
+  // update
   ball.x += ball.vx;
   ball.y += ball.vy;
   ball.vy *= .99;    // gravity 
@@ -48,9 +48,14 @@ function init() {
       ball.vx = -ball.vx;
   }
     
+  // clear canvas
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+    
+  // draw on canvas
+  ball.draw();
   window.requestAnimationFrame(init);
 }
-init();
+gameLoop();
 
 </script> 
 </body>
