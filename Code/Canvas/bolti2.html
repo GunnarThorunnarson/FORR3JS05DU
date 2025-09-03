@@ -33,15 +33,17 @@ let ball = {
   }
 };
 
-// Game loop 
-function init() {
-  ctx.clearRect(0,0, canvas.width, canvas.height); // hreinsa skjá. 
-  ball.draw();          
+function gameLoop() {
+  // update positions
   ball.x += ball.vx;   // uppfæra staðsetningu á bolta
-  ball.y += ball.vy;   // uppfæra staðsetningu á bolta 
-  window.requestAnimationFrame(init);  // endurkvæmt (recursive) kall á init fall.
+  ball.y += ball.vy;   // uppfæra staðsetningu á bolta   
+  // clear the canvas
+  ctx.clearRect(0,0, canvas.width, canvas.height); // hreinsa skjá. 
+  // draw on canvas
+  ball.draw();            
+  window.requestAnimationFrame(init);  // endurkvæmt (recursive) kall, 60 sinnum á sekúndu.
 }
-init();  // upphafskeyrsla
+gameLoop();  // upphafskeyrsla
     
 </script> 
 </body>
