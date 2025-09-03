@@ -46,18 +46,18 @@ function gameLoop() {
 // við notum event.key eða event.code til að vita hver takkinn er á lyklaborði
     
 document.addEventListener('keydown', (event) => {
-    // value is the same for small letters(a) and capital
-    if (event.code === "KeyA") {
+    // event.key, hástafi og lástafi er ekki eins.  
+    if (event.key === "a") {
         ball.x -= ball.vx;  // update
-    } else if (event.code === "KeyD") { 
+    } else if (event.key === "d") { 
         ball.x += ball.vx; // update
     }
     gameLoop();
 });
     
 window.addEventListener("keydown", (event) => {
-    // event.key er með mesta vafrastuðningin en útfæra þarf bæði hástafi og lástafi.  
-    switch (event.key) {
+    // Specific to the physical location of the key on keyboard. Value is the same for small letters(a) and capital
+    switch (event.code) {
       case "ArrowDown":
         ball.y += ball.vy;  // update
         break;
