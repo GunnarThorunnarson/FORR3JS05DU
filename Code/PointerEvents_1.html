@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pointer Events: teikna</title>
+    <style>
+        canvas {
+             touch-action: none;  /* óvirkjum default browser touch virkni einsog zoom */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // látum canvas fylla window.
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let isDrawing = false;
+
+        canvas.addEventListener('pointerdown', (e) => {
+        isDrawing = true;
+        context.beginPath();
+        context.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+        if (isDrawing) {
+            context.lineTo(e.offsetX, e.offsetY);
+            context.stroke();
+        }
+        });
+
+        canvas.addEventListener('pointerup', () => {
+        isDrawing = false;
+        });
+
+        // pointing device is moved out of the hit test boundaries of an element
+        canvas.addEventListener('pointerout', () => {
+        isDrawing = false;
+        });
+        
+    </script>
+</body>
+</html>
