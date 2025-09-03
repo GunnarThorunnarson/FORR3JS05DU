@@ -26,7 +26,7 @@
         canvas.addEventListener('pointerdown', (e) => {
         isDrawing = true;
         context.beginPath();
-        context.moveTo(e.offsetX, e.offsetY);  // The target Element (parent element), pointer’s position relative to the element that you interacted with.
+        context.moveTo(e.offsetX, e.offsetY);  // The target Element (parent element), pointer’s position relative to the element that triggered the event.
         });
 
         canvas.addEventListener('pointermove', (e) => {
