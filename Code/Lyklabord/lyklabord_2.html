@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyklaborð</title>
+    <style type="text/css">
+        canvas { border: 1px solid red; }  /*  rammi utan um canvas */
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas> 
+
+<script>
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+
+// object
+let ball = {
+  x: 100,
+  y: 100,
+  vx: 10,      
+  vy: 10,      
+  radius: 25,
+  color: 'blue',
+  direction: 'none',
+  update() {
+    if (this.direction === 'left') this.x -= this.vx;
+    if (this.direction === 'right') this.x += this.vx;
+    if (this.direction === 'up') this.y -= this.vy;
+    if (this.direction === 'down') this.y += this.vy;
+  },
+  draw: function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+};
+
+
+function gameLoop() {
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+  ball.update()
+  ball.draw();
+  window.requestAnimationFrame(gameLoop);  // endurkvæmt (recursive) 
+}
+
+document.addEventListener('keydown', (e) => {
+        if (e.code === 'ArrowLeft') ball.direction = 'left';
+        if (e.code === 'ArrowRight') ball.direction = 'right';
+        if (e.code === 'ArrowUp') ball.direction = 'up';
+        if (e.code === 'ArrowDown') ball.direction = 'down';
+    });
+gameLoop();  // upphafskeyrsla
+    
+</script>
+</body>
+</html>
