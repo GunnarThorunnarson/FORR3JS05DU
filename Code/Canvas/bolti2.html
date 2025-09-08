@@ -41,7 +41,7 @@ function gameLoop() {
   ctx.clearRect(0,0, canvas.width, canvas.height); // hreinsa skjá. 
   // draw on canvas
   ball.draw();            
-  window.requestAnimationFrame(init);  // endurkvæmt (recursive) kall, 60 sinnum á sekúndu.
+  window.requestAnimationFrame(gameLoop);  // endurkvæmt (recursive) kall, 60 sinnum á sekúndu.
 }
 gameLoop();  // upphafskeyrsla
     
