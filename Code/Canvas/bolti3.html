@@ -53,7 +53,7 @@ function gameLoop() {
     
   // draw on canvas
   ball.draw();
-  window.requestAnimationFrame(init);
+  window.requestAnimationFrame(gameLoop);
 }
 gameLoop();
 
