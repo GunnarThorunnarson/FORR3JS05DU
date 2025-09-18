@@ -12,7 +12,7 @@ Efni á tímabilinu 15.09.-28.09 er til prófs; DOM, EVENTS, Template, Asynchron
 1. [ ] .append, .prepend, .before, .after, .replaceWith, appendChild 
 1. [ ] .createElement, .createTextNode, DocumentFragment, .createAttribute og setAttributeNode
 1. [ ] Attribute Nodes (id, class, src, href): .getAttribute, setAttribute, hasAttribute, .removeAttribute, data og .dataset
-1. [ ] Manipulating styles (CSS): .className, .classList, .addClass, .style (t.d .style.backgroundColor) 
+1. [ ] Manipulating styles (CSS): .className, .classList, .style (t.d .style.backgroundColor) 
 1. [ ] static NodeList vs live NodeList vs HTMLCollection 
 
 
