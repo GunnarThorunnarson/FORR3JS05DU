@@ -1,0 +1,14 @@
+[{
+    "painting": "Sunflowers",
+    "artist": "Vincent Van Gogh",
+    "date": "1888-06-13",
+    "price": 3000,
+    "img": "https://iiif.micr.io/HVTVF/full/800,/0/default.webp"
+},
+{
+    "painting": "The Girl with a Pearl Earring",
+    "artist": "Jan Vermeer",
+    "date": "1881-07-27",
+    "price": 2000,
+    "img": "https://www.mauritshuis.nl/media/yr3ddp4b/meisje_parel_intro.jpg?width=2000&height=0&quality=70&v=1d98cb67a7f2630"
+}]
