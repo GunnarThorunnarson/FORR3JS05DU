@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Famous Paintings</h1>
+<div id="paintings"></div>
+
+<script>
+
+    async function init(){
+        let myndir = await getData();
+        console.log(myndir);
+        showTemplate(myndir); 
+    }
+
+    // Sækja JSON 
+    async function getData() {
+        let url = './data.json';  // live server vill fá ./ fyrir framan
+        try {
+            let res = await fetch(url);
+            return res.json();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // Sýna gögnin með template.
+    function showTemplate(myndir){
+        let container = document.getElementById('paintings');
+        let template = '';
+
+        for(let i=0; i<myndir.length; i++){
+            template += `
+                <div>
+                    <h2>${myndir[i].painting}</h2>
+                    <p><em>${myndir[i].artist} (${myndir[i].date})</em></p>
+                    <img src="${myndir[i].img}" alt="${myndir[i].name}" width="200">
+                    <p>Price: $${myndir[i].price}</p>
+                </div>
+                <hr>
+            `;
+        }
+        container.innerHTML = template;
+    }
+
+ init();
+
+</script>
+</body>
+</html>
