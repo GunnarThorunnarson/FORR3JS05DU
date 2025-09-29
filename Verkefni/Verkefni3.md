@@ -104,7 +104,7 @@ Hægt er að skoða sérsniðið kort fyrir nammileit.
 **Athugaðu!**
 Það er **ekki í boði** að nota gervigreind til að vinna kóðann fyrir þig! <br>
 - Passaðu að þú getir útskýrt fyrir kennara allan kóða sem þú skilar.
-- Ennfremur átt þú að geta lagfært kóðabút (1-2 línur) úr lausn ef kennari fjarlægir hann.
+- Ennfremur átt þú að geta lagfært kóðabút (fall eða 1-4 línur) úr lausn ef kennari fjarlægir hann.
 - Getir þú ekki útskýrt kóða eða lagfært kóðabút verður gefið 0 (núll) fyrir verkefnið. 
 
 
