@@ -22,7 +22,7 @@ Búðu til [SPA](https://developer.mozilla.org/en-US/docs/Glossary/SPA) sem held
     - skrá ef boðið er uppá mjólkurlaust eða hnetulaust sælgæti.
     - tímasetning hvenær nammi er í boði sem er mismunandi (t.d 18:00 - 19:00). 
     - ljósmynd af skreyttu húsi eða útihurð.
-1. [ ] Gögnin eru sótt með [fetch](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Fetch).
+1. [ ] Gögnin eru sótt með [fetch](https://github.com/GunnarThorunnarson/FORR3JS05DU/wiki/Asynchronous).
    
 > [!NOTE]
 > - Fetch sækir ekki JSON skrá nema þú notar `local server` eins og [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (extension í VSCode)
