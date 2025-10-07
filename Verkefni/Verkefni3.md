@@ -62,7 +62,7 @@ Notaðu [time](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Eleme
 
 1. [ ] Tímasetningar eru forskráðar útfrá gögnum úr JSON og markar svið (e. range) þess.
 1. [ ] Notandi á að geta síað út heimilisföng útfrá tíma (frá og til) til að sjá hvaða hús bjóða uppá nammi á því tímabili. 
-1. [ ] Notðau [time-picker](https://flatpickr.js.org/examples/#time-picker) (JS safn) 
+1. [ ] Notaðu [time-picker](https://flatpickr.js.org/examples/#time-picker) (JS safn) 
 
 ---
 
