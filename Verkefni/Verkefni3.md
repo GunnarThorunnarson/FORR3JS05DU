@@ -66,17 +66,7 @@ Notaðu [time](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Eleme
 
 ---
 
-#### 5. Geolocation (15%)
-- [ ] Notaðu takka til að virkja Geolocation.
-- [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að sýna fjarlægð í metrum á húsum sem eru næst þér í Cards.
-
-<!--
-> Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub) þegar þú vinnur með Geolocation.
--->
-
----
-
-#### 6. Kort (20%)
+#### 5. Kort (20%)
 Hægt er að skoða sérsniðið kort fyrir nammileit.
 
 - [ ] Kort sýnir staðsetningu (lengdar- og breiddargráður) allra húsa (e. marker). Notaðu [Leaflet](https://leafletjs.com/examples/quick-start/) safnið.
@@ -85,6 +75,16 @@ Hægt er að skoða sérsniðið kort fyrir nammileit.
 - [ ] Teiknaðu á kortið línur á milli allra húsa sem sýnir styðstu leiðina (e. pathfinding).
 
 <!-- - [ ] hægt er að taka út hús af korti þar sem nammið hefur klárast (forskráð í JSON). -->
+
+---
+
+#### 6. Geolocation (15%)
+- [ ] Notaðu takka til að virkja Geolocation.
+- [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að sýna fjarlægð í metrum á húsum sem eru næst þér í Cards.
+
+<!--
+> Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub) þegar þú vinnur með Geolocation.
+-->
 
 ---
 
