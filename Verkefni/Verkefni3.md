@@ -58,11 +58,13 @@ Notaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 
 #### 4. Nammileit og tími (15%)
 
-Notaðu [time](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/time) svo notandi getur séð húsin út frá tímabili þegar nammi er í boði fyrir nammileitina (t.d. milli 17:00 og 19:00).
+Notandi getur séð húsin út frá tímabili þegar nammi er í boði fyrir nammileitina (t.d. milli 17:00 og 19:00).
 
+1. [ ] Notaðu [flatpickr: time-picker](https://flatpickr.js.org/examples/#time-picker) (JS safn) 
 1. [ ] Tímasetningar eru forskráðar útfrá gögnum úr JSON og markar svið (e. range) þess.
 1. [ ] Notandi á að geta síað út heimilisföng útfrá tíma (frá og til) til að sjá hvaða hús bjóða uppá nammi á því tímabili. 
-1. [ ] Notaðu [time-picker](https://flatpickr.js.org/examples/#time-picker) (JS safn) 
+
+> [time](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/time)
 
 ---
 
