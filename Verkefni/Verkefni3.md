@@ -39,7 +39,7 @@ Hægt er að skoða myndir og helstu upplýsingar um hús.
 1. [ ] Notaðu íslenskt sniðmát fyrir tíma t.d. kl: 17:00 - 19:00. Sjá t.d. [The Definitive Guide to JavaScript Date and Time](https://bugfender.com/blog/javascript-date-and-time/).
 1. [ ] Notaðu CSS fyrir vefuppsetningu (layout) og framsetningu t.d. Flexbox eða CSS Grids eða CSS safn að eigin vali. 
 
-> Byrjaðu á því að harðkóða allar fjarlægðir áður en unnið er með geolocation (lið 5).
+> Byrjaðu á því að harðkóða allar fjarlægðir áður en unnið er með geolocation (lið 6).
 
 ---
 
@@ -47,12 +47,12 @@ Hægt er að skoða myndir og helstu upplýsingar um hús.
 
 Notaðu [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) til að sýna hús útfrá fjarlægð frá þér. 
 
-1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta tala útfrá gögnum sem eru sýnileg.
+1. [ ] Slider er með svið (e. range) upphafsstöðurnar lægsta og hæsta tala út frá gögnum sem eru sýnileg.
 1. [ ] Slider sýnir hraða með þrepum (steps) við notkun á slider sjá td. [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/)
 1. [ ] Notaðu gildið (e. value) frá slider til sía út (e. filter) húsin sem eru sýnd (Cards).
 1. [ ] Notandi á að geta stýrt slider sem síar út hús eftir fjarlægð frá þér.
 
-> Byrjaðu á því að harðkóða allar fjarlægðir áður en unnið er með geolocation (lið 5).
+> Byrjaðu á því að harðkóða allar fjarlægðir áður en unnið er með geolocation (lið 6).
 
 ---
 
