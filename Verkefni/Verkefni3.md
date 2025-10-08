@@ -85,7 +85,7 @@ Hægt er að skoða sérsniðið kort fyrir nammileit.
 - [ ] Notaðu [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) til að sýna fjarlægð í metrum á húsum sem eru næst þér í Cards.
 
 
-> Geolocation þarf http**s**. Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub) þegar þú vinnur með Geolocation.
+> Geolocation þarf http**s**. Notaðu [Local Port Forwarding í VS Code](https://code.visualstudio.com/docs/editor/port-forwarding) (ath. vera loggaður á símanum líka á GitHub).
 
 
 ---
