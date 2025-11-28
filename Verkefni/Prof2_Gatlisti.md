@@ -1,5 +1,5 @@
 ### Gátlisti fyrir próf 2
-Efni á tímabilinu 15.09.-28.09 er til prófs; DOM, EVENTS, Template, Asynchronous, JSON.
+Efni á tímabilinu X.Y.-Z.T er til prófs; DOM, EVENTS, Template, Asynchronous, JSON.
 
 #### DOM 
 1. [ ] Skilja DOM tréið útfrá node tengsla og tegunda (Node, Element, HTLMElement)
