@@ -1,1 +1,1 @@
-### Verkefni Vor 2026
+### Verkefni vor 2026
