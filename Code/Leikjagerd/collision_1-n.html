@@ -15,8 +15,8 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
-class GameObject {
-    constructor (ctx, color, x, y, radius, vx, vy){
+class GameObject{
+    constructor(ctx, color, x, y, radius, vx, vy){
         this.ctx = ctx;
         this.color = color;
         this.x = x;
@@ -27,15 +27,12 @@ class GameObject {
         this.isColliding = false;  
     }
     draw(){
-        // Draw circle
         this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);  
-        this.ctx.closePath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);  
         // Change color if object is colliding
-        this.isColliding ? ctx.fillStyle = "black" : ctx.fillStyle = this.color;
+        this.ctx.fillStyle = this.isColliding ? "red" : this.color;
         this.ctx.fill();
     }
-
     update(){
         // Move with set velocity
         this.x += this.vx;
@@ -46,7 +43,7 @@ class GameObject {
 let player = new GameObject(ctx, "yellow", 170, 100, 20, 0, 0);
 
 let gameObjects = [
-        new GameObject(ctx, "red", 90, 100, 10, 2, 0),
+        new GameObject(ctx, "yellow", 90, 100, 10, 2, 0),
         new GameObject(ctx, "green", 20, 60, 10, 2, 0),
         new GameObject(ctx, "blue", 20, 100, 10, 2, 0),
         new GameObject(ctx, "purple", 20, 140, 10, 2, 0),
