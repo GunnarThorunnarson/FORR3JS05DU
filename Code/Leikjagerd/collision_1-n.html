@@ -28,12 +28,12 @@ class GameObject {
     }
     draw(){
         // Draw circle
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);  
-        ctx.closePath();
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);  
+        this.ctx.closePath();
         // Change color if object is colliding
         this.isColliding ? ctx.fillStyle = "black" : ctx.fillStyle = this.color;
-        ctx.fill();
+        this.ctx.fill();
     }
 
     update(){
