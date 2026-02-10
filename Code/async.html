@@ -28,18 +28,18 @@
         }
     }
 
-    // Sýna gögnin með template.
-    function showTemplate(myndir){
+   // Sýna gögnin með template.
+    function showTemplate(myndir) {
         let container = document.getElementById('paintings');
         let template = '';
 
-        for(let i=0; i<myndir.length; i++){
+        for (const item of myndir) {
             template += `
                 <div>
-                    <h2>${myndir[i].painting}</h2>
-                    <p><em>${myndir[i].artist} (${myndir[i].date})</em></p>
-                    <img src="${myndir[i].img}" alt="${myndir[i].name}" width="200">
-                    <p>Price: $${myndir[i].price}</p>
+                    <h2>${item.painting}</h2>
+                    <p><em>${item.artist} (${item.date})</em></p>
+                    <img src="${item.img}" alt="${item.painting}" width="200">
+                    <p>Price: ${item.price}</p>
                 </div>
                 <hr>
             `;
