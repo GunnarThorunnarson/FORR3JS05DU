@@ -40,7 +40,7 @@ Til einföldunar þá eru aðeins **10** páskaegg í mismunandi stærðum dreif
 
 ---
 
-#### 2. Dynamic Range Slider (20%)
+#### 3. Dynamic Range Slider (20%)
 
 1. [ ] Notaðu [noUiSlider](https://refreshless.com/nouislider/) safnið. Hafðu svið (range) upphafsstöðurnar þ.e. minnstu (min) og mestu (max) fjarlægð út frá gögnum. Upphafstaða á noUiSlider á að vera lengsta fjarlægðin (max). Notaðu steps og label til að sýna fjarlægðir.
 1. [ ] Hægt er að nota slider til að birta páskaegg (Card) útfrá fjarlægð frá Viðeyjarstofu (í metrum). Notaðu gildið (value) frá slider til að sía út (filter) páskaegg, sjá [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/).
@@ -49,7 +49,7 @@ Til einföldunar þá eru aðeins **10** páskaegg í mismunandi stærðum dreif
 
 ---
 
-#### 3. Kort (20%)
+#### 4. Kort (20%)
 Hægt er að skoða sérsniðið kort fyrir páskaleit.
 
 - [ ] Kort sýnir staðsetningu (lengdar- og breiddargráður) allra páskeggja (e. marker). Notaðu [Leaflet](https://leafletjs.com/examples/quick-start/) safnið. Hægt er að sjá hvort páskegg er mjólkurlaust eða ekki, [sýnidæmi](https://www.google.com/maps/d/viewer?mid=11EAQly9JnnG9AuZhL-yHmTD0KsRZB_8&ll=64.14573221690978%2C-21.92584639413263&z=14).
@@ -57,7 +57,7 @@ Hægt er að skoða sérsniðið kort fyrir páskaleit.
 
 ---
 
-#### 4. Geolocation (15%)
+#### 5. Geolocation (15%)
 - [ ] Notaðu takka til að virkja [Geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) og til að sýna fjarlægð páskaeggja útfrá staðsetningu þinni.
 - [ ] Sýndu uppfærða fjarlægð út frá þinni núverani staðsetninu í Cards.
 
@@ -67,7 +67,7 @@ Hægt er að skoða sérsniðið kort fyrir páskaleit.
 
 ---
 
-#### 5. Fjarlægðarmælir (15%)
+#### 6. Fjarlægðarmælir (15%)
 
 - [ ] Finndu styðstu leiðina (e. pathfinding) til að ná sem flestum páskaeggjum.
 - [ ] Búðu til fjarlægðarmælir og áttavita (frjáls útfærsla) sem hjálpar þér að finna næsta páskaegg útfrá styðstu leið.
