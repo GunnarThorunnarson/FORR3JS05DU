@@ -42,7 +42,7 @@ Til einföldunar þá eru aðeins **10** páskaegg í mismunandi stærðum dreif
 
 #### 3. Dynamic Range Slider (20%)
 
-1. [ ] Notaðu [noUiSlider](https://refreshless.com/nouislider/) safnið. Hafðu svið (range) upphafsstöðurnar þ.e. minnstu (min) og mestu (max) fjarlægð út frá gögnum. Upphafstaða á noUiSlider á að vera lengsta fjarlægðin (max). Notaðu steps og label til að sýna fjarlægðir.
+1. [ ] Notaðu [noUiSlider](https://refreshless.com/nouislider/) safnið, [hér er CDN (css og js)](https://cdnjs.com/libraries/noUiSlider). Hafðu svið (range) upphafsstöðurnar þ.e. minnstu (min) og mestu (max) fjarlægð út frá gögnum. Upphafstaða á noUiSlider á að vera lengsta fjarlægðin (max). Notaðu steps og label til að sýna fjarlægðir.
 1. [ ] Hægt er að nota slider til að birta páskaegg (Card) útfrá fjarlægð frá Viðeyjarstofu (í metrum). Notaðu gildið (value) frá slider til að sía út (filter) páskaegg, sjá [onchange vs oninput](https://www.impressivewebs.com/onchange-vs-oninput-for-range-sliders/).
 
 > [HTML Range slider](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range)
