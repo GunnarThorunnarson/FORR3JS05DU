@@ -1,1 +1,1 @@
-### Verkefni vor 2026
+### Verkefni haust 2026
